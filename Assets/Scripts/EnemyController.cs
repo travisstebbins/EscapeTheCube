@@ -4,11 +4,11 @@ using System.Collections;
 public class EnemyController : MonoBehaviour {
 
 	public float speed = -5f;
-	public int damage = 1;
+	public int damage = 1;	
+	public int hp = 5;
+	public int hitDistance = 5;
 
 	private Rigidbody2D rb;
-	private int hp = 5;
-	private int hitDistance = 5;
 	
 	void Awake () {
 		rb = GetComponent<Rigidbody2D> ();
@@ -29,4 +29,11 @@ public class EnemyController : MonoBehaviour {
 			speed *= -1;
 		}
 	}
+
+	public void DamagePlayer () {
+		PlayerController player = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController> ();
+		if (!player.getIsHit ())
+			player.Damage (this);
+	}
+
 }

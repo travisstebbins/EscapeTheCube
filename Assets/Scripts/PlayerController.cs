@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour {
 	private int gravDirection;
 	private bool doubleJump;
 	private Rigidbody2D rb;
+	private bool isHit = false;
+	private float damageDelay = 0.5f;
+	private Vector2 startingPos;
 
 	void Awake () {
 		controller = GetComponent<CharacterController2D> ();
@@ -24,6 +27,7 @@ public class PlayerController : MonoBehaviour {
 		rb = GetComponent<Rigidbody2D> ();
 		rb.gravityScale = 0;
 		controller.onControllerCollidedEvent += onCollisionEnter2D;
+		startingPos = transform.position;
 	}
 
 	void Start () {		
@@ -145,9 +149,18 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	public void Damage (int d) {
-		hp -= d;
+	public void Damage (EnemyController enemy) {
+		hp -= enemy.damage;
 		text.text = "HP: " + hp;
+		isHit = true;
+		controller.move ((transform.position - enemy.transform.position));
+		StartCoroutine (DamageCoRoutine());
+	}
+
+	IEnumerator DamageCoRoutine () {
+		yield return null;
+		yield return new WaitForSeconds (damageDelay);
+		isHit = false;
 	}
 
 	void OnTriggerEnter2D (Collider2D coll) {
@@ -170,10 +183,28 @@ public class PlayerController : MonoBehaviour {
 
 	void onCollisionEnter2D (RaycastHit2D hit) {
 		if (hit.rigidbody.gameObject.CompareTag ("Enemy"))
-		    Damage (1);
+			hit.rigidbody.gameObject.GetComponent<EnemyController> ().DamagePlayer ();
+		if (hit.rigidbody.gameObject.CompareTag ("KillZone")) {
+			KillPlayer();
+		}
+		if (hit.rigidbody.gameObject.CompareTag ("MovingPlatform")) {
+			rb.velocity = hit.rigidbody.gameObject.GetComponent<MovingPlatformController>().getVelocity ();
+		}
 	}
 
 	public int getGravDirection () {
 		return gravDirection;
+	}
+
+	public bool getIsHit () {
+		return isHit;
+	}
+
+	public void KillPlayer () {
+		transform.position = startingPos;
+		hp = 5;
+		controller.velocity = Vector2.zero;
+		rb.velocity = Vector2.zero;
+		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraController> ().Reset ();
 	}
 }
