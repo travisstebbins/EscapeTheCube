@@ -145,7 +145,17 @@ namespace Prime31 {
 		public CharacterCollisionState2D collisionState = new CharacterCollisionState2D();
 		[HideInInspector][NonSerialized]
 		public Vector3 velocity;
-		public bool isGrounded { get { return collisionState.below; } }
+		public bool isGrounded { 
+			get { 
+				switch (GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController>().getGravDirection ()) {
+					case 0 : return collisionState.below;
+					case 1 : return collisionState.left;
+					case 2 : return collisionState.above;
+					case 3 : return collisionState.right;
+					default: return collisionState.below;
+				}
+			}
+		}
 		
 		const float kSkinWidthFloatFudgeFactor = 0.001f;
 		
