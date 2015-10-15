@@ -15,11 +15,15 @@ public class PlayerController : MonoBehaviour {
 	private int hp = 5;
 	private int gravDirection;
 	private bool doubleJump;
+	private Rigidbody2D rb;
 
 	void Awake () {
 		controller = GetComponent<CharacterController2D> ();
 		gravDirection = 0;
 		doubleJump = false;
+		rb = GetComponent<Rigidbody2D> ();
+		rb.gravityScale = 0;
+		controller.onControllerCollidedEvent += onCollisionEnter2D;
 	}
 
 	void Start () {		
@@ -162,6 +166,11 @@ public class PlayerController : MonoBehaviour {
 					break;
 			}
 		}
+	}
+
+	void onCollisionEnter2D (RaycastHit2D hit) {
+		if (hit.rigidbody.gameObject.CompareTag ("Enemy"))
+		    Damage (1);
 	}
 
 	public int getGravDirection () {
