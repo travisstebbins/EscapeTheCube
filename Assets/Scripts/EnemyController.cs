@@ -11,13 +11,16 @@ public class EnemyController : MonoBehaviour {
 	public int gravDirection = 0;
 
 	private Rigidbody2D rb;
-	
-	void Awake () {
+	private bool isHit;
+	private float damageDelay = 0.5f;
+
+	void Start () {
 		rb = GetComponent<Rigidbody2D> ();
+		isHit = false;
 	}
 	
 	void FixedUpdate () {
-		if (gravDirection == 0 || gravDirection == 2)
+		if (!isHit && (gravDirection == 0 || gravDirection == 2))
 			rb.velocity = new Vector2 (speed, rb.velocity.y);
 		else
 			rb.velocity = new Vector2 (rb.velocity.x, speed);
@@ -47,6 +50,28 @@ public class EnemyController : MonoBehaviour {
 		PlayerController player = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController> ();
 		if (!player.getIsHit ())
 			player.Damage (this);
+	}
+
+	public void Damage (PlayerController player) {
+		Debug.Log ("enemy damaged");
+		hp -= player.damage;
+		isHit = true;
+		Vector2 heading = new Vector2 (transform.position.x - player.transform.position.x, transform.position.y - player.transform.position.y);
+		Vector2 direction = heading / heading.magnitude;
+		StartCoroutine (DamageCoroutine (direction));
+	}
+
+	IEnumerator DamageCoroutine (Vector2 direction) {
+		yield return null;
+		//Vector2 currentPos = transform.position;
+		//while ((currentPos - finalPos).sqrMagnitude > float.Epsilon)
+			rb.velocity = new Vector2(direction.x * speed, direction.y * speed);
+		yield return new WaitForSeconds (damageDelay);
+		isHit = false;
+	}
+
+	public bool getIsHit () {
+		return isHit;
 	}
 
 }
