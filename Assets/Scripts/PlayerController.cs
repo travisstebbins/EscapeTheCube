@@ -147,6 +147,8 @@ public class PlayerController : MonoBehaviour {
 		} else if (controller.velocity.x > float.Epsilon && gravDirection == 3) {
 			controller.velocity.x += 2f;
 		}
+		if (!controller.isGrounded)
+			rb.velocity = Vector2.zero;
 	}
 
 	public void Damage (EnemyController enemy) {
@@ -206,5 +208,8 @@ public class PlayerController : MonoBehaviour {
 		controller.velocity = Vector2.zero;
 		rb.velocity = Vector2.zero;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraController> ().Reset ();
+		gravDirection = 0;
+		if (gravity > 0)
+			gravity *= -1;
 	}
 }

@@ -26,17 +26,34 @@ public class MovingPlatformController : MonoBehaviour {
 		if (moveDistance.x < 0) {
 			if (transform.position.x <= startingPos.x + moveDistance.x && !reachedEnd) {
 				reachedEnd = true;
-				transform.position = new Vector2(startingPos.x + moveDistance.x, transform.position.y);
+				transform.position = new Vector2 (startingPos.x + moveDistance.x, transform.position.y);
 				rb.velocity = Vector2.zero;
-				StartCoroutine (Wait());
-			}
-			else if (transform.position.x >= startingPos.x && !reachedEnd) {
+				StartCoroutine (Wait ());
+			} else if (transform.position.x >= startingPos.x && !reachedEnd) {
 				reachedEnd = true;
-				transform.position = new Vector2(startingPos.x, transform.position.y);
+				transform.position = new Vector2 (startingPos.x, transform.position.y);
+				rb.velocity = Vector2.zero;
+				StartCoroutine (Wait ());
+			}
+			if (pauseComplete) {					
+				startingVel = new Vector2 (startingVel.x * -1, startingVel.y);
+				rb.velocity = startingVel;
+				pauseComplete = false;
+				reachedEnd = false;
+			}
+		} else if (moveDistance.x > 0) {
+			if (transform.position.x >= startingPos.x + moveDistance.x && !reachedEnd) {
+				reachedEnd = true;
+				transform.position = new Vector2 (startingPos.x + moveDistance.x, transform.position.y);
 				rb.velocity = Vector2.zero;
 				StartCoroutine(Wait());
+			} else if (transform.position.x <= startingPos.x && !reachedEnd) {
+				reachedEnd = true;
+				transform.position = new Vector2 (startingPos.x, startingPos.y);
+				rb.velocity = Vector2.zero;
+				StartCoroutine (Wait ());
 			}
-			if(pauseComplete) {					
+			if (pauseComplete) {
 				startingVel = new Vector2 (startingVel.x * -1, startingVel.y);
 				rb.velocity = startingVel;
 				pauseComplete = false;

@@ -7,6 +7,8 @@ public class EnemyController : MonoBehaviour {
 	public int damage = 1;	
 	public int hp = 5;
 	public int hitDistance = 5;
+	[Range(0,3)]
+	public int gravDirection = 0;
 
 	private Rigidbody2D rb;
 	
@@ -15,7 +17,18 @@ public class EnemyController : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
-		rb.velocity = new Vector2 (speed, rb.velocity.y);
+		if (gravDirection == 0 || gravDirection == 2)
+			rb.velocity = new Vector2 (speed, rb.velocity.y);
+		else
+			rb.velocity = new Vector2 (rb.velocity.x, speed);
+		if (gravDirection != 0) {
+			rb.gravityScale = 0;
+			rb.AddForce (
+				gravDirection == 1 ? new Vector2 (-9.8f, 0) :
+				gravDirection == 2 ? new Vector2 (0, 9.8f) :
+				gravDirection == 3 ? new Vector2 (9.8f, 0) :
+				new Vector2 (0, -9.8f));
+		}
 	}
 
 	void Update () {
