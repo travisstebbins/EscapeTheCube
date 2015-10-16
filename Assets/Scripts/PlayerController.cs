@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour {
 	public float gravity = -30f;
 	public float runSpeed = 8f;
 	public float targetJumpHeight = 10f;
+	public float damage = 1f;
+	public float meleeDamageDistance = 2f;
 	public Text hpText;
 	public Text winText;
 	
@@ -20,6 +22,7 @@ public class PlayerController : MonoBehaviour {
 	private float damageDelay = 0.5f;
 	private Vector2 startingPos;
 	private GameObject[] fallingPlatforms;
+	private Vector2 currentDirection;
 
 	void Awake () {
 		controller = GetComponent<CharacterController2D> ();
@@ -38,6 +41,14 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update () {
+
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			GetComponent<Collider2D>().enabled = false;
+			RaycastHit2D hit = Physics2D.Raycast (transform.position, currentDirection, meleeDamageDistance, LayerMask.GetMask ("Enemy"));
+			GetComponent<Collider2D>().enabled = true;
+			if (hit.rigidbody.gameObject.CompareTag ("Enemy"))
+				Debug.Log ("enemy collision");
+		}
 		Vector3 velocity = controller.velocity;
 
 		if (gravDirection == 0 || gravDirection == 2) {
@@ -51,15 +62,44 @@ public class PlayerController : MonoBehaviour {
 					velocity.x = runSpeed;
 				else
 					velocity.x = runSpeed * 0.75f;
+				currentDirection = new Vector2(1, 0);
 			} else if (Input.GetKey (KeyCode.LeftArrow)) {
 				if (controller.isGrounded)
 					velocity.x = -runSpeed;
 				else
 					velocity.x = -runSpeed * 0.75f;
+				currentDirection = new Vector2(-1, 0);
 			} else {
 				velocity.x = 0;
 			}
-			
+
+			if (gravDirection == 0) {
+				if (Input.GetKey (KeyCode.DownArrow)) {
+					velocity.y -= 10f;
+				}
+				else if (Input.GetKeyDown (KeyCode.UpArrow)) {
+					if (controller.isGrounded || !doubleJump) {
+						if (!controller.isGrounded)
+							doubleJump = true;
+						velocity.y = Mathf.Sqrt (2f * targetJumpHeight * -gravity);
+					}
+				}
+			}
+
+			if (gravDirection == 2) {
+				if (Input.GetKey (KeyCode.UpArrow)) {
+					velocity.y += 10f;
+				}
+				else if (Input.GetKeyDown (KeyCode.DownArrow)) {
+					if (controller.isGrounded || !doubleJump) {
+						if (!controller.isGrounded)
+							doubleJump = true;
+						velocity.y = -Mathf.Sqrt (2f * targetJumpHeight * gravity);
+					}
+				}
+			}
+
+			/*
 			if (Input.GetKey (KeyCode.DownArrow)) {
 				switch (gravDirection) {
 				case 0:
@@ -88,8 +128,11 @@ public class PlayerController : MonoBehaviour {
 					}
 					break;
 				}
-			}			
+			}
+			*/
+
 			velocity.y += gravity * Time.deltaTime;
+
 		} else {
 			if (controller.isGrounded) {
 				velocity.x = 0;
@@ -101,11 +144,13 @@ public class PlayerController : MonoBehaviour {
 					velocity.y = runSpeed;
 				else
 					velocity.y = runSpeed * 0.75f;
+				currentDirection = new Vector2(0, 1);
 			} else if (Input.GetKey (KeyCode.DownArrow)) {
 				if (controller.isGrounded)
 					velocity.y = -runSpeed;
 				else
 					velocity.y = -runSpeed * 0.75f;
+				currentDirection = new Vector2(0, -1);
 			} else {
 				velocity.y = 0;
 			}
