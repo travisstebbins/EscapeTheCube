@@ -4,8 +4,9 @@ using System.Collections;
 public class CameraController : MonoBehaviour {
 
 	public bool centered = true;
-	public int scrollDistanceX = 5;
-	public int scrollDistanceY = 5;
+	public bool automateScrollDistances = true;
+	public float scrollDistanceX = 5f;
+	public float scrollDistanceY = 5f;
 
 	private GameObject player;
 	private Vector3 startingPos;
@@ -14,6 +15,10 @@ public class CameraController : MonoBehaviour {
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player");
 		startingPos = transform.position;
+		if (automateScrollDistances) {
+			scrollDistanceX = (0.9f) * (16.0f/9.0f) * this.GetComponent<Camera>().orthographicSize;
+			scrollDistanceY = (0.9f) * this.GetComponent<Camera>().orthographicSize;
+		}
 	}
 	
 	// Update is called once per frame
@@ -30,7 +35,7 @@ public class CameraController : MonoBehaviour {
 				else
 					transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
 			}
-			if (transform.position.y <= 0 && player.transform.position.y > transform.position.y + (this.GetComponent<Camera>().orthographicSize - scrollDistanceY)) {
+			if (player.transform.position.y > transform.position.y + (this.GetComponent<Camera>().orthographicSize - scrollDistanceY)) {
 				transform.position = new Vector3 (transform.position.x, player.transform.position.y - (float)(this.GetComponent<Camera>().orthographicSize - scrollDistanceY), transform.position.z);
 			}
 			else if (player.transform.position.y < transform.position.y - (this.GetComponent<Camera>().orthographicSize - scrollDistanceY)) {

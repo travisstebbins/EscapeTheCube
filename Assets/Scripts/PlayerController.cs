@@ -195,6 +195,9 @@ public class PlayerController : MonoBehaviour {
 		if (hit.rigidbody.gameObject.CompareTag ("MovingPlatform")) {
 			rb.velocity = hit.rigidbody.gameObject.GetComponent<MovingPlatformController>().getVelocity ();
 		}
+		if (hit.rigidbody.gameObject.CompareTag ("FallingPlatform")) {
+			hit.rigidbody.gameObject.GetComponent<FallingPlatformController>().Fall ();
+		}
 	}
 
 	public int getGravDirection () {
