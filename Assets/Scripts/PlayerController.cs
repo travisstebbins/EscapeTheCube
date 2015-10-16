@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour {
 	private bool isHit = false;
 	private float damageDelay = 0.5f;
 	private Vector2 startingPos;
+	private GameObject[] fallingPlatforms;
 
 	void Awake () {
 		controller = GetComponent<CharacterController2D> ();
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour {
 	void Start () {		
 		hpText.text = "HP: " + hp;
 		winText.enabled = false;
+		fallingPlatforms = GameObject.FindGameObjectsWithTag ("FallingPlatform");
 	}
 
 	void Update () {
@@ -219,5 +221,12 @@ public class PlayerController : MonoBehaviour {
 		if (gravity > 0)
 			gravity *= -1;
 		winText.enabled = false;
+		ReEnableFallingPlatforms ();
+	}
+
+	void ReEnableFallingPlatforms () {
+		for (int i = 0; i < fallingPlatforms.Length; ++i) {
+			fallingPlatforms[i].GetComponent<FallingPlatformController>().Reset ();
+		}
 	}
 }
