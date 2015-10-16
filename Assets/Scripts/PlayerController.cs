@@ -8,8 +8,8 @@ public class PlayerController : MonoBehaviour {
 	public float gravity = -30f;
 	public float runSpeed = 8f;
 	public float targetJumpHeight = 10f;
-
-	public Text text;
+	public Text hpText;
+	public Text winText;
 	
 	private CharacterController2D controller;
 	private int hp = 5;
@@ -31,7 +31,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Start () {		
-		text.text = "HP: " + hp;
+		hpText.text = "HP: " + hp;
+		winText.enabled = false;
 	}
 
 	void Update () {
@@ -153,9 +154,8 @@ public class PlayerController : MonoBehaviour {
 
 	public void Damage (EnemyController enemy) {
 		hp -= enemy.damage;
-		text.text = "HP: " + hp;
+		hpText.text = "HP: " + hp;
 		isHit = true;
-		controller.move ((transform.position - enemy.transform.position));
 		StartCoroutine (DamageCoRoutine());
 	}
 
@@ -181,6 +181,9 @@ public class PlayerController : MonoBehaviour {
 					break;
 			}
 		}
+		if (coll.CompareTag ("Exit")) {
+			winText.enabled = true;
+		}
 	}
 
 	void onCollisionEnter2D (RaycastHit2D hit) {
@@ -205,11 +208,13 @@ public class PlayerController : MonoBehaviour {
 	public void KillPlayer () {
 		transform.position = startingPos;
 		hp = 5;
+		hpText.text = "HP: " + hp;
 		controller.velocity = Vector2.zero;
 		rb.velocity = Vector2.zero;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraController> ().Reset ();
 		gravDirection = 0;
 		if (gravity > 0)
 			gravity *= -1;
+		winText.enabled = false;
 	}
 }
