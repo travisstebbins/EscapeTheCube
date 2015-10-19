@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour {
 	public float targetJumpHeight = 10f;
 	public int damage = 1;
 	public float meleeDamageDistance = 2f;
-	public float attackKickback = 2f;
+	public float attackKickback = 1000f;
 	public Text hpText;
 	public Text winText;
 	
@@ -203,16 +203,27 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void Damage (EnemyController enemy) {
+		Debug.Log ("player damaged");
 		hp -= enemy.damage;
 		hpText.text = "HP: " + hp;
 		isHit = true;
-		StartCoroutine (DamageCoRoutine());
+		StartCoroutine (DamageCoRoutine(enemy));
 	}
 
-	IEnumerator DamageCoRoutine () {
+	IEnumerator DamageCoRoutine (EnemyController enemy) {
 		yield return null;
+		if (gravDirection == 0 || gravDirection == 2)
+			controller.velocity = new Vector3 (enemy.speed, 0, 0);
+		else
+			controller.velocity = new Vector3 (0, enemy.speed, 0);
+		float moveEnd = Time.time + 0.5f;
+		while (Time.time <= moveEnd)
+			controller.move (controller.velocity * Time.deltaTime);
+		yield return new WaitForSeconds (0.5f);
+		controller.velocity = Vector2.zero;
 		yield return new WaitForSeconds (damageDelay);
 		isHit = false;
+		Debug.Log ("isHit reset");
 	}
 
 	void OnTriggerEnter2D (Collider2D coll) {
