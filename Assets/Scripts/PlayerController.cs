@@ -24,6 +24,9 @@ public class PlayerController : MonoBehaviour {
 	private Vector2 startingPos;
 	private GameObject[] fallingPlatforms;
 	private Vector2 currentDirection;
+	private Vector2 direction;
+	private float hitKickbackTime = 0.1f;
+	private bool kickback;
 
 	void Awake () {
 		controller = GetComponent<CharacterController2D> ();
@@ -38,6 +41,7 @@ public class PlayerController : MonoBehaviour {
 	void Start () {		
 		hpText.text = "HP: " + hp;
 		winText.enabled = false;
+		kickback = false;
 		fallingPlatforms = GameObject.FindGameObjectsWithTag ("FallingPlatform");
 	}
 
@@ -53,6 +57,15 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 		Vector3 velocity = controller.velocity;
+
+		if (kickback) {			
+			Vector2 directionNorm = direction/direction.magnitude;
+			Debug.Log ("direction: x = " + direction.x + ", y = " + direction.y);
+			Debug.Log ("directionNorm: x = " + directionNorm.x + ", y = " + directionNorm.y);
+			velocity.x = directionNorm.x * runSpeed * 2;
+			velocity.y = directionNorm.y * runSpeed * 2;
+			controller.move (velocity * Time.deltaTime);
+		}
 
 		if (gravDirection == 0 || gravDirection == 2) {
 			if (controller.isGrounded) {
@@ -101,38 +114,6 @@ public class PlayerController : MonoBehaviour {
 					}
 				}
 			}
-
-			/*
-			if (Input.GetKey (KeyCode.DownArrow)) {
-				switch (gravDirection) {
-				case 0:
-					velocity.y -= 10f;
-					break;
-				case 2:
-					velocity.y += 10f;
-					break;
-				}
-			}
-			
-			if (Input.GetKeyDown (KeyCode.UpArrow)) {
-				switch (gravDirection) {
-				case 0: 
-					if (controller.isGrounded || !doubleJump) {
-						if (!controller.isGrounded)
-							doubleJump = true;
-						velocity.y = Mathf.Sqrt (2f * targetJumpHeight * -gravity);						
-					}
-					break;
-				case 2: 
-					if (controller.isGrounded || !doubleJump) {
-						if (!controller.isGrounded)
-							doubleJump = true;
-						velocity.y = -Mathf.Sqrt (2f * targetJumpHeight * gravity);
-					}
-					break;
-				}
-			}
-			*/
 
 			velocity.y += gravity * Time.deltaTime;
 
@@ -207,23 +188,30 @@ public class PlayerController : MonoBehaviour {
 		hp -= enemy.damage;
 		hpText.text = "HP: " + hp;
 		isHit = true;
+		kickback = true;
+		direction = transform.position - enemy.transform.position;
 		StartCoroutine (DamageCoRoutine(enemy));
 	}
 
 	IEnumerator DamageCoRoutine (EnemyController enemy) {
-		yield return null;
+		/*yield return null;
 		if (gravDirection == 0 || gravDirection == 2)
 			controller.velocity = new Vector3 (enemy.speed, 0, 0);
 		else
 			controller.velocity = new Vector3 (0, enemy.speed, 0);
-		float moveEnd = Time.time + 0.5f;
+		float moveEnd = Time.time + 0.1f;
 		while (Time.time <= moveEnd)
 			controller.move (controller.velocity * Time.deltaTime);
-		yield return new WaitForSeconds (0.5f);
+		yield return new WaitForSeconds (0.1f);
 		controller.velocity = Vector2.zero;
 		yield return new WaitForSeconds (damageDelay);
 		isHit = false;
-		Debug.Log ("isHit reset");
+		Debug.Log ("isHit reset");*/
+		yield return null;
+		yield return new WaitForSeconds (hitKickbackTime);
+		kickback = false;
+		yield return new WaitForSeconds (damageDelay - attackKickback);
+		isHit = false;
 	}
 
 	void OnTriggerEnter2D (Collider2D coll) {
@@ -248,8 +236,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void onCollisionEnter2D (RaycastHit2D hit) {
-		if (hit.rigidbody.gameObject.CompareTag ("Enemy"))
-			hit.rigidbody.gameObject.GetComponent<EnemyController> ().DamagePlayer ();
+		//if (hit.rigidbody.gameObject.CompareTag ("Enemy"))
+			//hit.rigidbody.gameObject.GetComponent<EnemyController> ().DamagePlayer ();
 		if (hit.rigidbody.gameObject.CompareTag ("KillZone")) {
 			KillPlayer();
 		}
@@ -280,6 +268,7 @@ public class PlayerController : MonoBehaviour {
 		if (gravity > 0)
 			gravity *= -1;
 		winText.enabled = false;
+		isHit = false;
 		ReEnableFallingPlatforms ();
 	}
 

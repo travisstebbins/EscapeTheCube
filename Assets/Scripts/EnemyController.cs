@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EnemyController : MonoBehaviour {
 
@@ -16,6 +17,7 @@ public class EnemyController : MonoBehaviour {
 	private Vector2 gravity;
 	private PlayerController player;
 	private float attackKickbackTime = 0.1f;
+	private List<RaycastHit2D> hits = new List<RaycastHit2D>();
 
 	void Start () {
 		rb = GetComponent<Rigidbody2D> ();
@@ -54,6 +56,20 @@ public class EnemyController : MonoBehaviour {
 		}
 	}
 
+	void Update () {
+		hits.Clear ();
+		GetComponent<Collider2D>().enabled = false;
+		hits.Add ( Physics2D.Raycast (transform.position, new Vector2 (1,0), 10, LayerMask.GetMask ("Player")));
+		hits.Add ( Physics2D.Raycast (transform.position, new Vector2 (-1,0), 10, LayerMask.GetMask ("Player")));
+		hits.Add ( Physics2D.Raycast (transform.position, new Vector2 (0,1), 10, LayerMask.GetMask ("Player")));
+		hits.Add ( Physics2D.Raycast (transform.position, new Vector2 (0, -1), 10, LayerMask.GetMask ("Player")));
+		GetComponent<Collider2D>().enabled = true;
+		for (int i = 0; i < hits.Count; ++i) {
+			if (hits[i].rigidbody.gameObject.CompareTag ("Player"))
+					DamagePlayer ();
+		}
+	}
+
 	void OnTriggerEnter2D (Collider2D other) {
 		if (other.CompareTag ("TurnaroundTrigger")) {
 			speed *= -1;
@@ -66,7 +82,6 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	public void DamagePlayer () {
-		PlayerController player = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController> ();
 		if (!player.getIsHit ())
 			player.Damage (this);
 	}
