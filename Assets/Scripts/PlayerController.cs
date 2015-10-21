@@ -8,14 +8,9 @@ public class PlayerController : MonoBehaviour {
 	public float gravity = -30f;
 	public float runSpeed = 8f;
 	public float targetJumpHeight = 10f;
-<<<<<<< HEAD
 	public int damage = 1;
 	public float meleeDamageDistance = 10f;
 	public float attackKickback = 1000f;
-=======
-	public float damage = 1f;
-	public float meleeDamageDistance = 2f;
->>>>>>> parent of 0fb0ae5... Implement player hitting enemy mechanic
 	public Text hpText;
 	public Text winText;
 	
@@ -56,15 +51,14 @@ public class PlayerController : MonoBehaviour {
 			GetComponent<Collider2D>().enabled = false;
 			RaycastHit2D hit = Physics2D.Raycast (transform.position, currentDirection, meleeDamageDistance);
 			GetComponent<Collider2D>().enabled = true;
-<<<<<<< HEAD
 			if (hit.collider.gameObject.CompareTag ("Enemy")) {
 				if (!hit.collider.gameObject.GetComponent<EnemyController>().getIsHit ())
 					hit.collider.gameObject.GetComponent<EnemyController>().Damage (this);
 			}
-=======
 			if (hit.rigidbody.gameObject.CompareTag ("Enemy"))
 				Debug.Log ("enemy collision");
->>>>>>> parent of 0fb0ae5... Implement player hitting enemy mechanic
+			if (hit.rigidbody.gameObject.CompareTag ("Enemy"))
+				Debug.Log ("enemy collision");
 		}
 		Vector3 velocity = controller.velocity;
 
