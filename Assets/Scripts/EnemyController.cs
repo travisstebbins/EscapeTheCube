@@ -12,6 +12,7 @@ public class EnemyController : MonoBehaviour {
 	public int gravDirection = 0;
 
 	private Rigidbody2D rb;
+<<<<<<< HEAD
 	private bool isHit;
 	private float damageDelay = 0.3f;
 	private Vector2 gravity;
@@ -30,6 +31,18 @@ public class EnemyController : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
+=======
+	
+	void Awake () {
+		rb = GetComponent<Rigidbody2D> ();
+	}
+	
+	void FixedUpdate () {
+		if (gravDirection == 0 || gravDirection == 2)
+			rb.velocity = new Vector2 (speed, rb.velocity.y);
+		else
+			rb.velocity = new Vector2 (rb.velocity.x, speed);
+>>>>>>> parent of 0fb0ae5... Implement player hitting enemy mechanic
 		if (gravDirection != 0) {
 			rb.gravityScale = 0;
 			switch (gravDirection) {
@@ -90,6 +103,7 @@ public class EnemyController : MonoBehaviour {
 			player.Damage (this);
 	}
 
+<<<<<<< HEAD
 	public void Damage (PlayerController player) {
 		Debug.Log ("enemy damaged");
 		hp -= player.damage;
@@ -123,4 +137,6 @@ public class EnemyController : MonoBehaviour {
 		Debug.DrawRay( start, dir, color );
 	}
 
+=======
+>>>>>>> parent of 0fb0ae5... Implement player hitting enemy mechanic
 }
