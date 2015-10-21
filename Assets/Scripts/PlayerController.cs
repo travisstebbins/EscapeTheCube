@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour {
 	public float runSpeed = 8f;
 	public float targetJumpHeight = 10f;
 	public int damage = 1;
-	public float meleeDamageDistance = 2f;
+	public float meleeDamageDistance = 4f;
 	public float attackKickback = 1000f;
 	public Text hpText;
 	public Text winText;
@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour {
 	private bool doubleJump;
 	private Rigidbody2D rb;
 	private bool isHit = false;
-	private float damageDelay = 0.5f;
+	private float damageDelay = 1f;
 	private Vector2 startingPos;
 	private GameObject[] fallingPlatforms;
 	private Vector2 currentDirection;
@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour {
 
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			GetComponent<Collider2D>().enabled = false;
-			RaycastHit2D hit = Physics2D.Raycast (transform.position, currentDirection, meleeDamageDistance, LayerMask.GetMask ("Enemy"));
+			RaycastHit2D hit = Physics2D.Raycast (transform.position, currentDirection, meleeDamageDistance);
 			GetComponent<Collider2D>().enabled = true;
 			if (hit.rigidbody.gameObject.CompareTag ("Enemy")) {
 				if (!hit.rigidbody.gameObject.GetComponent<EnemyController>().getIsHit ())
@@ -60,8 +60,6 @@ public class PlayerController : MonoBehaviour {
 
 		if (kickback) {			
 			Vector2 directionNorm = direction/direction.magnitude;
-			Debug.Log ("direction: x = " + direction.x + ", y = " + direction.y);
-			Debug.Log ("directionNorm: x = " + directionNorm.x + ", y = " + directionNorm.y);
 			velocity.x = directionNorm.x * runSpeed * 2;
 			velocity.y = directionNorm.y * runSpeed * 2;
 			controller.move (velocity * Time.deltaTime);
@@ -184,7 +182,6 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void Damage (EnemyController enemy) {
-		Debug.Log ("player damaged");
 		hp -= enemy.damage;
 		hpText.text = "HP: " + hp;
 		isHit = true;

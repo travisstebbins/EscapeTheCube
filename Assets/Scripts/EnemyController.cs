@@ -7,7 +7,7 @@ public class EnemyController : MonoBehaviour {
 	public float speed = -5f;
 	public int damage = 1;	
 	public int hp = 5;
-	public int hitDistance = 5;
+	public int hitDistance = 1;
 	[Range(0,3)]
 	public int gravDirection = 0;
 
@@ -57,17 +57,21 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	void Update () {
-		hits.Clear ();
+		/*hits.Clear ();
 		GetComponent<Collider2D>().enabled = false;
-		hits.Add ( Physics2D.Raycast (transform.position, new Vector2 (1,0), 10, LayerMask.GetMask ("Player")));
-		hits.Add ( Physics2D.Raycast (transform.position, new Vector2 (-1,0), 10, LayerMask.GetMask ("Player")));
-		hits.Add ( Physics2D.Raycast (transform.position, new Vector2 (0,1), 10, LayerMask.GetMask ("Player")));
-		hits.Add ( Physics2D.Raycast (transform.position, new Vector2 (0, -1), 10, LayerMask.GetMask ("Player")));
+		hits.Add ( Physics2D.Raycast (transform.position, Vector2.right, hitDistance, LayerMask.GetMask ("Player")));
+		hits.Add ( Physics2D.Raycast (transform.position, Vector2.left, hitDistance, LayerMask.GetMask ("Player")));
+		hits.Add ( Physics2D.Raycast (transform.position, Vector2.up, hitDistance, LayerMask.GetMask ("Player")));
+		hits.Add ( Physics2D.Raycast (transform.position, Vector2.down, hitDistance, LayerMask.GetMask ("Player")));
+		DrawRay (transform.position, new Vector3(hitDistance,0,0), Color.red);
+		DrawRay (transform.position, new Vector3(-hitDistance,0,0), Color.red);
+		DrawRay (transform.position, new Vector3(0,hitDistance,0), Color.red);
+		DrawRay (transform.position, new Vector3(0,-hitDistance,0), Color.red);
 		GetComponent<Collider2D>().enabled = true;
 		for (int i = 0; i < hits.Count; ++i) {
 			if (hits[i].rigidbody.gameObject.CompareTag ("Player"))
 					DamagePlayer ();
-		}
+		}*/
 	}
 
 	void OnTriggerEnter2D (Collider2D other) {
@@ -87,6 +91,7 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	public void Damage (PlayerController player) {
+		Debug.Log ("enemy damaged");
 		hp -= player.damage;
 		isHit = true;
 		Vector2 heading = new Vector2 (transform.position.x - player.transform.position.x, transform.position.y - player.transform.position.y);
@@ -111,6 +116,11 @@ public class EnemyController : MonoBehaviour {
 
 	public bool getIsHit () {
 		return isHit;
+	}
+
+	void DrawRay( Vector3 start, Vector3 dir, Color color )
+	{
+		Debug.DrawRay( start, dir, color );
 	}
 
 }
