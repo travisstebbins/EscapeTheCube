@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour {
 	public float runSpeed = 8f;
 	public float targetJumpHeight = 10f;
 	public int damage = 1;
-	public float meleeDamageDistance = 50f;
+	public float meleeDamageDistance = 10f;
 	public float attackKickback = 1000f;
 	public Text hpText;
 	public Text winText;
@@ -51,9 +51,9 @@ public class PlayerController : MonoBehaviour {
 			GetComponent<Collider2D>().enabled = false;
 			RaycastHit2D hit = Physics2D.Raycast (transform.position, currentDirection, meleeDamageDistance);
 			GetComponent<Collider2D>().enabled = true;
-			if (hit.rigidbody.gameObject.CompareTag ("Enemy")) {
-				if (!hit.rigidbody.gameObject.GetComponent<EnemyController>().getIsHit ())
-					hit.rigidbody.gameObject.GetComponent<EnemyController>().Damage (this);
+			if (hit.collider.gameObject.CompareTag ("Enemy")) {
+				if (!hit.collider.gameObject.GetComponent<EnemyController>().getIsHit ())
+					hit.collider.gameObject.GetComponent<EnemyController>().Damage (this);
 			}
 		}
 		Vector3 velocity = controller.velocity;
