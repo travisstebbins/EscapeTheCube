@@ -27,6 +27,9 @@ public class PlayerController : MonoBehaviour {
 	private Vector2 direction;
 	private float hitKickbackTime = 0.1f;
 	private bool kickback;
+	private int spriteDirection;
+	private SpriteRenderer rend;
+	private Animator anim;
 
 	void Awake () {
 		controller = GetComponent<CharacterController2D> ();
@@ -36,6 +39,9 @@ public class PlayerController : MonoBehaviour {
 		rb.gravityScale = 0;
 		controller.onControllerCollidedEvent += onCollisionEnter2D;
 		startingPos = transform.position;
+		rend = GetComponent<SpriteRenderer>();
+		anim = GetComponent<Animator> ();
+		spriteDirection = 1;
 	}
 
 	void Start () {		
@@ -81,14 +87,22 @@ public class PlayerController : MonoBehaviour {
 				else
 					velocity.x = runSpeed * 0.75f;
 				currentDirection = new Vector2(1, 0);
+				spriteDirection = 1;
+				SpriteFlip();
+				anim.SetBool ("walking", true);
+
 			} else if (Input.GetKey (KeyCode.LeftArrow)) {
 				if (controller.isGrounded)
 					velocity.x = -runSpeed;
 				else
 					velocity.x = -runSpeed * 0.75f;
 				currentDirection = new Vector2(-1, 0);
+				spriteDirection = -1;
+				SpriteFlip();
+				anim.SetBool ("walking", true);
 			} else {
 				velocity.x = 0;
+				anim.SetBool ("walking", false);
 			}
 
 			if (gravDirection == 0) {
@@ -278,5 +292,10 @@ public class PlayerController : MonoBehaviour {
 		for (int i = 0; i < fallingPlatforms.Length; ++i) {
 			fallingPlatforms[i].GetComponent<FallingPlatformController>().Reset ();
 		}
+	}
+
+	void SpriteFlip () {
+		if ((spriteDirection > 0 && transform.localScale.x < 0) || (spriteDirection < 0 && transform.localScale.x > 0))
+			transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);
 	}
 }
