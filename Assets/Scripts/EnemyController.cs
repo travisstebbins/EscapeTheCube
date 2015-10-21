@@ -46,7 +46,7 @@ public class EnemyController : MonoBehaviour {
 				gravity = new Vector2 (0, -9.8f);
 				break;
 			}
-			rb.AddForce (gravity);
+			rb.AddForce (gravity * 2);
 		}
 		if (!isHit) {
 			if (gravDirection == 0 || gravDirection == 2)
@@ -56,8 +56,8 @@ public class EnemyController : MonoBehaviour {
 		}
 	}
 
-	void Update () {
-		/*hits.Clear ();
+	/*void Update () {
+		hits.Clear ();
 		GetComponent<Collider2D>().enabled = false;
 		hits.Add ( Physics2D.Raycast (transform.position, Vector2.right, hitDistance, LayerMask.GetMask ("Player")));
 		hits.Add ( Physics2D.Raycast (transform.position, Vector2.left, hitDistance, LayerMask.GetMask ("Player")));
@@ -71,8 +71,8 @@ public class EnemyController : MonoBehaviour {
 		for (int i = 0; i < hits.Count; ++i) {
 			if (hits[i].rigidbody.gameObject.CompareTag ("Player"))
 					DamagePlayer ();
-		}*/
-	}
+		}
+	}*/
 
 	void OnTriggerEnter2D (Collider2D other) {
 		if (other.CompareTag ("TurnaroundTrigger")) {
