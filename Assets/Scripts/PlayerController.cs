@@ -2,8 +2,18 @@
 using System.Collections;
 using UnityEngine.UI;
 using Prime31;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour {
+
+	struct CharacterRaycastOrigins {
+		public Vector2 topLeft;
+		public Vector2 bottomLeft;
+		public Vector2 topRight;
+		public Vector2 bottomRight;
+		public Vector2 topCenter;
+		public Vector2 bottomCenter;
+	}
 
 	public float gravity = -30f;
 	public float runSpeed = 8f;
@@ -30,6 +40,8 @@ public class PlayerController : MonoBehaviour {
 	private int spriteDirection;
 	private SpriteRenderer rend;
 	private Animator anim;
+	private BoxCollider2D boxCollider;
+	CharacterRaycastOrigins raycastOrigins;
 
 	void Awake () {
 		controller = GetComponent<CharacterController2D> ();
@@ -42,6 +54,7 @@ public class PlayerController : MonoBehaviour {
 		rend = GetComponent<SpriteRenderer>();
 		anim = GetComponent<Animator> ();
 		spriteDirection = 1;
+		boxCollider = GetComponent<BoxCollider2D> ();
 	}
 
 	void Start () {		
@@ -55,17 +68,16 @@ public class PlayerController : MonoBehaviour {
 
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			GetComponent<Collider2D>().enabled = false;
-			RaycastHit2D hit = Physics2D.Raycast (transform.position, currentDirection, meleeDamageDistance);
+			RaycastHit2D hit = Physics2D.Raycast (new Vector2(transform.position.x, transform.position.y - 2), currentDirection, meleeDamageDistance, LayerMask.GetMask("Enemy"));
 			GetComponent<Collider2D>().enabled = true;
 			if (hit.collider.gameObject.CompareTag ("Enemy")) {
-				if (!hit.collider.gameObject.GetComponent<EnemyController>().getIsHit ())
-					hit.collider.gameObject.GetComponent<EnemyController>().Damage (this);
+				EnemyController enemy = hit.collider.gameObject.GetComponent<EnemyController>();
+				Debug.Log ("enemy hit");
+				if (!enemy.getIsHit ())
+					enemy.Damage (this);
 			}
-			if (hit.rigidbody.gameObject.CompareTag ("Enemy"))
-				Debug.Log ("enemy collision");
-			if (hit.rigidbody.gameObject.CompareTag ("Enemy"))
-				Debug.Log ("enemy collision");
 		}
+
 		Vector3 velocity = controller.velocity;
 
 		if (kickback) {			
@@ -297,5 +309,15 @@ public class PlayerController : MonoBehaviour {
 	void SpriteFlip () {
 		if ((spriteDirection > 0 && transform.localScale.x < 0) || (spriteDirection < 0 && transform.localScale.x > 0))
 			transform.localScale = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+	}
+
+	void PrimeRaycastOrigins () {
+		var modifiedBounds = boxCollider.bounds;
+		raycastOrigins.topLeft = new Vector2 (modifiedBounds.min.x, modifiedBounds.max.y);
+		raycastOrigins.bottomLeft = new Vector2 (modifiedBounds.min.x, modifiedBounds.min.y);
+		raycastOrigins.topRight = new Vector2 (modifiedBounds.max.x, modifiedBounds.max.y);
+		raycastOrigins.bottomRight = new Vector2 (modifiedBounds.max.x, modifiedBounds.min.y);
+		raycastOrigins.topCenter = new Vector2 (modifiedBounds.center.x, modifiedBounds.max.y);
+		raycastOrigins.bottomCenter = new Vector2 (modifiedBounds.center.x, modifiedBounds.min.y);
 	}
 }
