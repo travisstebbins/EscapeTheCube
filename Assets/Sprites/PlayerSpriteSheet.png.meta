@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 302daa0073782a34bb4a7780cafa2098
-timeCreated: 1445403249
+timeCreated: 1445488523
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -86,10 +86,10 @@ TextureImporter:
     - name: PlayerSpriteSheet_2
       rect:
         serializedVersion: 2
-        x: 1045
-        y: 1323
-        width: 374
-        height: 649
+        x: 1066
+        y: 1359
+        width: 333
+        height: 577
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -146,50 +146,10 @@ TextureImporter:
     - name: PlayerSpriteSheet_8
       rect:
         serializedVersion: 2
-        x: 42
-        y: 42
-        width: 381
-        height: 569
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: PlayerSpriteSheet_9
-      rect:
-        serializedVersion: 2
-        x: 446
-        y: 38
-        width: 408
-        height: 583
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: PlayerSpriteSheet_10
-      rect:
-        serializedVersion: 2
-        x: 863
-        y: 43
-        width: 388
-        height: 573
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: PlayerSpriteSheet_11
-      rect:
-        serializedVersion: 2
-        x: 1236
-        y: 39
-        width: 379
-        height: 579
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: PlayerSpriteSheet_12
-      rect:
-        serializedVersion: 2
-        x: 1634
-        y: 39
-        width: 389
-        height: 580
+        x: 41
+        y: 119
+        width: 552
+        height: 408
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

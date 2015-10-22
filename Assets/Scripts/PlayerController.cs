@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour {
 
 	public float gravity = -30f;
 	public float runSpeed = 8f;
+	public float rotateSpeed = 30f;
 	public float targetJumpHeight = 10f;
 	public int damage = 1;
 	public float meleeDamageDistance = 10f;
@@ -91,6 +92,7 @@ public class PlayerController : MonoBehaviour {
 			if (controller.isGrounded) {
 				velocity.y = 0;
 				doubleJump = false;
+				anim.SetBool ("jump", false);
 			}
 			
 			if (Input.GetKey (KeyCode.RightArrow)) {
@@ -126,6 +128,7 @@ public class PlayerController : MonoBehaviour {
 						if (!controller.isGrounded)
 							doubleJump = true;
 						velocity.y = Mathf.Sqrt (2f * targetJumpHeight * -gravity);
+						anim.SetBool ("jump", true);
 					}
 				}
 			}
@@ -139,6 +142,7 @@ public class PlayerController : MonoBehaviour {
 						if (!controller.isGrounded)
 							doubleJump = true;
 						velocity.y = -Mathf.Sqrt (2f * targetJumpHeight * gravity);
+						anim.SetBool ("jump", true);
 					}
 				}
 			}
@@ -243,23 +247,71 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D (Collider2D coll) {
-		if (coll.CompareTag ("GravitySwitch")) {
+		if (coll.CompareTag ("GravitySwitch")) {			
+			int direction1 = gravDirection;
 			gravDirection = coll.gameObject.GetComponent<GravitySwitchController>().gravDirection;
 			switch (gravDirection) {
 				case 0 :
 				case 1 :
-					if (gravity > 0)
+					if (gravity > 0) {
 						gravity *= -1;
+						RotatePlayer(direction1, gravDirection);
+					}
 					break;
 				case 2 : 
 				case 3 :
-					if (gravity < 0)
+					if (gravity < 0) {
 						gravity *= -1;
+						RotatePlayer(direction1, gravDirection);
+					}
 					break;
 			}
 		}
 		if (coll.CompareTag ("Exit")) {
 			winText.enabled = true;
+		}
+	}
+
+	void RotatePlayer (int direction1, int direction2) {
+		int startRotation;
+		int endRotation;
+		switch (direction1) {
+			case 0:
+				startRotation = 0;
+				break;
+			case 1:
+				startRotation = 270;
+				break;
+			case 2:
+				startRotation = 180;
+				break;
+			case 3:
+				startRotation = 90;
+				break;
+			default:
+				startRotation = 0;
+				break;
+		}
+		switch (direction2) {
+			case 0:
+				endRotation = 0;
+				break;
+			case 1:
+				endRotation = 270;
+				break;
+			case 2:
+				endRotation = 180;
+				break;
+			case 3:
+				endRotation = 90;
+				break;
+			default:
+				endRotation = 0;
+				break;
+		}
+		if (startRotation < endRotation) {
+			//while (transform.rotation.z < endRotation)
+			//transform.rotation = Quaternion.Euler (rotateSpeed, 0, 0);
 		}
 	}
 
