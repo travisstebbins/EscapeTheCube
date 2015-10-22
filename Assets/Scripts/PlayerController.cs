@@ -251,19 +251,19 @@ public class PlayerController : MonoBehaviour {
 			int direction1 = gravDirection;
 			gravDirection = coll.gameObject.GetComponent<GravitySwitchController>().gravDirection;
 			switch (gravDirection) {
-				case 0 :
+				case 0 : 
 				case 1 :
 					if (gravity > 0) {
 						gravity *= -1;
-						RotatePlayer(direction1, gravDirection);
 					}
+					RotatePlayer(direction1, gravDirection);
 					break;
 				case 2 : 
 				case 3 :
 					if (gravity < 0) {
 						gravity *= -1;
-						RotatePlayer(direction1, gravDirection);
 					}
+					RotatePlayer(direction1, gravDirection);
 					break;
 			}
 		}
@@ -309,9 +309,33 @@ public class PlayerController : MonoBehaviour {
 				endRotation = 0;
 				break;
 		}
+		Debug.Log ("start rotation: " + startRotation);
+		Debug.Log ("end rotation: " + endRotation);
 		if (startRotation < endRotation) {
-			//while (transform.rotation.z < endRotation)
-			//transform.rotation = Quaternion.Euler (rotateSpeed, 0, 0);
+			Transform from = transform;
+			Transform to = from;
+			to.rotation = Quaternion.Euler (new Vector3(0,0,endRotation));
+			transform.rotation = Quaternion.Slerp (from.rotation, to.rotation, Time.time * 0.1f);
+			/*while (transform.rotation.eulerAngles.z < endRotation) {
+				transform.rotation = Quaternion.Euler (0, 0, transform.rotation.eulerAngles.z + rotateSpeed);
+				if (transform.rotation.eulerAngles.z >= endRotation) {
+					transform.rotation = Quaternion.Euler (0, 0, endRotation);
+					break;
+				}
+			}*/
+		}
+		else if (startRotation > endRotation) {
+			Transform from = transform;
+			Transform to = from;
+			to.rotation = Quaternion.Euler (new Vector3(0,0,endRotation));
+			transform.rotation = Quaternion.Slerp (from.rotation, to.rotation, Time.time * 0.1f);
+			/*while (transform.rotation.eulerAngles.z > endRotation) {
+				transform.rotation = Quaternion.Euler (0, 0, transform.rotation.eulerAngles.z - rotateSpeed);
+				if (transform.rotation.eulerAngles.z <= endRotation) {
+					transform.rotation = Quaternion.Euler (0, 0, endRotation);
+					break;
+				}
+			}*/
 		}
 	}
 
