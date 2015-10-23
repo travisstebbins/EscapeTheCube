@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MovingPlatformController : MonoBehaviour {
 
-	public float speed = 5f;
+	public float speed = 10f;
 	public Vector2 moveDistance = new Vector2 (-15f, 0f);
 	public float pause = 1.5f;
 
