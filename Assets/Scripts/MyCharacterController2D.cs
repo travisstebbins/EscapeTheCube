@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MyCharacterController2D : MonoBehaviour {
 
@@ -8,6 +9,7 @@ public class MyCharacterController2D : MonoBehaviour {
 	public float maxSpeed = 20f;
 	public float jumpHeight = 10f;	
 	public float groundPoundSpeed = 8f;
+	public float meleeAttackDistance = 4f;
 	public float gravMagnitude = 85;
 	public Transform groundCheck;
 	public float groundRadius = 1.035f;
@@ -16,6 +18,8 @@ public class MyCharacterController2D : MonoBehaviour {
 	// components
 	private Rigidbody2D rb;
 	private Animator anim;
+	private CircleCollider2D cColl;
+	private BoxCollider2D bColl;
 
 	// helper variables
 	private Vector2 startingPos;
@@ -24,20 +28,33 @@ public class MyCharacterController2D : MonoBehaviour {
 	private bool doubleJump = false;
 	private bool onMovingPlatform = false;
 	private int gravDirection;
+	private GameObject[] fallingPlatforms;
+	private List<RaycastHit2D> hits = new List<RaycastHit2D> ();
 
 	// unity functions	
 	void Start () {
 		rb = GetComponent<Rigidbody2D> ();
+		cColl = GetComponent<CircleCollider2D> ();
+		bColl = GetComponent<BoxCollider2D> ();
 		anim = GetComponent<Animator> ();
 		Physics2D.gravity = new Vector2 (0, -gravMagnitude);
 		startingPos = transform.position;
+		fallingPlatforms = GameObject.FindGameObjectsWithTag ("FallingPlatform");
 	}
 
 	void FixedUpdate () {
 		// check if character is grounded
 		isGrounded = Physics2D.OverlapCircle (groundCheck.position, groundRadius, groundLayerMask);
-		if (isGrounded)
+		if (isGrounded) {
 			doubleJump = false;
+			cColl.offset = new Vector2 (0.28f, -1.9f);
+			bColl.offset = new Vector2 (0.28f, 0.42f);
+			bColl.size = new Vector2 (2.07f, 4.44f);
+		} else {
+			cColl.offset = new Vector2 (0.58f, -1.05f);
+			bColl.offset = new Vector2 (0.58f, 0.09f);
+			bColl.size = new Vector2 (2.07f, 2.37f);
+		}
 		anim.SetBool ("isGrounded", isGrounded);
 		if (gravDirection == 0 || gravDirection == 2) {
 			float move = Input.GetAxis ("Horizontal");
@@ -91,13 +108,34 @@ public class MyCharacterController2D : MonoBehaviour {
 
 	void Update () {
 		if (gravDirection == 0) {
+
+			if (Input.GetKeyDown (KeyCode.Space)) {
+				hits.Clear ();
+				Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y + 2f, transform.position.z), new Vector3 (transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
+				Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y, transform.position.z), new Vector3 (transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
+				Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y - 2f, transform.position.z), new Vector3 (transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
+				hits.Add (Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y - 2f), new Vector2 (transform.localScale.x, 0), meleeAttackDistance, LayerMask.GetMask ("Enemy")));
+				hits.Add (Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), new Vector2 (transform.localScale.x, 0), meleeAttackDistance, LayerMask.GetMask ("Enemy")));
+				hits.Add (Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y + 2f), new Vector2 (transform.localScale.x, 0), meleeAttackDistance, LayerMask.GetMask ("Enemy")));
+				for (int i = 0; i < hits.Count; ++i) {
+					Debug.Log (i);
+
+					if (hits[i].rigidbody.gameObject != null && hits[i].rigidbody.gameObject.CompareTag ("Enemy"))
+						Debug.Log ("enemy hit");
+				}
+			}
+
 			if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.UpArrow)) {
 				anim.SetBool ("isGrounded", false);
 				if (!isGrounded && !doubleJump)
 					doubleJump = true;
 				rb.velocity = new Vector2 (rb.velocity.x, Mathf.Sqrt (2f * jumpHeight * -Physics2D.gravity.y));
+
 			}
 		} else if (gravDirection == 1) {
+			Debug.DrawRay (new Vector3 (transform.position.x + 2f, transform.position.y, transform.position.z), new Vector3 (0, -transform.localScale.x * meleeAttackDistance, 0), Color.red);
+			Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y, transform.position.z), new Vector3 (0, -transform.localScale.x * meleeAttackDistance, 0), Color.red);
+			Debug.DrawRay (new Vector3 (transform.position.x - 2f, transform.position.y, transform.position.z), new Vector3 (0, -transform.localScale.x * meleeAttackDistance, 0), Color.red);
 			if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.RightArrow)) {
 				anim.SetBool ("isGrounded", false);
 				if (!isGrounded && !doubleJump)
@@ -105,6 +143,9 @@ public class MyCharacterController2D : MonoBehaviour {
 				rb.velocity = new Vector2 (Mathf.Sqrt (2f * jumpHeight * -Physics2D.gravity.x), rb.velocity.y);
 			}
 		} else if (gravDirection == 2) {
+			Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y + 2f, transform.position.z), new Vector3 (-transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
+			Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y, transform.position.z), new Vector3 (-transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
+			Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y - 2f, transform.position.z), new Vector3 (-transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
 			if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.DownArrow)) {
 				anim.SetBool ("isGrounded", false);
 				if (!isGrounded && !doubleJump)
@@ -112,6 +153,9 @@ public class MyCharacterController2D : MonoBehaviour {
 				rb.velocity = new Vector2 (rb.velocity.x, -Mathf.Sqrt (2f * jumpHeight * Physics2D.gravity.y));
 			}
 		} else if (gravDirection == 3) {
+			Debug.DrawRay (new Vector3 (transform.position.x + 2f, transform.position.y, transform.position.z), new Vector3 (0, transform.localScale.x * meleeAttackDistance, 0), Color.red);
+			Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y, transform.position.z), new Vector3 (0, transform.localScale.x * meleeAttackDistance, 0), Color.red);
+			Debug.DrawRay (new Vector3 (transform.position.x - 2f, transform.position.y, transform.position.z), new Vector3 (0, transform.localScale.x * meleeAttackDistance, 0), Color.red);
 			if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.LeftArrow)) {
 				anim.SetBool ("isGrounded", false);
 				if (!isGrounded && !doubleJump)
@@ -240,5 +284,12 @@ public class MyCharacterController2D : MonoBehaviour {
 		gravDirection = 0;
 		transform.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));
 		Physics2D.gravity = new Vector2 (0, -gravMagnitude);
+		ReEnableFallingPlatforms ();
+	}
+
+	void ReEnableFallingPlatforms () {
+		for (int i = 0; i < fallingPlatforms.Length; ++i) {
+			fallingPlatforms[i].GetComponent<FallingPlatformController>().Reset ();
+		}
 	}
 }

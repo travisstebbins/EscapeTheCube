@@ -57,6 +57,7 @@ public class FallingPlatformController : MonoBehaviour {
 		timeMeasured = false;
 		this.gameObject.SetActive (true);
 		rb.velocity = Vector2.zero;
+		transform.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));
 	}
 
 }

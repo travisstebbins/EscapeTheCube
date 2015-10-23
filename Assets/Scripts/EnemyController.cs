@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class EnemyController : MonoBehaviour {
 
+	// public variables
 	public float speed = -5f;
 	public int damage = 1;	
 	public int hp = 5;
@@ -11,21 +12,28 @@ public class EnemyController : MonoBehaviour {
 	[Range(0,3)]
 	public int gravDirection = 0;
 
-	private Rigidbody2D rb;
+	// components
+	private Rigidbody2D rb;	
+	private PlayerController player;
+
+	// helper variables
 	private bool isHit;
 	private float damageDelay = 0.3f;
 	private Vector2 gravity;
-	private PlayerController player;
 	private float attackKickbackTime = 0.1f;
 	private List<RaycastHit2D> hits = new List<RaycastHit2D>();
 
 	void Start () {
 		rb = GetComponent<Rigidbody2D> ();
 		isHit = false;
-		if (gravDirection == 0 || gravDirection == 2)
+		if (gravDirection == 0 || gravDirection == 2) {
 			rb.velocity = new Vector2 (speed, 0);
-		else
+			//rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+		} else {
 			rb.velocity = new Vector2 (0, speed);
+			//rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+		}
+		rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController> ();
 	}
 	
