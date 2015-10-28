@@ -222,25 +222,27 @@ public class PlayerController : MonoBehaviour {
 	void OnTriggerEnter2D (Collider2D coll) {
 		if (coll.CompareTag ("GravitySwitch")) {			
 			int direction1 = gravDirection;
-			gravDirection = coll.gameObject.GetComponent<GravitySwitchController>().gravDirection;
+			gravDirection = coll.gameObject.GetComponent<GravitySwitchController> ().gravDirection;
 			switch (gravDirection) {
-			case 0 :
+			case 0:
 				Physics2D.gravity = new Vector2 (0, -gravMagnitude);
 				RotatePlayer (direction1, gravDirection);
 				break;
-			case 1 :
+			case 1:
 				Physics2D.gravity = new Vector2 (-gravMagnitude, 0);
 				RotatePlayer (direction1, gravDirection);
 				break;
-			case 2 :
-				Physics2D.gravity = new Vector2(0, gravMagnitude);
+			case 2:
+				Physics2D.gravity = new Vector2 (0, gravMagnitude);
 				RotatePlayer (direction1, gravDirection);
 				break;
 			case 3:
-				Physics2D.gravity = new Vector2(gravMagnitude, 0);
+				Physics2D.gravity = new Vector2 (gravMagnitude, 0);
 				RotatePlayer (direction1, gravDirection);
 				break;
 			}
+		} else if (coll.CompareTag ("MemoryOrb")) {
+			Destroy (coll.gameObject);
 		}
 	}
 
