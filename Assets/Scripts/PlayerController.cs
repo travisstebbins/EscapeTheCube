@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour {
 	public float enemyHitVerticalVelocity = 25f;
 	public float rotateSpeed = 7f;
 	public LayerMask groundLayerMask;
+	public Text hpText;
 
 	// components
 	private Rigidbody2D rb;
@@ -49,6 +51,7 @@ public class PlayerController : MonoBehaviour {
 		Physics2D.gravity = new Vector2 (0, -gravMagnitude);
 		startingPos = transform.position;
 		fallingPlatforms = GameObject.FindGameObjectsWithTag ("FallingPlatform");
+		hpText.text = "HP: " + hp;
 	}
 
 	void FixedUpdate () {
@@ -343,12 +346,15 @@ public class PlayerController : MonoBehaviour {
 	public void Damage (EnemyController enemy) {
 		Debug.Log ("player damaged");
 		hp -= enemy.damage;
+		hpText.text = "HP: " + hp;
 		isHit = true;
 		kickback = true;
 		Vector2 heading = transform.position - enemy.transform.position;
 		Vector2 direction = heading / heading.magnitude;
 		Debug.Log ("x direction: " + direction.x + ", y direction: " + direction.y);
 		StartCoroutine (DamageCoRoutine(direction, enemy));
+		if (hp <= 0)
+			KillPlayer ();
 	}
 	
 	IEnumerator DamageCoRoutine (Vector2 direction, EnemyController enemy) {
@@ -375,8 +381,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void KillPlayer () {
+		StopAllCoroutines ();
 		transform.position = startingPos;
 		hp = 5;
+		hpText.text = "HP: " + hp;
 		rb.velocity = Vector2.zero;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraController> ().Reset ();
 		gravDirection = 0;
