@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour {
 	public float rotateSpeed = 7f;
 	public LayerMask groundLayerMask;
 	public Text hpText;
+	public Image healthBar;
+	public Sprite[] healthBarSprites;
 
 	// components
 	private Rigidbody2D rb;
@@ -52,6 +54,7 @@ public class PlayerController : MonoBehaviour {
 		startingPos = transform.position;
 		fallingPlatforms = GameObject.FindGameObjectsWithTag ("FallingPlatform");
 		hpText.text = "HP: " + hp;
+		healthBar.GetComponent<Image> ().sprite = healthBarSprites [hp];
 	}
 
 	void FixedUpdate () {
@@ -349,6 +352,7 @@ public class PlayerController : MonoBehaviour {
 		Debug.Log ("player damaged");
 		hp -= enemy.damage;
 		hpText.text = "HP: " + hp;
+		healthBar.GetComponent<Image> ().sprite = healthBarSprites [hp];
 		isHit = true;
 		kickback = true;
 		Vector2 heading = transform.position - enemy.transform.position;
@@ -387,6 +391,7 @@ public class PlayerController : MonoBehaviour {
 		transform.position = startingPos;
 		hp = 5;
 		hpText.text = "HP: " + hp;
+		healthBar.GetComponent<Image> ().sprite = healthBarSprites [hp];
 		rb.velocity = Vector2.zero;
 		GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<CameraController> ().Reset ();
 		gravDirection = 0;
