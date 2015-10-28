@@ -18,9 +18,10 @@ public class EnemyController : MonoBehaviour {
 
 	// helper variables
 	private bool isHit;
+	private bool kickback;
 	private float damageDelay = 0.3f;
 	private Vector2 gravity;
-	private float attackKickbackTime = 0.1f;
+	private float damageKickbacktime = 0.3f;
 	private List<RaycastHit2D> hits = new List<RaycastHit2D>();
 
 	void Start () {
@@ -42,10 +43,12 @@ public class EnemyController : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
-		if (gravDirection == 0 || gravDirection == 2)
-			rb.velocity = new Vector2 (speed, rb.velocity.y);
-		else
-			rb.velocity = new Vector2 (rb.velocity.x, speed);
+		if (!kickback) {
+			if (gravDirection == 0 || gravDirection == 2)
+				rb.velocity = new Vector2 (speed, rb.velocity.y);
+			else
+				rb.velocity = new Vector2 (rb.velocity.x, speed);
+		}
 		if (gravDirection != 0) {
 			rb.gravityScale = 0;
 			switch (gravDirection) {
@@ -64,12 +67,12 @@ public class EnemyController : MonoBehaviour {
 			}
 			rb.AddForce (gravity * 2);
 		}
-		if (!isHit) {
-			if (gravDirection == 0 || gravDirection == 2)
-				rb.velocity = new Vector2 (speed, 0);
-			else
-				rb.velocity = new Vector2 (0, speed);
-		}
+//		if (!isHit) {
+//			if (gravDirection == 0 || gravDirection == 2)
+//				rb.velocity = new Vector2 (speed, 0);
+//			else
+//				rb.velocity = new Vector2 (0, speed);
+//		}
 	}
 
 	/*void Update () {
@@ -119,13 +122,16 @@ public class EnemyController : MonoBehaviour {
 
 	IEnumerator DamageCoroutine (Vector2 direction) {
 		yield return null;
-		Vector2 currentVelocity = rb.velocity;
+		Vector2 currentVelocity = rb.velocity;		
+		kickback = true;
+		Debug.Log ("x velocity: " + Mathf.Round (direction.x) + ", y velocity: " + Mathf.Round (direction.y));
 		if (gravDirection == 0 || gravDirection == 2)
-			rb.AddForce (new Vector2 (player.attackKickback * direction.x, 0));
+			rb.velocity = new Vector2 (direction.x > 0 ? speed > 0 ? speed * 3 : -speed * 3 : speed > 0 ? -speed * 3 : speed * 3, 0);
 		else
-			rb.AddForce (new Vector2 (0, player.attackKickback * direction.y));
-		yield return new WaitForSeconds (attackKickbackTime);
-		rb.velocity = currentVelocity;
+			rb.velocity = new Vector2 (0, direction.y > 0 ? speed > 0 ? speed * 3 : -speed * 3 : speed > 0 ? -speed * 3 : speed * 3);
+		yield return new WaitForSeconds (damageKickbacktime);
+		//rb.velocity = currentVelocity;
+		kickback = false;
 		yield return new WaitForSeconds (damageDelay);
 		isHit = false;
 	}

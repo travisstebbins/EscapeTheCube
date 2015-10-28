@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace Prime31 {
 	
 	[RequireComponent( typeof( BoxCollider2D ), typeof( Rigidbody2D ) )]
-	public class CharacterController2D : MonoBehaviour
+	public class Archive_CharacterController2D : MonoBehaviour
 	{
 		#region internal types
 		
@@ -148,7 +148,7 @@ namespace Prime31 {
 		public Vector3 velocity;
 		public bool isGrounded { 
 			get { 
-				switch (GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController>().getGravDirection ()) {
+				switch (GameObject.FindGameObjectWithTag ("Player").GetComponent<Archive_PlayerController>().getGravDirection ()) {
 					case 0 : return collisionState.below;
 					case 1 : return collisionState.left;
 					case 2 : return collisionState.above;
