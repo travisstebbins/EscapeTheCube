@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour {
 	public float kickbackTime = 0.002f;
 	public float damageDelay = 0.5f;
 	public float enemyHitVerticalVelocity = 25f;
+	public float rotateSpeed = 7f;
 	public LayerMask groundLayerMask;
 
 	// components
@@ -35,6 +36,8 @@ public class PlayerController : MonoBehaviour {
 	private bool isHit;
 	private bool kickback;
 	private int gravDirection;
+	private bool rotating = false;
+	private Quaternion newRotation;
 	private GameObject[] fallingPlatforms;
 
 	// unity functions	
@@ -119,6 +122,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update () {
+		if (rotating)
+			Rotation ();
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			Vector2 corner1;
 			Vector2 corner2;
@@ -287,32 +292,45 @@ public class PlayerController : MonoBehaviour {
 			endRotation = 0;
 			break;
 		}
-		if (startRotation < endRotation) {
-			Transform from = transform;
-			Transform to = from;
-			to.rotation = Quaternion.Euler (new Vector3(0,0,endRotation));
-			transform.rotation = Quaternion.Slerp (from.rotation, to.rotation, Time.time * 0.1f);
+		/*if (startRotation < endRotation) {
+			//Transform from = transform;
+			//Transform to = from;
+			//to.rotation = Quaternion.Euler (new Vector3(0,0,endRotation));
+			//transform.rotation = Quaternion.Slerp (from.rotation, to.rotation, Time.time * 0.1f);
+			newRotation = Quaternion.Euler (new Vector3 (0, 0, endRotation - startRotation));
 			/*while (transform.rotation.eulerAngles.z < endRotation) {
 				transform.rotation = Quaternion.Euler (0, 0, transform.rotation.eulerAngles.z + rotateSpeed);
 				if (transform.rotation.eulerAngles.z >= endRotation) {
 					transform.rotation = Quaternion.Euler (0, 0, endRotation);
 					break;
 				}
-			}*/
-		}
+			}
+		}*/
+		/*
 		else if (startRotation > endRotation) {
-			Transform from = transform;
-			Transform to = from;
-			to.rotation = Quaternion.Euler (new Vector3(0,0,endRotation));
-			transform.rotation = Quaternion.Slerp (from.rotation, to.rotation, Time.time * 0.1f);
+			//Transform from = transform;
+			//Transform to = from;
+			//to.rotation = Quaternion.Euler (new Vector3(0,0,endRotation));
+			newRotation = Quaternion.Euler (new Vector3 (0, 0, startRotation - endRotation));
 			/*while (transform.rotation.eulerAngles.z > endRotation) {
 				transform.rotation = Quaternion.Euler (0, 0, transform.rotation.eulerAngles.z - rotateSpeed);
 				if (transform.rotation.eulerAngles.z <= endRotation) {
 					transform.rotation = Quaternion.Euler (0, 0, endRotation);
 					break;
 				}
-			}*/
+			}
+		}*/
+		newRotation = Quaternion.Euler (new Vector3 (0, 0, endRotation));
+		rotating = true;
+	}
+
+	void Rotation () {
+		if (Mathf.Abs (transform.rotation.eulerAngles.z - newRotation.eulerAngles.z) < 10 * float.Epsilon) {
+			transform.rotation = newRotation;
+			rotating = false;
 		}
+		else
+			transform.rotation = Quaternion.Slerp (transform.rotation, newRotation, Time.deltaTime * rotateSpeed);
 	}
 
 	void Flip () {
