@@ -387,6 +387,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void KillPlayer () {
+		isHit = false;
+		kickback = false;
 		StopAllCoroutines ();
 		transform.position = startingPos;
 		hp = 5;
