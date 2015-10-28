@@ -9,14 +9,15 @@ public class PlayerController : MonoBehaviour {
 	public float maxSpeed = 20f;
 	public float jumpHeight = 10f;	
 	public float groundPoundSpeed = 8f;
-	public Transform meleeAttackCheck;
 	public int damage = 1;
 	public float meleeAttackDistance = 4f;
-	public float attackKickback = 1000000f;
+	public float attackKickback = 5;
 	public float gravMagnitude = 85;
+	public Transform groundCheck;
 	public float groundRadius = 1.035f;
-	public float kickbackTime = 0.5f;
+	public float kickbackTime = 0.002f;
 	public float damageDelay = 0.5f;
+	public float enemyHitVerticalVelocity = 25f;
 	public LayerMask groundLayerMask;
 
 	// components
@@ -52,21 +53,23 @@ public class PlayerController : MonoBehaviour {
 		isGrounded = Physics2D.OverlapCircle (groundCheck.position, groundRadius, groundLayerMask);
 		if (isGrounded) {
 			doubleJump = false;
-			cColl.offset = new Vector2 (0.28f, -1.9f);
-			bColl.offset = new Vector2 (0.28f, 0.42f);
+			cColl.offset = new Vector2 (0.08f, -1.9f);
+			bColl.offset = new Vector2 (0.08f, 0.42f);
 			bColl.size = new Vector2 (2.07f, 4.44f);
 		} else {
-			cColl.offset = new Vector2 (0.58f, -1.05f);
-			bColl.offset = new Vector2 (0.58f, 0.09f);
+			cColl.offset = new Vector2 (0.08f, 0.04f);
+			bColl.offset = new Vector2 (0.08f, 1.12f);
 			bColl.size = new Vector2 (2.07f, 2.37f);
 		}
 		anim.SetBool ("isGrounded", isGrounded);
 		if (gravDirection == 0 || gravDirection == 2) {
 			float move = Input.GetAxis ("Horizontal");
 			anim.SetFloat ("speed", Mathf.Abs (move));
-			rb.velocity = new Vector2 (isGrounded ? move * maxSpeed : move * maxSpeed * 0.8f, rb.velocity.y);
+			if (!kickback)
+				rb.velocity = new Vector2 (isGrounded ? move * maxSpeed : move * maxSpeed * 0.8f, rb.velocity.y);
 
 			if (gravDirection == 0) {
+				anim.SetFloat ("vSpeed", rb.velocity.y);
 				if (Input.GetKey (KeyCode.DownArrow))
 					rb.velocity = new Vector2 (rb.velocity.x, rb.velocity.y - groundPoundSpeed);
 				if (move > 0 && !facingRight)
@@ -74,6 +77,7 @@ public class PlayerController : MonoBehaviour {
 				else if (move < 0 && facingRight)
 					Flip ();
 			} else if (gravDirection == 2) {
+				anim.SetFloat ("vSpeed", -rb.velocity.y);
 				if (Input.GetKey (KeyCode.UpArrow))
 					rb.velocity = new Vector2 (rb.velocity.x, rb.velocity.y + groundPoundSpeed);
 				if (move < 0 && !facingRight)
@@ -85,9 +89,11 @@ public class PlayerController : MonoBehaviour {
 		} else if (gravDirection == 1 || gravDirection == 3) {
 			float move = Input.GetAxis ("Vertical");
 			anim.SetFloat ("speed", Mathf.Abs (move));
-			rb.velocity = new Vector2 (rb.velocity.x, isGrounded ? move * maxSpeed : move * maxSpeed * 0.8f);
+			if (!kickback)
+				rb.velocity = new Vector2 (rb.velocity.x, isGrounded ? move * maxSpeed : move * maxSpeed * 0.8f);
 
 			if (gravDirection == 1) {
+				anim.SetFloat ("vSpeed", rb.velocity.x);
 				if (Input.GetKey (KeyCode.LeftArrow))
 					rb.velocity = new Vector2 (rb.velocity.x - groundPoundSpeed, rb.velocity.y);
 				if (move < 0 && !facingRight)
@@ -95,6 +101,7 @@ public class PlayerController : MonoBehaviour {
 				else if (move > 0 && facingRight)
 					Flip ();
 			} else if (gravDirection == 3) {
+				anim.SetFloat ("vSpeed", -rb.velocity.x);
 				if (Input.GetKey (KeyCode.RightArrow))
 					rb.velocity = new Vector2 (rb.velocity.x + groundPoundSpeed, rb.velocity.y);
 				if (move > 0 && !facingRight)
@@ -112,7 +119,6 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update () {
-
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			Vector2 corner1;
 			Vector2 corner2;
@@ -139,7 +145,8 @@ public class PlayerController : MonoBehaviour {
 			Collider2D coll = Physics2D.OverlapArea (corner1, corner2, LayerMask.GetMask("Enemy"));
 			if (coll.gameObject != null)
 			{
-				coll.gameObject.GetComponent<EnemyController>().Damage (this);
+				if (!coll.gameObject.GetComponent<EnemyController>().getIsHit ())
+					coll.gameObject.GetComponent<EnemyController>().Damage (this);
 			}
 		}
 		if (gravDirection == 0) {
@@ -230,8 +237,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D (Collision2D coll) {
-		//if (hit.rigidbody.gameObject.CompareTag ("Enemy"))
-		//hit.rigidbody.gameObject.GetComponent<EnemyController> ().DamagePlayer ();
+		if (coll.rigidbody.gameObject.CompareTag ("Enemy"))
+			coll.rigidbody.gameObject.GetComponent<EnemyController> ().DamagePlayer ();
 		if (coll.gameObject.CompareTag ("KillZone")) {
 			KillPlayer();
 		}
@@ -320,20 +327,22 @@ public class PlayerController : MonoBehaviour {
 		hp -= enemy.damage;
 		isHit = true;
 		kickback = true;
-		Vector2 direction = transform.position - enemy.transform.position;
-		StartCoroutine (DamageCoRoutine(enemy));
+		Vector2 heading = transform.position - enemy.transform.position;
+		Vector2 direction = heading / heading.magnitude;
+		Debug.Log ("x direction: " + direction.x + ", y direction: " + direction.y);
+		StartCoroutine (DamageCoRoutine(direction, enemy));
 	}
 	
-	IEnumerator DamageCoRoutine (EnemyController enemy) {
+	IEnumerator DamageCoRoutine (Vector2 direction, EnemyController enemy) {
 		yield return null;
 		if (gravDirection == 0 || gravDirection == 2)
-			rb.velocity = new Vector2 (enemy.speed, 0);
+			rb.velocity = new Vector2 (-direction.x * (enemy.GetComponent<Rigidbody2D> ().velocity.x < 0 ? enemy.speed : -enemy.speed) * 10, isGrounded ? 0 : gravDirection == 0 ? direction.y * enemyHitVerticalVelocity : -direction.y * enemyHitVerticalVelocity);
 		else
-			rb.velocity = new Vector2 (0, enemy.speed);
+			rb.velocity = new Vector2 (isGrounded ? 0 : gravDirection == 1 ? -direction.x * enemyHitVerticalVelocity : direction.x * enemyHitVerticalVelocity, -direction.y * (enemy.GetComponent<Rigidbody2D>().velocity.y < 0 ? enemy.speed : -enemy.speed) * 10);
 		yield return new WaitForSeconds (kickbackTime);
 		rb.velocity = Vector2.zero;
 		kickback = false;
-		yield return new WaitForSeconds (damageDelay);
+		yield return new WaitForSeconds (damageDelay - kickbackTime);
 		isHit = false;
 		Debug.Log ("isHit reset");
 		/*yield return null;

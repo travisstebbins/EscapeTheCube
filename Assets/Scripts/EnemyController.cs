@@ -21,7 +21,7 @@ public class EnemyController : MonoBehaviour {
 	private bool kickback;
 	private float damageDelay = 0.3f;
 	private Vector2 gravity;
-	private float damageKickbacktime = 0.3f;
+	private float damageKickbacktime = 0.1f;
 	private List<RaycastHit2D> hits = new List<RaycastHit2D>();
 
 	void Start () {
@@ -36,6 +36,7 @@ public class EnemyController : MonoBehaviour {
 		}
 		rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController> ();
+		rb.gravityScale = 0;
 	}
 	
 	void Awake () {
@@ -49,9 +50,10 @@ public class EnemyController : MonoBehaviour {
 			else
 				rb.velocity = new Vector2 (rb.velocity.x, speed);
 		}
-		if (gravDirection != 0) {
-			rb.gravityScale = 0;
-			switch (gravDirection) {
+		switch (gravDirection) {
+			case 0:
+				gravity = new Vector2 (0, -9.8f);
+				break;
 			case 1:
 				gravity = new Vector2 (-9.8f, 0);
 				break;
@@ -64,15 +66,8 @@ public class EnemyController : MonoBehaviour {
 			default:
 				gravity = new Vector2 (0, -9.8f);
 				break;
-			}
-			rb.AddForce (gravity * 2);
 		}
-//		if (!isHit) {
-//			if (gravDirection == 0 || gravDirection == 2)
-//				rb.velocity = new Vector2 (speed, 0);
-//			else
-//				rb.velocity = new Vector2 (0, speed);
-//		}
+		rb.AddForce (gravity * 2);
 	}
 
 	/*void Update () {
@@ -115,20 +110,20 @@ public class EnemyController : MonoBehaviour {
 		isHit = true;
 		Vector2 heading = new Vector2 (transform.position.x - player.transform.position.x, transform.position.y - player.transform.position.y);
 		Vector2 direction = heading / heading.magnitude;
-		StartCoroutine (DamageCoroutine (direction));
+		StartCoroutine (DamageCoroutine (direction, player));
 		if (hp <= 0)
 			Destroy (this.gameObject);
 	}
 
-	IEnumerator DamageCoroutine (Vector2 direction) {
+	IEnumerator DamageCoroutine (Vector2 direction, PlayerController player) {
 		yield return null;
 		Vector2 currentVelocity = rb.velocity;		
 		kickback = true;
 		Debug.Log ("x velocity: " + Mathf.Round (direction.x) + ", y velocity: " + Mathf.Round (direction.y));
 		if (gravDirection == 0 || gravDirection == 2)
-			rb.velocity = new Vector2 (direction.x > 0 ? speed > 0 ? speed * 3 : -speed * 3 : speed > 0 ? -speed * 3 : speed * 3, 0);
+			rb.velocity = new Vector2 (direction.x > 0 ? speed > 0 ? speed * player.attackKickback : -speed * player.attackKickback : speed > 0 ? -speed * player.attackKickback : speed * player.attackKickback, 0);
 		else
-			rb.velocity = new Vector2 (0, direction.y > 0 ? speed > 0 ? speed * 3 : -speed * 3 : speed > 0 ? -speed * 3 : speed * 3);
+			rb.velocity = new Vector2 (0, direction.y > 0 ? speed > 0 ? speed * player.attackKickback : -speed * player.attackKickback : speed > 0 ? -speed * player.attackKickback : speed * player.attackKickback);
 		yield return new WaitForSeconds (damageKickbacktime);
 		//rb.velocity = currentVelocity;
 		kickback = false;
