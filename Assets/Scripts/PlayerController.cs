@@ -142,6 +142,7 @@ public class PlayerController : MonoBehaviour {
 		if (rotating)
 			Rotation ();
 		if (Input.GetKeyDown (KeyCode.Space)) {
+			anim.SetTrigger ("attack");
 			Vector2 corner1;
 			Vector2 corner2;
 			if (gravDirection == 0 || gravDirection == 2) {
@@ -421,6 +422,7 @@ public class PlayerController : MonoBehaviour {
 		transform.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));
 		Physics2D.gravity = new Vector2 (0, -gravMagnitude);
 		ReEnableFallingPlatforms ();*/
+		anim.SetTrigger ("die");
 		Application.LoadLevel ("Level1");
 	}
 

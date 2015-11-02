@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 256eeaed0bd2e8a4c8f7ed6cd34a9fef
-timeCreated: 1446496219
+timeCreated: 1446499289
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -136,7 +136,7 @@ TextureImporter:
         width: 286
         height: 346
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_1
       rect:
@@ -146,7 +146,7 @@ TextureImporter:
         width: 217
         height: 320
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_2
       rect:
@@ -156,7 +156,7 @@ TextureImporter:
         width: 211
         height: 340
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_3
       rect:
@@ -166,7 +166,7 @@ TextureImporter:
         width: 212
         height: 340
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_4
       rect:
@@ -176,7 +176,7 @@ TextureImporter:
         width: 199
         height: 340
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_5
       rect:
@@ -186,7 +186,7 @@ TextureImporter:
         width: 202
         height: 336
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_6
       rect:
@@ -196,7 +196,7 @@ TextureImporter:
         width: 217
         height: 321
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_7
       rect:
@@ -206,7 +206,7 @@ TextureImporter:
         width: 236
         height: 353
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_8
       rect:
@@ -216,7 +216,7 @@ TextureImporter:
         width: 243
         height: 348
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_9
       rect:
@@ -226,7 +226,7 @@ TextureImporter:
         width: 236
         height: 350
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_10
       rect:
@@ -236,7 +236,7 @@ TextureImporter:
         width: 236
         height: 360
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_11
       rect:
@@ -246,7 +246,7 @@ TextureImporter:
         width: 241
         height: 352
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_12
       rect:
@@ -256,7 +256,7 @@ TextureImporter:
         width: 236
         height: 351
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_13
       rect:
@@ -266,7 +266,7 @@ TextureImporter:
         width: 234
         height: 344
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_14
       rect:
@@ -276,7 +276,7 @@ TextureImporter:
         width: 234
         height: 358
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_15
       rect:
@@ -286,7 +286,7 @@ TextureImporter:
         width: 217
         height: 320
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_16
       rect:
@@ -296,7 +296,7 @@ TextureImporter:
         width: 214
         height: 283
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_17
       rect:
@@ -306,7 +306,7 @@ TextureImporter:
         width: 209
         height: 312
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_18
       rect:
@@ -316,7 +316,7 @@ TextureImporter:
         width: 210
         height: 267
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_19
       rect:
@@ -326,7 +326,7 @@ TextureImporter:
         width: 222
         height: 251
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_20
       rect:
@@ -336,7 +336,7 @@ TextureImporter:
         width: 210
         height: 267
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_21
       rect:
@@ -346,7 +346,7 @@ TextureImporter:
         width: 315
         height: 221
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_22
       rect:
@@ -356,7 +356,7 @@ TextureImporter:
         width: 274
         height: 253
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_23
       rect:
@@ -366,7 +366,7 @@ TextureImporter:
         width: 217
         height: 321
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_24
       rect:
@@ -376,7 +376,7 @@ TextureImporter:
         width: 220
         height: 329
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_25
       rect:
@@ -386,7 +386,7 @@ TextureImporter:
         width: 224
         height: 335
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_26
       rect:
@@ -396,7 +396,7 @@ TextureImporter:
         width: 236
         height: 327
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_27
       rect:
@@ -406,7 +406,7 @@ TextureImporter:
         width: 230
         height: 338
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_28
       rect:
@@ -416,7 +416,7 @@ TextureImporter:
         width: 224
         height: 335
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_29
       rect:
@@ -426,7 +426,7 @@ TextureImporter:
         width: 236
         height: 326
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_30
       rect:
@@ -436,7 +436,7 @@ TextureImporter:
         width: 221
         height: 317
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_31
       rect:
@@ -446,7 +446,7 @@ TextureImporter:
         width: 319
         height: 298
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_32
       rect:
@@ -456,7 +456,7 @@ TextureImporter:
         width: 370
         height: 264
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_33
       rect:
@@ -466,7 +466,7 @@ TextureImporter:
         width: 387
         height: 152
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_34
       rect:
@@ -476,7 +476,7 @@ TextureImporter:
         width: 330
         height: 326
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_35
       rect:
@@ -486,7 +486,7 @@ TextureImporter:
         width: 246
         height: 321
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_36
       rect:
@@ -496,7 +496,7 @@ TextureImporter:
         width: 255
         height: 341
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_37
       rect:
@@ -506,7 +506,7 @@ TextureImporter:
         width: 219
         height: 341
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_38
       rect:
@@ -516,7 +516,7 @@ TextureImporter:
         width: 220
         height: 341
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_39
       rect:
@@ -526,7 +526,7 @@ TextureImporter:
         width: 253
         height: 336
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_40
       rect:
@@ -536,7 +536,7 @@ TextureImporter:
         width: 244
         height: 320
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_41
       rect:
@@ -546,7 +546,7 @@ TextureImporter:
         width: 320
         height: 353
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_42
       rect:
@@ -556,7 +556,7 @@ TextureImporter:
         width: 298
         height: 353
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_43
       rect:
@@ -566,7 +566,7 @@ TextureImporter:
         width: 285
         height: 352
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_44
       rect:
@@ -576,7 +576,7 @@ TextureImporter:
         width: 262
         height: 362
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_45
       rect:
@@ -586,7 +586,7 @@ TextureImporter:
         width: 269
         height: 351
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_46
       rect:
@@ -596,7 +596,7 @@ TextureImporter:
         width: 239
         height: 353
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_47
       rect:
@@ -606,7 +606,7 @@ TextureImporter:
         width: 279
         height: 348
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_48
       rect:
@@ -616,7 +616,7 @@ TextureImporter:
         width: 324
         height: 361
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_49
       rect:
@@ -626,7 +626,7 @@ TextureImporter:
         width: 271
         height: 320
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_50
       rect:
@@ -636,7 +636,7 @@ TextureImporter:
         width: 300
         height: 283
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_51
       rect:
@@ -646,7 +646,7 @@ TextureImporter:
         width: 213
         height: 312
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_52
       rect:
@@ -656,7 +656,7 @@ TextureImporter:
         width: 210
         height: 332
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_53
       rect:
@@ -666,7 +666,7 @@ TextureImporter:
         width: 264
         height: 251
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_54
       rect:
@@ -676,7 +676,7 @@ TextureImporter:
         width: 210
         height: 333
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_55
       rect:
@@ -686,7 +686,7 @@ TextureImporter:
         width: 417
         height: 221
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_56
       rect:
@@ -696,7 +696,7 @@ TextureImporter:
         width: 374
         height: 253
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_57
       rect:
@@ -706,7 +706,7 @@ TextureImporter:
         width: 275
         height: 321
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_58
       rect:
@@ -716,7 +716,7 @@ TextureImporter:
         width: 292
         height: 321
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_59
       rect:
@@ -726,7 +726,7 @@ TextureImporter:
         width: 285
         height: 324
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_60
       rect:
@@ -736,7 +736,7 @@ TextureImporter:
         width: 312
         height: 325
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_61
       rect:
@@ -746,7 +746,7 @@ TextureImporter:
         width: 327
         height: 330
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_62
       rect:
@@ -756,7 +756,7 @@ TextureImporter:
         width: 313
         height: 325
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_63
       rect:
@@ -766,7 +766,7 @@ TextureImporter:
         width: 292
         height: 322
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_64
       rect:
@@ -776,7 +776,7 @@ TextureImporter:
         width: 296
         height: 329
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_65
       rect:
@@ -786,7 +786,7 @@ TextureImporter:
         width: 256
         height: 336
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_66
       rect:
@@ -796,7 +796,7 @@ TextureImporter:
         width: 268
         height: 326
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_67
       rect:
@@ -806,7 +806,7 @@ TextureImporter:
         width: 244
         height: 338
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_68
       rect:
@@ -816,7 +816,7 @@ TextureImporter:
         width: 224
         height: 335
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_69
       rect:
@@ -826,87 +826,47 @@ TextureImporter:
         width: 304
         height: 327
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_70
       rect:
         serializedVersion: 2
         x: 407
         y: 48
-        width: 222
+        width: 365
         height: 317
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: SpriteSheet5_71
-      rect:
-        serializedVersion: 2
-        x: 634
-        y: 153
-        width: 125
-        height: 102
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_72
       rect:
         serializedVersion: 2
         x: 845
-        y: 55
-        width: 318
-        height: 298
+        y: 45
+        width: 407
+        height: 308
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: SpriteSheet5_73
-      rect:
-        serializedVersion: 2
-        x: 1169
-        y: 49
-        width: 74
-        height: 146
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_74
       rect:
         serializedVersion: 2
         x: 1304
-        y: 68
-        width: 370
-        height: 264
+        y: 52
+        width: 433
+        height: 280
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: SpriteSheet5_75
-      rect:
-        serializedVersion: 2
-        x: 1672
-        y: 53
-        width: 61
-        height: 151
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SpriteSheet5_76
       rect:
         serializedVersion: 2
         x: 1804
         y: 57
-        width: 387
-        height: 153
+        width: 434
+        height: 173
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: SpriteSheet5_77
-      rect:
-        serializedVersion: 2
-        x: 2172
-        y: 72
-        width: 60
-        height: 151
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
