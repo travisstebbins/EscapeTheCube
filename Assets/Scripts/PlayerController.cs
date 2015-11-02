@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour {
 
 	// public variables
-	public int hp = 5;
+	public int hp = 6;
 	public float maxSpeed = 20f;
 	public float jumpHeight = 10f;	
 	public float groundPoundSpeed = 8f;
@@ -24,6 +24,9 @@ public class PlayerController : MonoBehaviour {
 	public Text hpText;
 	public Image healthBar;
 	public Sprite[] healthBarSprites;
+	public Light playerLight;
+	public Light playerGlowLight;
+	public float lightPulseSpeed = 10f;
 
 	// components
 	private Rigidbody2D rb;
@@ -32,7 +35,7 @@ public class PlayerController : MonoBehaviour {
 	private BoxCollider2D bColl;
 
 	// helper variables
-	private Vector2 startingPos;
+	private Vector3 startingPos;
 	private bool facingRight = true;
 	private bool isGrounded = false;
 	private bool doubleJump = false;
@@ -43,6 +46,7 @@ public class PlayerController : MonoBehaviour {
 	private bool rotating = false;
 	private Quaternion newRotation;
 	private GameObject[] fallingPlatforms;
+	private int lightPulseDirection = 1;
 
 	// unity functions	
 	void Start () {
@@ -128,6 +132,13 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update () {
+		if (hp == 1) {
+			playerLight.intensity = Mathf.Lerp (playerLight.intensity, lightPulseDirection == 1 ? 8 : 2, lightPulseSpeed * Time.deltaTime);
+			if (playerLight.intensity >= 7)
+				lightPulseDirection *= -1;
+			else if (playerLight.intensity <= 3)
+				lightPulseDirection *= -1;
+		}
 		if (rotating)
 			Rotation ();
 		if (Input.GetKeyDown (KeyCode.Space)) {
@@ -351,6 +362,11 @@ public class PlayerController : MonoBehaviour {
 	public void Damage (EnemyController enemy) {
 		Debug.Log ("player damaged");
 		hp -= enemy.damage;
+		playerLight.range -= 8;
+		playerLight.transform.position = new Vector3 (playerLight.transform.position.x, playerLight.transform.position.y, playerLight.transform.position.z + 5);
+		playerLight.color = new Color (playerLight.color.r, playerLight.color.g - 0.1f, playerLight.color.b - 0.1f);
+		playerGlowLight.intensity -= 1;
+
 		hpText.text = "HP: " + hp;
 		healthBar.GetComponent<Image> ().sprite = healthBarSprites [hp];
 		isHit = true;
@@ -387,7 +403,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void KillPlayer () {
-		isHit = false;
+		/*isHit = false;
 		kickback = false;
 		StopAllCoroutines ();
 		transform.position = startingPos;
@@ -399,12 +415,17 @@ public class PlayerController : MonoBehaviour {
 		gravDirection = 0;
 		transform.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));
 		Physics2D.gravity = new Vector2 (0, -gravMagnitude);
-		ReEnableFallingPlatforms ();
+		ReEnableFallingPlatforms ();*/
+		Application.LoadLevel ("Level1");
 	}
 
 	void ReEnableFallingPlatforms () {
 		for (int i = 0; i < fallingPlatforms.Length; ++i) {
 			fallingPlatforms[i].GetComponent<FallingPlatformController>().Reset ();
 		}
+	}
+
+	public Vector3 getStartingPos () {
+		return startingPos;
 	}
 }
