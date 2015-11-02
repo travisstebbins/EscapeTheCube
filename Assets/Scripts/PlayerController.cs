@@ -194,6 +194,7 @@ public class PlayerController : MonoBehaviour {
 			}*/
 
 			if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.UpArrow)) {
+				anim.SetTrigger ("jump");
 				anim.SetBool ("isGrounded", false);
 				if (!isGrounded && !doubleJump)
 					doubleJump = true;
@@ -205,6 +206,7 @@ public class PlayerController : MonoBehaviour {
 			Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y, transform.position.z), new Vector3 (0, -transform.localScale.x * meleeAttackDistance, 0), Color.red);
 			Debug.DrawRay (new Vector3 (transform.position.x - 2f, transform.position.y, transform.position.z), new Vector3 (0, -transform.localScale.x * meleeAttackDistance, 0), Color.red);
 			if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.RightArrow)) {
+				anim.SetTrigger ("jump");
 				anim.SetBool ("isGrounded", false);
 				if (!isGrounded && !doubleJump)
 					doubleJump = true;
@@ -215,6 +217,7 @@ public class PlayerController : MonoBehaviour {
 			Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y, transform.position.z), new Vector3 (-transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
 			Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y - 2f, transform.position.z), new Vector3 (-transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
 			if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.DownArrow)) {
+				anim.SetTrigger ("jump");
 				anim.SetBool ("isGrounded", false);
 				if (!isGrounded && !doubleJump)
 					doubleJump = true;
@@ -225,6 +228,7 @@ public class PlayerController : MonoBehaviour {
 			Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y, transform.position.z), new Vector3 (0, transform.localScale.x * meleeAttackDistance, 0), Color.red);
 			Debug.DrawRay (new Vector3 (transform.position.x - 2f, transform.position.y, transform.position.z), new Vector3 (0, transform.localScale.x * meleeAttackDistance, 0), Color.red);
 			if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.LeftArrow)) {
+				anim.SetTrigger ("jump");
 				anim.SetBool ("isGrounded", false);
 				if (!isGrounded && !doubleJump)
 					doubleJump = true;
@@ -360,6 +364,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void Damage (EnemyController enemy) {
+		anim.SetTrigger ("hit");
 		Debug.Log ("player damaged");
 		hp -= enemy.damage;
 		playerLight.range -= 8;
