@@ -20,7 +20,7 @@ public class Parallax : MonoBehaviour {
 
 	void Update () {
 		//transform.position = offset;
-		transform.position = new Vector2 (startingPos.x - (player.transform.position.x * speed), startingPos.y);
+		transform.position = new Vector3 (startingPos.x - (player.transform.position.x * speed), startingPos.y, startingPos.z);
 		//transform.position = (player.transform.position * speed) + offset;
 	}
 }
