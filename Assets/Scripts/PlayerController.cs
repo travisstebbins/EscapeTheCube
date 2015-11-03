@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour {
 
 	// public variables
-	public int hp = 6;
+	public int hp = 5;
 	public float maxSpeed = 20f;
 	public float jumpHeight = 10f;	
 	public float groundPoundSpeed = 8f;
@@ -262,6 +262,11 @@ public class PlayerController : MonoBehaviour {
 			}
 		} else if (coll.CompareTag ("MemoryOrb")) {
 			Destroy (coll.gameObject);
+		} else if (coll.CompareTag ("Health")) {
+			if (hp < 5) {
+				AddHealth(coll.gameObject.GetComponent<HealthController>().healthAmount);
+				coll.gameObject.GetComponent<HealthController>().setNoHeartSprite();
+			}
 		}
 	}
 
@@ -364,22 +369,26 @@ public class PlayerController : MonoBehaviour {
 		transform.localScale = scale;
 	}
 
+	void AddHealth (int healthAmount) {
+		hp += healthAmount;
+		playerLight.range += 8;
+		playerLight.transform.position = new Vector3 (playerLight.transform.position.x, playerLight.transform.position.y, playerLight.transform.position.z - 5);
+		playerLight.color = new Color (playerLight.color.r, playerLight.color.g + 0.1f, playerLight.color.b + 0.1f);
+		playerGlowLight.intensity += 1;
+	}
+
 	public void Damage (EnemyController enemy) {
 		anim.SetTrigger ("hit");
-		Debug.Log ("player damaged");
 		hp -= enemy.damage;
 		playerLight.range -= 8;
 		playerLight.transform.position = new Vector3 (playerLight.transform.position.x, playerLight.transform.position.y, playerLight.transform.position.z + 5);
 		playerLight.color = new Color (playerLight.color.r, playerLight.color.g - 0.1f, playerLight.color.b - 0.1f);
 		playerGlowLight.intensity -= 1;
 
-		hpText.text = "HP: " + hp;
-		healthBar.GetComponent<Image> ().sprite = healthBarSprites [hp];
 		isHit = true;
 		kickback = true;
 		Vector2 heading = transform.position - enemy.transform.position;
 		Vector2 direction = heading / heading.magnitude;
-		Debug.Log ("x direction: " + direction.x + ", y direction: " + direction.y);
 		StartCoroutine (DamageCoRoutine(direction, enemy));
 		if (hp <= 0)
 			KillPlayer ();
@@ -423,6 +432,16 @@ public class PlayerController : MonoBehaviour {
 		Physics2D.gravity = new Vector2 (0, -gravMagnitude);
 		ReEnableFallingPlatforms ();*/
 		anim.SetTrigger ("die");
+		StartCoroutine (KillPlayerCoroutine());
+	}
+
+	IEnumerator KillPlayerCoroutine () {
+		yield return null;
+		yield return new WaitForSeconds (0.2f);
+		cColl.enabled = false;
+		bColl.size = new Vector2 (6.19f, 1.9f);
+		bColl.offset = new Vector2 (-0.5f, -0.3f);
+		yield return new WaitForSeconds (0.8f);
 		Application.LoadLevel ("Level1");
 	}
 

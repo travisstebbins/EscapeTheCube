@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour {
 	public int hitDistance = 1;
 	[Range(0,3)]
 	public int gravDirection = 0;
+	public GameObject appearingPlatform;
 
 	// components
 	private Rigidbody2D rb;	
@@ -95,8 +96,11 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D (Collision2D coll) {
-		if (coll.rigidbody.gameObject.CompareTag ("KillZone"))
+		if (coll.rigidbody.gameObject.CompareTag ("KillZone")) {
+			if (appearingPlatform != null)
+				appearingPlatform.SetActive (true);
 			Destroy (this.gameObject);
+		}
 	}
 
 	public void DamagePlayer () {
@@ -111,8 +115,11 @@ public class EnemyController : MonoBehaviour {
 		Vector2 heading = new Vector2 (transform.position.x - player.transform.position.x, transform.position.y - player.transform.position.y);
 		Vector2 direction = heading / heading.magnitude;
 		StartCoroutine (DamageCoroutine (direction, player));
-		if (hp <= 0)
+		if (hp <= 0) {
+			if (appearingPlatform != null)
+				appearingPlatform.SetActive (true);
 			Destroy (this.gameObject);
+		}
 	}
 
 	IEnumerator DamageCoroutine (Vector2 direction, PlayerController player) {
