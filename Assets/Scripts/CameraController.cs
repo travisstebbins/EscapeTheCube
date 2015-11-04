@@ -11,6 +11,10 @@ public class CameraController : MonoBehaviour {
 	private GameObject player;
 	private Vector3 startingPos;
 
+	void Awake () {
+		Time.timeScale = 1;
+	}
+
 	// Use this for initialization
 	void Start () {
 		player = GameObject.FindGameObjectWithTag ("Player");

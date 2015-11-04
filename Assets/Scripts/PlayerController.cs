@@ -438,6 +438,7 @@ public class PlayerController : MonoBehaviour {
 		bColl.size = new Vector2 (6.19f, 1.9f);
 		bColl.offset = new Vector2 (-0.5f, -0.3f);
 		yield return new WaitForSeconds (0.8f);
+		Time.timeScale = 0;
 		gameOverScreen.SetActive (true);
 	}
 
