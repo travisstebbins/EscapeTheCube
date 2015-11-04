@@ -11,6 +11,7 @@ public class HealthController : MonoBehaviour {
 	// private variables
 	private SpriteRenderer rend;
 	private ParticleSystem particles;
+	private bool hasHealth = true;
 
 	void Start () {
 		rend = GetComponent<SpriteRenderer> ();
@@ -19,11 +20,17 @@ public class HealthController : MonoBehaviour {
 
 	public void setHeartSprite () {
 		rend.sprite = heartSprite;
+		hasHealth = true;
 		particles.Play ();
 	}
 
 	public void setNoHeartSprite () {
 		rend.sprite = noHeartSprite;
+		hasHealth = false;
 		particles.Stop ();
+	}
+
+	public bool getHasHealth () {
+		return hasHealth;
 	}
 }

@@ -21,6 +21,7 @@ public class MenuManager : MonoBehaviour {
 
 	// main menu
 	public void Play () {
+		Time.timeScale = 1;
 		Application.LoadLevel ("Level1");
 	}
 
@@ -39,12 +40,15 @@ public class MenuManager : MonoBehaviour {
 	public void LoadLevel (int l) {
 		switch (l) {
 		case 0:
+			Time.timeScale = 1;
 			Application.LoadLevel ("TutorialLevel");
 			break;
 		case 1:
+			Time.timeScale = 1;
 			Application.LoadLevel ("Level1");
 			break;
 		case 2:
+			Time.timeScale = 1;
 			Application.LoadLevel ("Level2");
 			break;
 		}
@@ -56,10 +60,12 @@ public class MenuManager : MonoBehaviour {
 	}
 
 	public void Restart () {
+		Time.timeScale = 1;
 		Application.LoadLevel (Application.loadedLevel);
 	}
 
 	public void MainMenu () {
+		Time.timeScale = 1;
 		Application.LoadLevel ("MainMenu");
 	}
 

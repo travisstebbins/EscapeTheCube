@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour {
 	private Quaternion newRotation;
 	private GameObject[] fallingPlatforms;
 	private int lightPulseDirection = 1;
+	private bool isDead = false;
 
 	// unity functions	
 	void Start () {
@@ -58,178 +59,178 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-		// check if character is grounded
-		isGrounded = Physics2D.OverlapCircle (groundCheck.position, groundRadius, groundLayerMask);
-		if (isGrounded) {
-			doubleJump = false;
-			cColl.offset = new Vector2 (0.08f, -1.9f);
-			bColl.offset = new Vector2 (0.08f, 0.42f);
-			bColl.size = new Vector2 (2.07f, 4.44f);
-		} else {
-			cColl.offset = new Vector2 (0.08f, 0.04f);
-			bColl.offset = new Vector2 (0.08f, 1.12f);
-			bColl.size = new Vector2 (2.07f, 2.37f);
-		}
-		anim.SetBool ("isGrounded", isGrounded);
-		if (gravDirection == 0 || gravDirection == 2) {
-			float move = Input.GetAxis ("Horizontal");
-			anim.SetFloat ("speed", Mathf.Abs (move));
-			if (!kickback)
-				rb.velocity = new Vector2 (isGrounded ? move * maxSpeed : move * maxSpeed * 0.8f, rb.velocity.y);
-
-			if (gravDirection == 0) {
-				anim.SetFloat ("vSpeed", rb.velocity.y);
-				if (Input.GetKey (KeyCode.DownArrow))
-					rb.velocity = new Vector2 (rb.velocity.x, rb.velocity.y - groundPoundSpeed);
-				if (move > 0 && !facingRight)
-					Flip ();
-				else if (move < 0 && facingRight)
-					Flip ();
-			} else if (gravDirection == 2) {
-				anim.SetFloat ("vSpeed", -rb.velocity.y);
-				if (Input.GetKey (KeyCode.UpArrow))
-					rb.velocity = new Vector2 (rb.velocity.x, rb.velocity.y + groundPoundSpeed);
-				if (move < 0 && !facingRight)
-					Flip ();
-				else if (move > 0 && facingRight)
-					Flip ();
-			}			
-
-		} else if (gravDirection == 1 || gravDirection == 3) {
-			float move = Input.GetAxis ("Vertical");
-			anim.SetFloat ("speed", Mathf.Abs (move));
-			if (!kickback)
-				rb.velocity = new Vector2 (rb.velocity.x, isGrounded ? move * maxSpeed : move * maxSpeed * 0.8f);
-
-			if (gravDirection == 1) {
-				anim.SetFloat ("vSpeed", rb.velocity.x);
-				if (Input.GetKey (KeyCode.LeftArrow))
-					rb.velocity = new Vector2 (rb.velocity.x - groundPoundSpeed, rb.velocity.y);
-				if (move < 0 && !facingRight)
-					Flip ();
-				else if (move > 0 && facingRight)
-					Flip ();
-			} else if (gravDirection == 3) {
-				anim.SetFloat ("vSpeed", -rb.velocity.x);
-				if (Input.GetKey (KeyCode.RightArrow))
-					rb.velocity = new Vector2 (rb.velocity.x + groundPoundSpeed, rb.velocity.y);
-				if (move > 0 && !facingRight)
-					Flip ();
-				else if (move < 0 && facingRight)
-					Flip ();
+		if (!isDead) {
+			// check if character is grounded
+			isGrounded = Physics2D.OverlapCircle (groundCheck.position, groundRadius, groundLayerMask);
+			if (isGrounded) {
+				doubleJump = false;
+				cColl.offset = new Vector2 (0.08f, -1.9f);
+				bColl.offset = new Vector2 (0.08f, 0.42f);
+				bColl.size = new Vector2 (2.07f, 4.44f);
+			} else {
+				cColl.offset = new Vector2 (0.08f, 0.04f);
+				bColl.offset = new Vector2 (0.08f, 1.12f);
+				bColl.size = new Vector2 (2.07f, 2.37f);
 			}
-		}
+			anim.SetBool ("isGrounded", isGrounded);
+			if (gravDirection == 0 || gravDirection == 2) {
+				float move = Input.GetAxis ("Horizontal");
+				anim.SetFloat ("speed", Mathf.Abs (move));
+				if (!kickback)
+					rb.velocity = new Vector2 (isGrounded ? move * maxSpeed : move * maxSpeed * 0.8f, rb.velocity.y);
 
-		onMovingPlatform = Physics2D.OverlapCircle (groundCheck.position, groundRadius, LayerMask.GetMask ("MovingPlatform"));
-		if (onMovingPlatform) {
-			Vector2 movingPlatformVelocity = Physics2D.OverlapCircle (groundCheck.position, groundRadius, LayerMask.GetMask ("MovingPlatform")).GetComponent<MovingPlatformController>().getVelocity();
-			rb.velocity = new Vector2 (movingPlatformVelocity.x + rb.velocity.x, movingPlatformVelocity.y + rb.velocity.y);
+				if (gravDirection == 0) {
+					anim.SetFloat ("vSpeed", rb.velocity.y);
+					if (Input.GetKey (KeyCode.DownArrow))
+						rb.velocity = new Vector2 (rb.velocity.x, rb.velocity.y - groundPoundSpeed);
+					if (move > 0 && !facingRight)
+						Flip ();
+					else if (move < 0 && facingRight)
+						Flip ();
+				} else if (gravDirection == 2) {
+					anim.SetFloat ("vSpeed", -rb.velocity.y);
+					if (Input.GetKey (KeyCode.UpArrow))
+						rb.velocity = new Vector2 (rb.velocity.x, rb.velocity.y + groundPoundSpeed);
+					if (move < 0 && !facingRight)
+						Flip ();
+					else if (move > 0 && facingRight)
+						Flip ();
+				}			
+
+			} else if (gravDirection == 1 || gravDirection == 3) {
+				float move = Input.GetAxis ("Vertical");
+				anim.SetFloat ("speed", Mathf.Abs (move));
+				if (!kickback)
+					rb.velocity = new Vector2 (rb.velocity.x, isGrounded ? move * maxSpeed : move * maxSpeed * 0.8f);
+
+				if (gravDirection == 1) {
+					anim.SetFloat ("vSpeed", rb.velocity.x);
+					if (Input.GetKey (KeyCode.LeftArrow))
+						rb.velocity = new Vector2 (rb.velocity.x - groundPoundSpeed, rb.velocity.y);
+					if (move < 0 && !facingRight)
+						Flip ();
+					else if (move > 0 && facingRight)
+						Flip ();
+				} else if (gravDirection == 3) {
+					anim.SetFloat ("vSpeed", -rb.velocity.x);
+					if (Input.GetKey (KeyCode.RightArrow))
+						rb.velocity = new Vector2 (rb.velocity.x + groundPoundSpeed, rb.velocity.y);
+					if (move > 0 && !facingRight)
+						Flip ();
+					else if (move < 0 && facingRight)
+						Flip ();
+				}
+			}
+
+			onMovingPlatform = Physics2D.OverlapCircle (groundCheck.position, groundRadius, LayerMask.GetMask ("MovingPlatform"));
+			if (onMovingPlatform) {
+				Vector2 movingPlatformVelocity = Physics2D.OverlapCircle (groundCheck.position, groundRadius, LayerMask.GetMask ("MovingPlatform")).GetComponent<MovingPlatformController> ().getVelocity ();
+				rb.velocity = new Vector2 (movingPlatformVelocity.x + rb.velocity.x, movingPlatformVelocity.y + rb.velocity.y);
+			}
 		}
 	}
 
 	void Update () {
-		if (hp == 1) {
-			playerLight.intensity = Mathf.Lerp (playerLight.intensity, lightPulseDirection == 1 ? 8 : 2, lightPulseSpeed * Time.deltaTime);
-			if (playerLight.intensity >= 7)
-				lightPulseDirection *= -1;
-			else if (playerLight.intensity <= 3)
-				lightPulseDirection *= -1;
-		}
-		if (rotating)
-			Rotation ();
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			anim.SetTrigger ("attack");
-			Vector2 corner1;
-			Vector2 corner2;
-			if (gravDirection == 0 || gravDirection == 2) {
-				if (facingRight) {
-					corner1 = new Vector2 (bColl.bounds.max.x, bColl.bounds.max.y);
-					corner2 = new Vector2 (bColl.bounds.max.x + meleeAttackDistance, bColl.bounds.min.y);
+		if (!isDead) {
+			if (hp == 1) {
+				playerLight.intensity = Mathf.Lerp (playerLight.intensity, lightPulseDirection == 1 ? 8 : 2, lightPulseSpeed * Time.deltaTime);
+				if (playerLight.intensity >= 7)
+					lightPulseDirection *= -1;
+				else if (playerLight.intensity <= 3)
+					lightPulseDirection *= -1;
+			}
+			if (rotating)
+				Rotation ();
+			if (Input.GetKeyDown (KeyCode.Space)) {
+				anim.SetTrigger ("attack");
+				Vector2 corner1;
+				Vector2 corner2;
+				if (gravDirection == 0 || gravDirection == 2) {
+					if (facingRight) {
+						corner1 = new Vector2 (bColl.bounds.max.x, bColl.bounds.max.y);
+						corner2 = new Vector2 (bColl.bounds.max.x + meleeAttackDistance, bColl.bounds.min.y);
+					} else {
+						corner1 = new Vector2 (bColl.bounds.min.x, bColl.bounds.max.y);
+						corner2 = new Vector2 (bColl.bounds.min.x - meleeAttackDistance, bColl.bounds.min.y);
+					}
+				} else {
+					if (facingRight) {
+						corner1 = new Vector2 (bColl.bounds.min.x, bColl.bounds.max.y);
+						corner2 = new Vector2 (bColl.bounds.max.x, bColl.bounds.max.y + meleeAttackDistance);
+					} else {
+						corner1 = new Vector2 (bColl.bounds.min.x, bColl.bounds.min.y);
+						corner2 = new Vector2 (bColl.bounds.max.x, bColl.bounds.min.y - meleeAttackDistance);
+					}
 				}
-				else {
-					corner1 = new Vector2 (bColl.bounds.min.x, bColl.bounds.max.y);
-					corner2 = new Vector2 (bColl.bounds.min.x - meleeAttackDistance, bColl.bounds.min.y);
+				Collider2D coll = Physics2D.OverlapArea (corner1, corner2, LayerMask.GetMask ("Enemy"));
+				if (coll.gameObject != null) {
+					if (!coll.gameObject.GetComponent<EnemyController> ().getIsHit ())
+						coll.gameObject.GetComponent<EnemyController> ().Damage (this);
 				}
 			}
-			else {
-				if (facingRight) {
-					corner1 = new Vector2 (bColl.bounds.min.x, bColl.bounds.max.y);
-					corner2 = new Vector2 (bColl.bounds.max.x, bColl.bounds.max.y + meleeAttackDistance);
-				}
-				else {
-					corner1 = new Vector2 (bColl.bounds.min.x, bColl.bounds.min.y);
-					corner2 = new Vector2 (bColl.bounds.max.x, bColl.bounds.min.y - meleeAttackDistance);
-				}
-			}
-			Collider2D coll = Physics2D.OverlapArea (corner1, corner2, LayerMask.GetMask("Enemy"));
-			if (coll.gameObject != null)
-			{
-				if (!coll.gameObject.GetComponent<EnemyController>().getIsHit ())
-					coll.gameObject.GetComponent<EnemyController>().Damage (this);
-			}
-		}
-		if (gravDirection == 0) {
+			if (gravDirection == 0) {
 
-			/*if (Input.GetKeyDown (KeyCode.Space)) {
-				hits.Clear ();
-				Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y + 2f, transform.position.z), new Vector3 (transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
-				Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y, transform.position.z), new Vector3 (transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
-				Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y - 2f, transform.position.z), new Vector3 (transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
-				hits.Add (Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y - 2f), new Vector2 (transform.localScale.x, 0), meleeAttackDistance, LayerMask.GetMask ("Enemy")));
-				hits.Add (Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), new Vector2 (transform.localScale.x, 0), meleeAttackDistance, LayerMask.GetMask ("Enemy")));
-				hits.Add (Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y + 2f), new Vector2 (transform.localScale.x, 0), meleeAttackDistance, LayerMask.GetMask ("Enemy")));
-				for (int i = 0; i < hits.Count; ++i) {
-					Debug.Log (i);
+				/*if (Input.GetKeyDown (KeyCode.Space)) {
+					hits.Clear ();
+					Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y + 2f, transform.position.z), new Vector3 (transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
+					Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y, transform.position.z), new Vector3 (transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
+					Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y - 2f, transform.position.z), new Vector3 (transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
+					hits.Add (Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y - 2f), new Vector2 (transform.localScale.x, 0), meleeAttackDistance, LayerMask.GetMask ("Enemy")));
+					hits.Add (Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), new Vector2 (transform.localScale.x, 0), meleeAttackDistance, LayerMask.GetMask ("Enemy")));
+					hits.Add (Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y + 2f), new Vector2 (transform.localScale.x, 0), meleeAttackDistance, LayerMask.GetMask ("Enemy")));
+					for (int i = 0; i < hits.Count; ++i) {
+						Debug.Log (i);
 
-					if (hits[i].rigidbody.gameObject != null && hits[i].rigidbody.gameObject.CompareTag ("Enemy"))
-						Debug.Log ("enemy hit");
+						if (hits[i].rigidbody.gameObject != null && hits[i].rigidbody.gameObject.CompareTag ("Enemy"))
+							Debug.Log ("enemy hit");
+					}
+					Collider2D coll = Physics2D.OverlapArea (new Vector2 (bColl.bounds.max.x, bColl.bounds.max.y), new Vector2 (bColl.bounds.max.x + meleeAttackDistance, bColl.bounds.min.y), LayerMask.NameToLayer("Enemy"));
+					if (coll.gameObject.CompareTag("Enemy")) {
+						Debug.Log("enemy hit");
+					}
+				}*/
+
+				if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.UpArrow)) {
+					anim.SetTrigger ("jump");
+					anim.SetBool ("isGrounded", false);
+					if (!isGrounded && !doubleJump)
+						doubleJump = true;
+					rb.velocity = new Vector2 (rb.velocity.x, Mathf.Sqrt (2f * jumpHeight * -Physics2D.gravity.y));
+
 				}
-				Collider2D coll = Physics2D.OverlapArea (new Vector2 (bColl.bounds.max.x, bColl.bounds.max.y), new Vector2 (bColl.bounds.max.x + meleeAttackDistance, bColl.bounds.min.y), LayerMask.NameToLayer("Enemy"));
-				if (coll.gameObject.CompareTag("Enemy")) {
-					Debug.Log("enemy hit");
+			} else if (gravDirection == 1) {
+				Debug.DrawRay (new Vector3 (transform.position.x + 2f, transform.position.y, transform.position.z), new Vector3 (0, -transform.localScale.x * meleeAttackDistance, 0), Color.red);
+				Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y, transform.position.z), new Vector3 (0, -transform.localScale.x * meleeAttackDistance, 0), Color.red);
+				Debug.DrawRay (new Vector3 (transform.position.x - 2f, transform.position.y, transform.position.z), new Vector3 (0, -transform.localScale.x * meleeAttackDistance, 0), Color.red);
+				if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.RightArrow)) {
+					anim.SetTrigger ("jump");
+					anim.SetBool ("isGrounded", false);
+					if (!isGrounded && !doubleJump)
+						doubleJump = true;
+					rb.velocity = new Vector2 (Mathf.Sqrt (2f * jumpHeight * -Physics2D.gravity.x), rb.velocity.y);
 				}
-			}*/
-
-			if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.UpArrow)) {
-				anim.SetTrigger ("jump");
-				anim.SetBool ("isGrounded", false);
-				if (!isGrounded && !doubleJump)
-					doubleJump = true;
-				rb.velocity = new Vector2 (rb.velocity.x, Mathf.Sqrt (2f * jumpHeight * -Physics2D.gravity.y));
-
-			}
-		} else if (gravDirection == 1) {
-			Debug.DrawRay (new Vector3 (transform.position.x + 2f, transform.position.y, transform.position.z), new Vector3 (0, -transform.localScale.x * meleeAttackDistance, 0), Color.red);
-			Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y, transform.position.z), new Vector3 (0, -transform.localScale.x * meleeAttackDistance, 0), Color.red);
-			Debug.DrawRay (new Vector3 (transform.position.x - 2f, transform.position.y, transform.position.z), new Vector3 (0, -transform.localScale.x * meleeAttackDistance, 0), Color.red);
-			if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.RightArrow)) {
-				anim.SetTrigger ("jump");
-				anim.SetBool ("isGrounded", false);
-				if (!isGrounded && !doubleJump)
-					doubleJump = true;
-				rb.velocity = new Vector2 (Mathf.Sqrt (2f * jumpHeight * -Physics2D.gravity.x), rb.velocity.y);
-			}
-		} else if (gravDirection == 2) {
-			Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y + 2f, transform.position.z), new Vector3 (-transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
-			Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y, transform.position.z), new Vector3 (-transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
-			Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y - 2f, transform.position.z), new Vector3 (-transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
-			if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.DownArrow)) {
-				anim.SetTrigger ("jump");
-				anim.SetBool ("isGrounded", false);
-				if (!isGrounded && !doubleJump)
-					doubleJump = true;
-				rb.velocity = new Vector2 (rb.velocity.x, -Mathf.Sqrt (2f * jumpHeight * Physics2D.gravity.y));
-			}
-		} else if (gravDirection == 3) {
-			Debug.DrawRay (new Vector3 (transform.position.x + 2f, transform.position.y, transform.position.z), new Vector3 (0, transform.localScale.x * meleeAttackDistance, 0), Color.red);
-			Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y, transform.position.z), new Vector3 (0, transform.localScale.x * meleeAttackDistance, 0), Color.red);
-			Debug.DrawRay (new Vector3 (transform.position.x - 2f, transform.position.y, transform.position.z), new Vector3 (0, transform.localScale.x * meleeAttackDistance, 0), Color.red);
-			if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.LeftArrow)) {
-				anim.SetTrigger ("jump");
-				anim.SetBool ("isGrounded", false);
-				if (!isGrounded && !doubleJump)
-					doubleJump = true;
-				rb.velocity = new Vector2 (-Mathf.Sqrt (2f * jumpHeight * Physics2D.gravity.x), rb.velocity.y);
+			} else if (gravDirection == 2) {
+				Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y + 2f, transform.position.z), new Vector3 (-transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
+				Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y, transform.position.z), new Vector3 (-transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
+				Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y - 2f, transform.position.z), new Vector3 (-transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
+				if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.DownArrow)) {
+					anim.SetTrigger ("jump");
+					anim.SetBool ("isGrounded", false);
+					if (!isGrounded && !doubleJump)
+						doubleJump = true;
+					rb.velocity = new Vector2 (rb.velocity.x, -Mathf.Sqrt (2f * jumpHeight * Physics2D.gravity.y));
+				}
+			} else if (gravDirection == 3) {
+				Debug.DrawRay (new Vector3 (transform.position.x + 2f, transform.position.y, transform.position.z), new Vector3 (0, transform.localScale.x * meleeAttackDistance, 0), Color.red);
+				Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y, transform.position.z), new Vector3 (0, transform.localScale.x * meleeAttackDistance, 0), Color.red);
+				Debug.DrawRay (new Vector3 (transform.position.x - 2f, transform.position.y, transform.position.z), new Vector3 (0, transform.localScale.x * meleeAttackDistance, 0), Color.red);
+				if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.LeftArrow)) {
+					anim.SetTrigger ("jump");
+					anim.SetBool ("isGrounded", false);
+					if (!isGrounded && !doubleJump)
+						doubleJump = true;
+					rb.velocity = new Vector2 (-Mathf.Sqrt (2f * jumpHeight * Physics2D.gravity.x), rb.velocity.y);
+				}
 			}
 		}
 	}
@@ -258,10 +259,17 @@ public class PlayerController : MonoBehaviour {
 			}
 		} else if (coll.CompareTag ("MemoryOrb")) {
 			Destroy (coll.gameObject);
+			hp = 5;
+			playerLight.range = 50;
+			playerLight.transform.position = new Vector3 (playerLight.transform.position.x, playerLight.transform.position.y, -30);
+			playerLight.color = new Color (1f, 1f, 1f);
+			playerGlowLight.intensity = 6;
 		} else if (coll.CompareTag ("Health")) {
-			if (hp < 5) {
-				AddHealth(coll.gameObject.GetComponent<HealthController>().healthAmount);
-				coll.gameObject.GetComponent<HealthController>().setNoHeartSprite();
+			if (coll.gameObject.GetComponent<HealthController>().getHasHealth()) {
+				if (hp < 5) {
+					AddHealth(coll.gameObject.GetComponent<HealthController>().healthAmount);
+					coll.gameObject.GetComponent<HealthController>().setNoHeartSprite();
+				}
 			}
 		}
 	}
@@ -428,16 +436,17 @@ public class PlayerController : MonoBehaviour {
 		Physics2D.gravity = new Vector2 (0, -gravMagnitude);
 		ReEnableFallingPlatforms ();*/
 		anim.SetTrigger ("die");
+		isDead = true;
 		StartCoroutine (KillPlayerCoroutine());
 	}
 
 	IEnumerator KillPlayerCoroutine () {
 		yield return null;
-		yield return new WaitForSeconds (0.2f);
+		yield return new WaitForSeconds (0.5f);
 		cColl.enabled = false;
 		bColl.size = new Vector2 (6.19f, 1.9f);
 		bColl.offset = new Vector2 (-0.5f, -0.3f);
-		yield return new WaitForSeconds (0.8f);
+		yield return new WaitForSeconds (1.5f);
 		Time.timeScale = 0;
 		gameOverScreen.SetActive (true);
 	}
