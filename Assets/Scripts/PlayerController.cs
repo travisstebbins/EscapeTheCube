@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour {
 	private GameObject[] fallingPlatforms;
 	private int lightPulseDirection = 1;
 	private bool isDead = false;
+	private GameManager gm;
 
 	// unity functions	
 	void Start () {
@@ -54,8 +55,13 @@ public class PlayerController : MonoBehaviour {
 		bColl = GetComponent<BoxCollider2D> ();
 		anim = GetComponent<Animator> ();
 		Physics2D.gravity = new Vector2 (0, -gravMagnitude);
-		startingPos = transform.position;
 		fallingPlatforms = GameObject.FindGameObjectsWithTag ("FallingPlatform");
+		gm = GameObject.FindGameObjectWithTag ("GameManager").GetComponent<GameManager> ();
+	}
+
+	void OnLevelWasLoaded () {
+		Debug.Log ("spawn check poing position x: " + gm.getCheckPointPosition ().position.x + ", spawn check point position y: " + gm.getCheckPointPosition ().position.y);
+		transform.position = gm.getCheckPointPosition ().position;
 	}
 
 	void FixedUpdate () {
@@ -265,12 +271,15 @@ public class PlayerController : MonoBehaviour {
 			playerLight.color = new Color (1f, 1f, 1f);
 			playerGlowLight.intensity = 6;
 		} else if (coll.CompareTag ("Health")) {
-			if (coll.gameObject.GetComponent<HealthController>().getHasHealth()) {
+			if (coll.gameObject.GetComponent<HealthController> ().getHasHealth ()) {
 				if (hp < 5) {
-					AddHealth(coll.gameObject.GetComponent<HealthController>().healthAmount);
-					coll.gameObject.GetComponent<HealthController>().setNoHeartSprite();
+					AddHealth (coll.gameObject.GetComponent<HealthController> ().healthAmount);
+					coll.gameObject.GetComponent<HealthController> ().setNoHeartSprite ();
 				}
 			}
+		} else if (coll.CompareTag ("CheckPoint")) {
+			Debug.Log ("check point " + coll.gameObject.GetComponent<CheckPoint>().checkPoint);
+			gm.setCheckPoint(coll.gameObject);
 		}
 	}
 
@@ -442,11 +451,11 @@ public class PlayerController : MonoBehaviour {
 
 	IEnumerator KillPlayerCoroutine () {
 		yield return null;
-		yield return new WaitForSeconds (0.5f);
+		yield return new WaitForSeconds (1.0f);
 		cColl.enabled = false;
 		bColl.size = new Vector2 (6.19f, 1.9f);
 		bColl.offset = new Vector2 (-0.5f, -0.3f);
-		yield return new WaitForSeconds (1.5f);
+		yield return new WaitForSeconds (0.5f);
 		Time.timeScale = 0;
 		gameOverScreen.SetActive (true);
 	}
