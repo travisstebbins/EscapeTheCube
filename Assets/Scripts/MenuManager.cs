@@ -39,7 +39,7 @@ public class MenuManager : MonoBehaviour {
 	public void LoadLevel (int l) {
 		switch (l) {
 		case 0:
-			Application.LoadLevel ("Tutorial");
+			Application.LoadLevel ("TutorialLevel");
 			break;
 		case 1:
 			Application.LoadLevel ("Level1");
