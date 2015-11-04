@@ -21,12 +21,10 @@ public class PlayerController : MonoBehaviour {
 	public float enemyHitVerticalVelocity = 25f;
 	public float rotateSpeed = 7f;
 	public LayerMask groundLayerMask;
-	public Text hpText;
-	public Image healthBar;
-	public Sprite[] healthBarSprites;
 	public Light playerLight;
 	public Light playerGlowLight;
 	public float lightPulseSpeed = 10f;
+	public GameObject gameOverScreen;
 
 	// components
 	private Rigidbody2D rb;
@@ -57,8 +55,6 @@ public class PlayerController : MonoBehaviour {
 		Physics2D.gravity = new Vector2 (0, -gravMagnitude);
 		startingPos = transform.position;
 		fallingPlatforms = GameObject.FindGameObjectsWithTag ("FallingPlatform");
-		hpText.text = "HP: " + hp;
-		healthBar.GetComponent<Image> ().sprite = healthBarSprites [hp];
 	}
 
 	void FixedUpdate () {
@@ -442,7 +438,7 @@ public class PlayerController : MonoBehaviour {
 		bColl.size = new Vector2 (6.19f, 1.9f);
 		bColl.offset = new Vector2 (-0.5f, -0.3f);
 		yield return new WaitForSeconds (0.8f);
-		Application.LoadLevel ("Level1");
+		gameOverScreen.SetActive (true);
 	}
 
 	void ReEnableFallingPlatforms () {

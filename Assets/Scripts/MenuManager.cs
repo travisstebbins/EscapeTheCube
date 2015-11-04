@@ -8,8 +8,14 @@ public class MenuManager : MonoBehaviour {
 
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.Escape)) {
-			Time.timeScale = 0;
-			pauseMenu.SetActive (true);
+			if (!pauseMenu.activeInHierarchy && Time.timeScale != 0) {
+				Time.timeScale = 0;
+				pauseMenu.SetActive (true);
+			}
+			else if (pauseMenu.activeInHierarchy && Time.timeScale == 0) {
+				Time.timeScale = 1;
+				pauseMenu.SetActive (false);
+			}
 		}
 	}
 
