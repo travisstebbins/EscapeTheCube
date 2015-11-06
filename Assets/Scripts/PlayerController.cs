@@ -286,8 +286,10 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 		} else if (coll.CompareTag ("CheckPoint")) {
-			Debug.Log ("check point " + coll.gameObject.GetComponent<CheckPoint>().checkPoint + "triggered");
-			gm.setCheckPoint(coll.gameObject);
+			Debug.Log ("check point " + coll.gameObject.GetComponent<CheckPoint> ().checkPoint + "triggered");
+			gm.setCheckPoint (coll.gameObject);
+		} else if (coll.CompareTag ("Exit")) {
+			Application.LoadLevel (Application.loadedLevel + 1);
 		}
 	}
 
