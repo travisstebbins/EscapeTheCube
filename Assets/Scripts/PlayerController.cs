@@ -308,6 +308,7 @@ public class PlayerController : MonoBehaviour {
 			gm.setCheckPoint (coll.gameObject);
 		} else if (coll.CompareTag ("Exit")) {
 			fadeToBlack = true;
+			gm.resetCheckPoint();
 			StartCoroutine (ExitCoroutine());
 		} else if (coll.CompareTag ("Sword")) {
 			anim.SetBool ("hasSword", true);

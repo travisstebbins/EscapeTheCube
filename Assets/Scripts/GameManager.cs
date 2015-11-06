@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour {
 
 	public void resetCheckPoint () {
 		checkPoint = 0;
+		checkPointPosition = null;
 	}
 
 	public void setCheckPoint (GameObject c) {
@@ -36,11 +37,6 @@ public class GameManager : MonoBehaviour {
 
 	public Transform getCheckPointPosition () {
 		return checkPointPosition;
-	}
-
-	void OnLevelWasLoaded (int l) {
-		checkPoint = 0;
-		checkPointPosition = null;
 	}
 
 }
