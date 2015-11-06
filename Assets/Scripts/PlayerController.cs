@@ -89,8 +89,9 @@ public class PlayerController : MonoBehaviour {
 
 				if (gravDirection == 0) {
 					anim.SetFloat ("vSpeed", rb.velocity.y);
-					if (Input.GetKey (KeyCode.DownArrow))
+					if (Input.GetKey (KeyCode.DownArrow)) {
 						rb.velocity = new Vector2 (rb.velocity.x, rb.velocity.y - groundPoundSpeed);
+					}
 					if (move > 0 && !facingRight)
 						Flip ();
 					else if (move < 0 && facingRight)
@@ -290,6 +291,9 @@ public class PlayerController : MonoBehaviour {
 			gm.setCheckPoint (coll.gameObject);
 		} else if (coll.CompareTag ("Exit")) {
 			Application.LoadLevel (Application.loadedLevel + 1);
+		} else if (coll.CompareTag ("Sword")) {
+			anim.SetBool ("hasSword", true);
+			Destroy (coll.gameObject);
 		}
 	}
 
