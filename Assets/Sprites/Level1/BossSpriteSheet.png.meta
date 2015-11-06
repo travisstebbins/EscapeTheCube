@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 9d69668419b2fd44f83c1295a3f785af
-timeCreated: 1446791217
+timeCreated: 1446795164
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -98,8 +98,8 @@ TextureImporter:
         y: 5772
         width: 634
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_1
       rect:
@@ -108,8 +108,8 @@ TextureImporter:
         y: 5772
         width: 706
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_2
       rect:
@@ -118,8 +118,8 @@ TextureImporter:
         y: 5772
         width: 796
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_3
       rect:
@@ -128,8 +128,8 @@ TextureImporter:
         y: 5772
         width: 838
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_4
       rect:
@@ -138,8 +138,8 @@ TextureImporter:
         y: 5772
         width: 809
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_5
       rect:
@@ -148,8 +148,8 @@ TextureImporter:
         y: 5052
         width: 768
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_6
       rect:
@@ -158,8 +158,8 @@ TextureImporter:
         y: 5052
         width: 724
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_7
       rect:
@@ -168,8 +168,8 @@ TextureImporter:
         y: 5052
         width: 674
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_8
       rect:
@@ -178,8 +178,8 @@ TextureImporter:
         y: 5052
         width: 641
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_9
       rect:
@@ -188,8 +188,8 @@ TextureImporter:
         y: 5052
         width: 628
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_10
       rect:
@@ -198,8 +198,8 @@ TextureImporter:
         y: 4332
         width: 609
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_11
       rect:
@@ -208,8 +208,8 @@ TextureImporter:
         y: 4332
         width: 615
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_12
       rect:
@@ -218,8 +218,8 @@ TextureImporter:
         y: 4332
         width: 620
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_13
       rect:
@@ -228,8 +228,8 @@ TextureImporter:
         y: 4332
         width: 624
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_14
       rect:
@@ -238,8 +238,8 @@ TextureImporter:
         y: 4332
         width: 631
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_15
       rect:
@@ -248,8 +248,8 @@ TextureImporter:
         y: 3612
         width: 636
         height: 697
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_16
       rect:
@@ -258,8 +258,8 @@ TextureImporter:
         y: 3612
         width: 641
         height: 697
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_17
       rect:
@@ -268,8 +268,8 @@ TextureImporter:
         y: 3612
         width: 644
         height: 697
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_18
       rect:
@@ -278,8 +278,8 @@ TextureImporter:
         y: 3612
         width: 648
         height: 697
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_19
       rect:
@@ -288,8 +288,8 @@ TextureImporter:
         y: 3612
         width: 646
         height: 697
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_20
       rect:
@@ -298,8 +298,8 @@ TextureImporter:
         y: 2892
         width: 647
         height: 697
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_21
       rect:
@@ -308,8 +308,8 @@ TextureImporter:
         y: 2892
         width: 644
         height: 697
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_22
       rect:
@@ -318,8 +318,8 @@ TextureImporter:
         y: 2892
         width: 640
         height: 697
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_23
       rect:
@@ -328,8 +328,8 @@ TextureImporter:
         y: 2892
         width: 641
         height: 697
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_24
       rect:
@@ -338,8 +338,8 @@ TextureImporter:
         y: 2892
         width: 638
         height: 697
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_25
       rect:
@@ -348,8 +348,8 @@ TextureImporter:
         y: 2172
         width: 871
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_26
       rect:
@@ -358,8 +358,8 @@ TextureImporter:
         y: 2172
         width: 939
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_27
       rect:
@@ -368,8 +368,8 @@ TextureImporter:
         y: 2172
         width: 902
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_28
       rect:
@@ -378,8 +378,8 @@ TextureImporter:
         y: 2172
         width: 864
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_29
       rect:
@@ -388,8 +388,8 @@ TextureImporter:
         y: 2172
         width: 931
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_30
       rect:
@@ -398,8 +398,8 @@ TextureImporter:
         y: 1452
         width: 927
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_31
       rect:
@@ -408,8 +408,8 @@ TextureImporter:
         y: 1452
         width: 887
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_32
       rect:
@@ -418,8 +418,8 @@ TextureImporter:
         y: 1452
         width: 827
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_33
       rect:
@@ -428,8 +428,8 @@ TextureImporter:
         y: 1452
         width: 752
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_34
       rect:
@@ -438,8 +438,8 @@ TextureImporter:
         y: 1452
         width: 676
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_35
       rect:
@@ -448,8 +448,8 @@ TextureImporter:
         y: 732
         width: 642
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_36
       rect:
@@ -458,8 +458,8 @@ TextureImporter:
         y: 732
         width: 641
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_37
       rect:
@@ -468,8 +468,8 @@ TextureImporter:
         y: 732
         width: 638
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_38
       rect:
@@ -478,8 +478,8 @@ TextureImporter:
         y: 732
         width: 636
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_39
       rect:
@@ -488,8 +488,8 @@ TextureImporter:
         y: 732
         width: 635
         height: 696
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: BossSpriteSheet_40
       rect:
@@ -498,8 +498,8 @@ TextureImporter:
         y: 12
         width: 632
         height: 697
-      alignment: 8
-      pivot: {x: 1, y: 0}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
