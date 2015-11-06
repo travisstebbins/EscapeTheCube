@@ -14,9 +14,6 @@ public class GameManager : MonoBehaviour {
 			instance = this;
 		else
 			Destroy (gameObject);
-	}
-	
-	void Start () {
 		DontDestroyOnLoad (this);
 	}
 
@@ -25,7 +22,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void setCheckPoint (GameObject c) {
-		if (c.GetComponent<CheckPoint>().checkPoint > checkPoint) {
+		if (c.GetComponent<CheckPoint>().checkPoint >= checkPoint) {
 			checkPoint = c.GetComponent<CheckPoint>().checkPoint;
 			Debug.Log ("check point " + checkPoint + " set");
 			checkPointPosition = c.transform;

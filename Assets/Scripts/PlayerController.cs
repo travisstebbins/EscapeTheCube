@@ -57,11 +57,12 @@ public class PlayerController : MonoBehaviour {
 		Physics2D.gravity = new Vector2 (0, -gravMagnitude);
 		fallingPlatforms = GameObject.FindGameObjectsWithTag ("FallingPlatform");
 		gm = GameObject.FindGameObjectWithTag ("GameManager").GetComponent<GameManager> ();
-	}
-
-	void OnLevelWasLoaded () {
-		Debug.Log ("spawn check poing position x: " + gm.getCheckPointPosition ().position.x + ", spawn check point position y: " + gm.getCheckPointPosition ().position.y);
-		transform.position = gm.getCheckPointPosition ().position;
+		if (gm != null)
+			Debug.Log ("has game manager");
+		//if (gm.getCheckPointPosition() != null)
+			Debug.Log ("spawn check poing position x: " + gm.getCheckPointPosition ().position.x + ", spawn check point position y: " + gm.getCheckPointPosition ().position.y);
+		//if (gm.getCheckPointPosition() != null)
+			transform.position = gm.getCheckPointPosition ().position;
 	}
 
 	void FixedUpdate () {
@@ -278,7 +279,7 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 		} else if (coll.CompareTag ("CheckPoint")) {
-			Debug.Log ("check point " + coll.gameObject.GetComponent<CheckPoint>().checkPoint);
+			Debug.Log ("check point " + coll.gameObject.GetComponent<CheckPoint>().checkPoint + "triggered");
 			gm.setCheckPoint(coll.gameObject);
 		}
 	}
