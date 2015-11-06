@@ -26,12 +26,17 @@ public class PlayerController : MonoBehaviour {
 	public float lightPulseSpeed = 10f;
 	public GameObject gameOverScreen;
 	public LayerMask enemyLayerMask;
+	public AudioClip heartBeat;
+	public float fadeSpeed = 2f;
 
 	// components
 	private Rigidbody2D rb;
 	private Animator anim;
 	private CircleCollider2D cColl;
 	private BoxCollider2D bColl;
+	private GameManager gm;
+	private AudioSource audioSource;
+	private Image black;
 
 	// helper variables
 	private Vector3 startingPos;
@@ -47,7 +52,7 @@ public class PlayerController : MonoBehaviour {
 	private GameObject[] fallingPlatforms;
 	private int lightPulseDirection = 1;
 	private bool isDead = false;
-	private GameManager gm;
+	private bool fadeToBlack = false;
 
 	// unity functions	
 	void Start () {
@@ -69,10 +74,12 @@ public class PlayerController : MonoBehaviour {
 			anim.SetBool ("hasSword", false);
 		else
 			anim.SetBool ("hasSword", true);
+		black = GameObject.FindGameObjectWithTag ("Black").GetComponent<Image> ();
+		audioSource = GetComponent<AudioSource> ();
 	}
 
 	void FixedUpdate () {
-		if (!isDead) {
+		if (!isDead && !fadeToBlack) {
 			// check if character is grounded
 			isGrounded = Physics2D.OverlapCircle (groundCheck.position, groundRadius, groundLayerMask);
 			if (isGrounded) {
@@ -145,7 +152,12 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update () {
-		if (!isDead) {
+		if (fadeToBlack) {
+			black.color = new Color (black.color.r, black.color.g, black.color.b, black.color.a + (fadeSpeed * Time.deltaTime));
+			if (GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>().volume > 0)
+				GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>().volume -= 0.5f;
+		}
+		if (!isDead && !fadeToBlack) {
 			if (hp == 1) {
 				playerLight.intensity = Mathf.Lerp (playerLight.intensity, lightPulseDirection == 1 ? 8 : 2, lightPulseSpeed * Time.deltaTime);
 				if (playerLight.intensity >= 7)
@@ -295,11 +307,19 @@ public class PlayerController : MonoBehaviour {
 			Debug.Log ("check point " + coll.gameObject.GetComponent<CheckPoint> ().checkPoint + "triggered");
 			gm.setCheckPoint (coll.gameObject);
 		} else if (coll.CompareTag ("Exit")) {
-			Application.LoadLevel (Application.loadedLevel + 1);
+			fadeToBlack = true;
+			StartCoroutine (ExitCoroutine());
 		} else if (coll.CompareTag ("Sword")) {
 			anim.SetBool ("hasSword", true);
 			Destroy (coll.gameObject);
 		}
+	}
+
+	IEnumerator ExitCoroutine () {
+		yield return null;
+		audioSource.PlayOneShot (heartBeat);
+		yield return new WaitForSeconds (3f);
+		Application.LoadLevel (Application.loadedLevel + 1);
 	}
 
 	void OnCollisionEnter2D (Collision2D coll) {
