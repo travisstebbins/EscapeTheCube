@@ -60,10 +60,15 @@ public class PlayerController : MonoBehaviour {
 		gm = GameObject.FindGameObjectWithTag ("GameManager").GetComponent<GameManager> ();
 		if (gm != null)
 			Debug.Log ("has game manager");
-		//if (gm.getCheckPointPosition() != null)
+		if (gm.getCheckPointPosition() != null)
 			Debug.Log ("spawn check poing position x: " + gm.getCheckPointPosition ().position.x + ", spawn check point position y: " + gm.getCheckPointPosition ().position.y);
-		//if (gm.getCheckPointPosition() != null)
+		if (gm.getCheckPointPosition() != null)
 			transform.position = gm.getCheckPointPosition ().position;
+		Debug.Log (Application.loadedLevelName);
+		if (Application.loadedLevelName == "TutorialLevel")
+			anim.SetBool ("hasSword", false);
+		else
+			anim.SetBool ("hasSword", true);
 	}
 
 	void FixedUpdate () {
@@ -492,18 +497,19 @@ public class PlayerController : MonoBehaviour {
 		transform.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));
 		Physics2D.gravity = new Vector2 (0, -gravMagnitude);
 		ReEnableFallingPlatforms ();*/
-		anim.SetTrigger ("die");
+		if (!isDead)
+			anim.SetTrigger ("die");
 		isDead = true;
 		StartCoroutine (KillPlayerCoroutine());
 	}
 
 	IEnumerator KillPlayerCoroutine () {
 		yield return null;
-		yield return new WaitForSeconds (1.0f);
+		yield return new WaitForSeconds (0.25f);
 		cColl.enabled = false;
 		bColl.size = new Vector2 (6.19f, 1.9f);
 		bColl.offset = new Vector2 (-0.5f, -0.3f);
-		yield return new WaitForSeconds (0.5f);
+		yield return new WaitForSeconds (1f);
 		Time.timeScale = 0;
 		gameOverScreen.SetActive (true);
 	}

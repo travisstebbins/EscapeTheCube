@@ -22,7 +22,7 @@ public class MenuManager : MonoBehaviour {
 	// main menu
 	public void Play () {
 		Time.timeScale = 1;
-		Application.LoadLevel ("Level1");
+		Application.LoadLevel ("TutorialLevel");
 	}
 
 	public void LevelSelect () {

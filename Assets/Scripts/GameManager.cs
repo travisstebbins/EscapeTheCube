@@ -38,4 +38,9 @@ public class GameManager : MonoBehaviour {
 		return checkPointPosition;
 	}
 
+	void OnLevelWasLoaded (int l) {
+		checkPoint = 0;
+		checkPointPosition = null;
+	}
+
 }
