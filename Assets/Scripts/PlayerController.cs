@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour {
 	public Light playerGlowLight;
 	public float lightPulseSpeed = 10f;
 	public GameObject gameOverScreen;
+	public LayerMask enemyLayerMask;
 
 	// components
 	private Rigidbody2D rb;
@@ -169,10 +170,16 @@ public class PlayerController : MonoBehaviour {
 						corner2 = new Vector2 (bColl.bounds.max.x, bColl.bounds.min.y - meleeAttackDistance);
 					}
 				}
-				Collider2D coll = Physics2D.OverlapArea (corner1, corner2, LayerMask.GetMask ("Enemy"));
+				Collider2D coll = Physics2D.OverlapArea (corner1, corner2, enemyLayerMask);
 				if (coll.gameObject != null) {
-					if (!coll.gameObject.GetComponent<EnemyController> ().getIsHit ())
-						coll.gameObject.GetComponent<EnemyController> ().Damage (this);
+					if (coll.gameObject.CompareTag("Enemy")) {
+						if (!coll.gameObject.GetComponent<EnemyController> ().getIsHit ())
+							coll.gameObject.GetComponent<EnemyController> ().Damage (this);
+					}
+					if (coll.gameObject.CompareTag("Boss")) {
+					    if (!coll.gameObject.GetComponent<BossController>().getIsHit ())
+							coll.gameObject.GetComponent<BossController>().Damage (this);
+					}
 				}
 			}
 			if (gravDirection == 0) {
@@ -279,18 +286,21 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 		} else if (coll.CompareTag ("CheckPoint")) {
-			Debug.Log ("check point " + coll.gameObject.GetComponent<CheckPoint>().checkPoint + "triggered");
-			gm.setCheckPoint(coll.gameObject);
+			Debug.Log ("check point " + coll.gameObject.GetComponent<CheckPoint> ().checkPoint + "triggered");
+			gm.setCheckPoint (coll.gameObject);
+		} else if (coll.CompareTag ("Exit")) {
+			Application.LoadLevel (Application.loadedLevel + 1);
 		}
 	}
 
 	void OnCollisionEnter2D (Collision2D coll) {
 		if (coll.rigidbody.gameObject.CompareTag ("Enemy"))
 			coll.rigidbody.gameObject.GetComponent<EnemyController> ().DamagePlayer ();
+		if (coll.rigidbody.gameObject.CompareTag ("Boss"))
+			coll.rigidbody.gameObject.GetComponent<BossController> ().DamagePlayer ();
 		if (coll.gameObject.CompareTag ("KillZone")) {
 			KillPlayer();
 		}
-
 		if (coll.rigidbody.gameObject.CompareTag ("FallingPlatform")) {
 			coll.rigidbody.gameObject.GetComponent<FallingPlatformController>().Fall ();
 		}
@@ -407,6 +417,23 @@ public class PlayerController : MonoBehaviour {
 		if (hp <= 0)
 			KillPlayer ();
 	}
+
+	public void Damage (BossController boss) {
+		anim.SetTrigger ("hit");
+		hp -= boss.damage;
+		playerLight.range -= 8;
+		playerLight.transform.position = new Vector3 (playerLight.transform.position.x, playerLight.transform.position.y, playerLight.transform.position.z + 5);
+		playerLight.color = new Color (playerLight.color.r, playerLight.color.g - 0.1f, playerLight.color.b - 0.1f);
+		playerGlowLight.intensity -= 1;
+		
+		isHit = true;
+		kickback = true;
+		Vector2 heading = transform.position - boss.transform.position;
+		Vector2 direction = heading / heading.magnitude;
+		StartCoroutine (DamageCoRoutine(direction, boss));
+		if (hp <= 0)
+			KillPlayer ();
+	}
 	
 	IEnumerator DamageCoRoutine (Vector2 direction, EnemyController enemy) {
 		yield return null;
@@ -415,7 +442,23 @@ public class PlayerController : MonoBehaviour {
 		else
 			rb.velocity = new Vector2 (isGrounded ? 0 : gravDirection == 1 ? -direction.x * enemyHitVerticalVelocity : direction.x * enemyHitVerticalVelocity, -direction.y * (enemy.GetComponent<Rigidbody2D>().velocity.y < 0 ? enemy.speed : -enemy.speed) * 10);
 		yield return new WaitForSeconds (kickbackTime);
-		rb.velocity = Vector2.zero;
+		rb.velocity = new Vector2 (0, rb.velocity.y);
+		kickback = false;
+		yield return new WaitForSeconds (damageDelay - kickbackTime);
+		isHit = false;
+		Debug.Log ("isHit reset");
+		/*yield return null;
+		yield return new WaitForSeconds (hitKickbackTime);
+		kickback = false;
+		yield return new WaitForSeconds (damageDelay - attackKickback);
+		isHit = false;*/
+	}
+
+	IEnumerator DamageCoRoutine (Vector2 direction, BossController boss) {
+		yield return null;
+		rb.velocity = new Vector2 (direction.x * 50, isGrounded ? 0 : direction.y * enemyHitVerticalVelocity);
+		yield return new WaitForSeconds (kickbackTime);
+		rb.velocity = new Vector2 (0, rb.velocity.y);
 		kickback = false;
 		yield return new WaitForSeconds (damageDelay - kickbackTime);
 		isHit = false;
