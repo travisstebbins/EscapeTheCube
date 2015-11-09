@@ -16,6 +16,7 @@ public class EnemyController : MonoBehaviour {
 	// components
 	private Rigidbody2D rb;	
 	private PlayerController player;
+	private SpriteRenderer rend;
 
 	// helper variables
 	private bool isHit;
@@ -23,7 +24,10 @@ public class EnemyController : MonoBehaviour {
 	private float damageDelay = 0.3f;
 	private Vector2 gravity;
 	private float damageKickbacktime = 0.1f;
-	private List<RaycastHit2D> hits = new List<RaycastHit2D>();
+	private List<RaycastHit2D> hits = new List<RaycastHit2D>();	
+	private bool flashBegin;
+	private bool flashComplete;
+	private float flashSpeed = 0.1f;
 
 	void Start () {
 		rb = GetComponent<Rigidbody2D> ();
@@ -38,10 +42,28 @@ public class EnemyController : MonoBehaviour {
 		rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 		player = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController> ();
 		rb.gravityScale = 0;
+		rend = GetComponent<SpriteRenderer> ();
 	}
 	
 	void Awake () {
 		rb = GetComponent<Rigidbody2D> ();
+	}
+
+	void Update () {
+		if (flashBegin) {
+			rend.color = new Color(rend.color.r, rend.color.g - flashSpeed, rend.color.b - flashSpeed);
+			if (rend.color.g <= 0 || rend.color.b <= 0) {
+				flashBegin = false;
+				flashComplete = true;
+			}
+		}
+		if (flashComplete) {
+			rend.color = new Color(rend.color.r, rend.color.g + flashSpeed, rend.color.b + flashSpeed);
+			if (rend.color.g >= 1 || rend.color.b >= 1) {
+				rend.color = new Color(1,1,1);
+				flashComplete = false;
+			}
+		}
 	}
 	
 	void FixedUpdate () {
@@ -92,6 +114,7 @@ public class EnemyController : MonoBehaviour {
 	void OnTriggerEnter2D (Collider2D other) {
 		if (other.CompareTag ("TurnaroundTrigger")) {
 			speed *= -1;
+			Flip ();
 		}
 	}
 
@@ -112,6 +135,7 @@ public class EnemyController : MonoBehaviour {
 		Debug.Log ("enemy damaged");
 		hp -= player.damage;
 		isHit = true;
+		flashBegin = true;
 		Vector2 heading = new Vector2 (transform.position.x - player.transform.position.x, transform.position.y - player.transform.position.y);
 		Vector2 direction = heading / heading.magnitude;
 		StartCoroutine (DamageCoroutine (direction, player));
@@ -145,5 +169,11 @@ public class EnemyController : MonoBehaviour {
 	void DrawRay( Vector3 start, Vector3 dir, Color color )
 	{
 		Debug.DrawRay( start, dir, color );
+	}
+
+	void Flip () {
+		Vector3 scale = transform.localScale;
+		scale.x *= -1;
+		transform.localScale = scale;
 	}
 }

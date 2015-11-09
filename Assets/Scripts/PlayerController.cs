@@ -204,8 +204,8 @@ public class PlayerController : MonoBehaviour {
 							coll.gameObject.GetComponent<EnemyController> ().Damage (this);
 					}
 					if (coll.gameObject.CompareTag("Boss")) {
-					    if (!coll.gameObject.GetComponent<BossController>().getIsHit ())
-							coll.gameObject.GetComponent<BossController>().Damage (this);
+					    if (!coll.gameObject.GetComponent<Level1BossController>().getIsHit ())
+							coll.gameObject.GetComponent<Level1BossController>().Damage (this);
 					}
 				}
 			}
@@ -347,7 +347,7 @@ public class PlayerController : MonoBehaviour {
 			if (coll.rigidbody.gameObject.CompareTag ("Enemy"))
 				coll.rigidbody.gameObject.GetComponent<EnemyController> ().DamagePlayer ();
 			if (coll.rigidbody.gameObject.CompareTag ("Boss"))
-				coll.rigidbody.gameObject.GetComponent<BossController> ().DamagePlayer ();
+				coll.rigidbody.gameObject.GetComponent<Level1BossController> ().DamagePlayer ();
 			if (coll.gameObject.CompareTag ("KillZone")) {
 				KillPlayer ();
 			}
@@ -469,7 +469,7 @@ public class PlayerController : MonoBehaviour {
 			KillPlayer ();
 	}
 
-	public void Damage (BossController boss) {
+	public void Damage (Level1BossController boss) {
 		anim.SetTrigger ("hit");
 		hp -= boss.damage;
 		playerLight.range -= 8;
@@ -505,7 +505,7 @@ public class PlayerController : MonoBehaviour {
 		isHit = false;*/
 	}
 
-	IEnumerator DamageCoRoutine (Vector2 direction, BossController boss) {
+	IEnumerator DamageCoRoutine (Vector2 direction, Level1BossController boss) {
 		yield return null;
 		rb.velocity = new Vector2 (direction.x * 50, isGrounded ? 0 : direction.y * enemyHitVerticalVelocity);
 		yield return new WaitForSeconds (kickbackTime);
