@@ -34,10 +34,18 @@ public class CameraController : MonoBehaviour {
 				transform.position = new Vector3 (player.transform.position.x - (float)(this.GetComponent<Camera>().orthographicSize * (16.0/9.0) - scrollDistanceX), transform.position.y, transform.position.z);
 			}
 			else if (player.transform.position.x < transform.position.x - (this.GetComponent<Camera>().orthographicSize * (16.0/9.0)) + scrollDistanceX) {
-				if ((player.transform.position.x + (float)(this.GetComponent<Camera>().orthographicSize * (16.0/9.0) - scrollDistanceX)) > 0)
-					transform.position = new Vector3 (player.transform.position.x + (float)(this.GetComponent<Camera>().orthographicSize * (16.0/9.0) - scrollDistanceX), transform.position.y, transform.position.z);
-				else
-					transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
+				if (Application.loadedLevelName == "Level1") {
+					if ((player.transform.position.x + (float)(this.GetComponent<Camera>().orthographicSize * (16.0/9.0) - scrollDistanceX)) > 0)
+						transform.position = new Vector3 (player.transform.position.x + (float)(this.GetComponent<Camera>().orthographicSize * (16.0/9.0) - scrollDistanceX), transform.position.y, transform.position.z);
+					else
+						transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
+				}
+				else if (Application.loadedLevelName == "Level2") {
+					if ((player.transform.position.x + (float)(this.GetComponent<Camera>().orthographicSize * (16.0/9.0) - scrollDistanceX)) > -52.2f)
+						transform.position = new Vector3 (player.transform.position.x + (float)(this.GetComponent<Camera>().orthographicSize * (16.0/9.0) - scrollDistanceX), transform.position.y, transform.position.z);
+					else
+						transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
+				}
 			}
 			if (player.transform.position.y > transform.position.y + (this.GetComponent<Camera>().orthographicSize - scrollDistanceY)) {
 				transform.position = new Vector3 (transform.position.x, player.transform.position.y - (float)(this.GetComponent<Camera>().orthographicSize - scrollDistanceY), transform.position.z);
