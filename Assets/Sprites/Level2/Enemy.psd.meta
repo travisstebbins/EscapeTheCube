@@ -1,9 +1,15 @@
 fileFormatVersion: 2
 guid: fe671798a79e2c74191c0e0bf8bc0c94
-timeCreated: 1447038835
+timeCreated: 1447053942
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Enemy_0
+    21300002: Enemy_1
+    21300004: Enemy_2
+    21300006: Enemy_3
+    21300008: Enemy_4
+    21300010: Enemy_5
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -38,18 +44,78 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 350
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: Enemy_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2422
+        width: 2634
+        height: 1943
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Enemy_1
+      rect:
+        serializedVersion: 2
+        x: 2757
+        y: 2330
+        width: 2611
+        height: 1971
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Enemy_2
+      rect:
+        serializedVersion: 2
+        x: 5568
+        y: 2360
+        width: 2552
+        height: 1974
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Enemy_3
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 0
+        width: 2623
+        height: 1977
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Enemy_4
+      rect:
+        serializedVersion: 2
+        x: 2711
+        y: 98
+        width: 2611
+        height: 1973
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Enemy_5
+      rect:
+        serializedVersion: 2
+        x: 5624
+        y: 130
+        width: 2634
+        height: 1945
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
   assetBundleName: 

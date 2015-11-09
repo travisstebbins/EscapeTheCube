@@ -41,7 +41,7 @@ public class CameraController : MonoBehaviour {
 						transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
 				}
 				else if (Application.loadedLevelName == "Level2") {
-					if ((player.transform.position.x + (float)(this.GetComponent<Camera>().orthographicSize * (16.0/9.0) - scrollDistanceX)) > -52.2f)
+					if ((player.transform.position.x + (float)(this.GetComponent<Camera>().orthographicSize * (16.0/9.0) - scrollDistanceX)) > -56.5f)
 						transform.position = new Vector3 (player.transform.position.x + (float)(this.GetComponent<Camera>().orthographicSize * (16.0/9.0) - scrollDistanceX), transform.position.y, transform.position.z);
 					else
 						transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z);

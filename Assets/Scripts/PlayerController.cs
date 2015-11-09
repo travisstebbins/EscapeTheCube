@@ -76,6 +76,7 @@ public class PlayerController : MonoBehaviour {
 			anim.SetBool ("hasSword", true);
 		black = GameObject.FindGameObjectWithTag ("Black").GetComponent<Image> ();
 		audioSource = GetComponent<AudioSource> ();
+		anim.SetBool ("dead", false);
 	}
 
 	void FixedUpdate () {
@@ -84,13 +85,6 @@ public class PlayerController : MonoBehaviour {
 			isGrounded = Physics2D.OverlapCircle (groundCheck.position, groundRadius, groundLayerMask);
 			if (isGrounded) {
 				doubleJump = false;
-				cColl.offset = new Vector2 (0.08f, -1.9f);
-				bColl.offset = new Vector2 (0.08f, 0.42f);
-				bColl.size = new Vector2 (2.07f, 4.44f);
-			} else {
-				cColl.offset = new Vector2 (0.08f, 0.04f);
-				bColl.offset = new Vector2 (0.08f, 1.12f);
-				bColl.size = new Vector2 (2.07f, 2.37f);
 			}
 			anim.SetBool ("isGrounded", isGrounded);
 			if (gravDirection == 0 || gravDirection == 2) {
@@ -102,7 +96,9 @@ public class PlayerController : MonoBehaviour {
 				if (gravDirection == 0) {
 					anim.SetFloat ("vSpeed", rb.velocity.y);
 					if (Input.GetKey (KeyCode.DownArrow)) {
-						rb.velocity = new Vector2 (rb.velocity.x, rb.velocity.y - groundPoundSpeed);
+						if (!isGrounded) {
+							rb.velocity = new Vector2 (rb.velocity.x, rb.velocity.y - groundPoundSpeed);
+						}
 					}
 					if (move > 0 && !facingRight)
 						Flip ();
@@ -111,7 +107,9 @@ public class PlayerController : MonoBehaviour {
 				} else if (gravDirection == 2) {
 					anim.SetFloat ("vSpeed", -rb.velocity.y);
 					if (Input.GetKey (KeyCode.UpArrow))
-						rb.velocity = new Vector2 (rb.velocity.x, rb.velocity.y + groundPoundSpeed);
+						if (!isGrounded) {
+							rb.velocity = new Vector2 (rb.velocity.x, rb.velocity.y + groundPoundSpeed);
+						}
 					if (move < 0 && !facingRight)
 						Flip ();
 					else if (move > 0 && facingRight)
@@ -169,8 +167,8 @@ public class PlayerController : MonoBehaviour {
 				Rotation ();
 			if (Input.GetKeyDown (KeyCode.Space)) {
 				anim.SetTrigger ("attack");
-				Vector2 corner1;
-				Vector2 corner2;
+				Vector2 corner1 = Vector2.zero;
+				Vector2 corner2 = Vector2.zero;
 				if (gravDirection == 0 || gravDirection == 2) {
 					if (facingRight) {
 						corner1 = new Vector2 (bColl.bounds.max.x, bColl.bounds.max.y);
@@ -180,12 +178,23 @@ public class PlayerController : MonoBehaviour {
 						corner2 = new Vector2 (bColl.bounds.min.x - meleeAttackDistance, bColl.bounds.min.y);
 					}
 				} else {
-					if (facingRight) {
-						corner1 = new Vector2 (bColl.bounds.min.x, bColl.bounds.max.y);
-						corner2 = new Vector2 (bColl.bounds.max.x, bColl.bounds.max.y + meleeAttackDistance);
-					} else {
-						corner1 = new Vector2 (bColl.bounds.min.x, bColl.bounds.min.y);
-						corner2 = new Vector2 (bColl.bounds.max.x, bColl.bounds.min.y - meleeAttackDistance);
+					if (gravDirection == 1) {
+						if (facingRight) {
+							corner1 = new Vector2 (bColl.bounds.min.x, bColl.bounds.min.y);
+							corner2 = new Vector2 (bColl.bounds.max.x, bColl.bounds.min.y - meleeAttackDistance);
+						} else {
+							corner1 = new Vector2 (bColl.bounds.min.x, bColl.bounds.max.y);
+							corner2 = new Vector2 (bColl.bounds.max.x, bColl.bounds.max.y + meleeAttackDistance);
+						}
+					}
+					else if (gravDirection == 3) {
+						if (facingRight) {
+							corner1 = new Vector2 (bColl.bounds.min.x, bColl.bounds.max.y);
+							corner2 = new Vector2 (bColl.bounds.max.x, bColl.bounds.max.y + meleeAttackDistance);
+						} else {
+							corner1 = new Vector2 (bColl.bounds.min.x, bColl.bounds.min.y);
+							corner2 = new Vector2 (bColl.bounds.max.x, bColl.bounds.min.y - meleeAttackDistance);
+						}
 					}
 				}
 				Collider2D coll = Physics2D.OverlapArea (corner1, corner2, enemyLayerMask);
@@ -202,38 +211,24 @@ public class PlayerController : MonoBehaviour {
 			}
 			if (gravDirection == 0) {
 
-				/*if (Input.GetKeyDown (KeyCode.Space)) {
-					hits.Clear ();
-					Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y + 2f, transform.position.z), new Vector3 (transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
-					Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y, transform.position.z), new Vector3 (transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
-					Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y - 2f, transform.position.z), new Vector3 (transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
-					hits.Add (Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y - 2f), new Vector2 (transform.localScale.x, 0), meleeAttackDistance, LayerMask.GetMask ("Enemy")));
-					hits.Add (Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y), new Vector2 (transform.localScale.x, 0), meleeAttackDistance, LayerMask.GetMask ("Enemy")));
-					hits.Add (Physics2D.Raycast (new Vector2 (transform.position.x, transform.position.y + 2f), new Vector2 (transform.localScale.x, 0), meleeAttackDistance, LayerMask.GetMask ("Enemy")));
-					for (int i = 0; i < hits.Count; ++i) {
-						Debug.Log (i);
-
-						if (hits[i].rigidbody.gameObject != null && hits[i].rigidbody.gameObject.CompareTag ("Enemy"))
-							Debug.Log ("enemy hit");
-					}
-					Collider2D coll = Physics2D.OverlapArea (new Vector2 (bColl.bounds.max.x, bColl.bounds.max.y), new Vector2 (bColl.bounds.max.x + meleeAttackDistance, bColl.bounds.min.y), LayerMask.NameToLayer("Enemy"));
-					if (coll.gameObject.CompareTag("Enemy")) {
-						Debug.Log("enemy hit");
-					}
-				}*/
-
 				if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.UpArrow)) {
 					anim.SetTrigger ("jump");
 					anim.SetBool ("isGrounded", false);
 					if (!isGrounded && !doubleJump)
 						doubleJump = true;
 					rb.velocity = new Vector2 (rb.velocity.x, Mathf.Sqrt (2f * jumpHeight * -Physics2D.gravity.y));
-
+				}
+				if (Input.GetKey (KeyCode.DownArrow)) {
+					if (isGrounded) {
+						anim.SetBool ("crouch", true);
+					}
+				}
+				if (Input.GetKeyUp (KeyCode.DownArrow)) {
+					if (isGrounded) {
+						anim.SetBool ("crouch", false);
+					}
 				}
 			} else if (gravDirection == 1) {
-				Debug.DrawRay (new Vector3 (transform.position.x + 2f, transform.position.y, transform.position.z), new Vector3 (0, -transform.localScale.x * meleeAttackDistance, 0), Color.red);
-				Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y, transform.position.z), new Vector3 (0, -transform.localScale.x * meleeAttackDistance, 0), Color.red);
-				Debug.DrawRay (new Vector3 (transform.position.x - 2f, transform.position.y, transform.position.z), new Vector3 (0, -transform.localScale.x * meleeAttackDistance, 0), Color.red);
 				if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.RightArrow)) {
 					anim.SetTrigger ("jump");
 					anim.SetBool ("isGrounded", false);
@@ -241,10 +236,17 @@ public class PlayerController : MonoBehaviour {
 						doubleJump = true;
 					rb.velocity = new Vector2 (Mathf.Sqrt (2f * jumpHeight * -Physics2D.gravity.x), rb.velocity.y);
 				}
+				if (Input.GetKey (KeyCode.LeftArrow)) {
+					if (isGrounded) {
+						anim.SetBool ("crouch", true);
+					}
+				}
+				if (Input.GetKeyUp (KeyCode.LeftArrow)) {
+					if (isGrounded) {
+						anim.SetBool ("crouch", false);
+					}
+				}
 			} else if (gravDirection == 2) {
-				Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y + 2f, transform.position.z), new Vector3 (-transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
-				Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y, transform.position.z), new Vector3 (-transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
-				Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y - 2f, transform.position.z), new Vector3 (-transform.localScale.x * meleeAttackDistance, 0, 0), Color.red);
 				if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.DownArrow)) {
 					anim.SetTrigger ("jump");
 					anim.SetBool ("isGrounded", false);
@@ -252,16 +254,33 @@ public class PlayerController : MonoBehaviour {
 						doubleJump = true;
 					rb.velocity = new Vector2 (rb.velocity.x, -Mathf.Sqrt (2f * jumpHeight * Physics2D.gravity.y));
 				}
+				if (Input.GetKey (KeyCode.UpArrow)) {
+					if (isGrounded) {
+						anim.SetBool ("crouch", true);
+					}
+				}
+				if (Input.GetKeyUp (KeyCode.UpArrow)) {
+					if (isGrounded) {
+						anim.SetBool ("crouch", false);
+					}
+				}
 			} else if (gravDirection == 3) {
-				Debug.DrawRay (new Vector3 (transform.position.x + 2f, transform.position.y, transform.position.z), new Vector3 (0, transform.localScale.x * meleeAttackDistance, 0), Color.red);
-				Debug.DrawRay (new Vector3 (transform.position.x, transform.position.y, transform.position.z), new Vector3 (0, transform.localScale.x * meleeAttackDistance, 0), Color.red);
-				Debug.DrawRay (new Vector3 (transform.position.x - 2f, transform.position.y, transform.position.z), new Vector3 (0, transform.localScale.x * meleeAttackDistance, 0), Color.red);
 				if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.LeftArrow)) {
 					anim.SetTrigger ("jump");
 					anim.SetBool ("isGrounded", false);
 					if (!isGrounded && !doubleJump)
 						doubleJump = true;
 					rb.velocity = new Vector2 (-Mathf.Sqrt (2f * jumpHeight * Physics2D.gravity.x), rb.velocity.y);
+				}
+				if (Input.GetKey (KeyCode.RightArrow)) {
+					if (isGrounded) {
+						anim.SetBool ("crouch", true);
+					}
+				}
+				if (Input.GetKeyUp (KeyCode.RightArrow)) {
+					if (isGrounded) {
+						anim.SetBool ("crouch", false);
+					}
 				}
 			}
 		}
@@ -518,8 +537,10 @@ public class PlayerController : MonoBehaviour {
 		transform.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));
 		Physics2D.gravity = new Vector2 (0, -gravMagnitude);
 		ReEnableFallingPlatforms ();*/
-		if (!isDead)
+		if (!isDead) {
 			anim.SetTrigger ("die");
+			anim.SetBool ("dead", true);
+		}
 		isDead = true;
 		StartCoroutine (KillPlayerCoroutine());
 	}

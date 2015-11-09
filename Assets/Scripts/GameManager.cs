@@ -17,6 +17,11 @@ public class GameManager : MonoBehaviour {
 		DontDestroyOnLoad (this);
 	}
 
+	void OnLevelWasLoaded (int level) {
+		if (level == 0)
+			resetCheckPoint ();
+	}
+
 	public void resetCheckPoint () {
 		checkPoint = 0;
 		checkPointPosition = null;
