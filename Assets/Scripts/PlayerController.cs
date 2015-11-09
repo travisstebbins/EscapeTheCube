@@ -315,6 +315,8 @@ public class PlayerController : MonoBehaviour {
 			playerLight.transform.position = new Vector3 (playerLight.transform.position.x, playerLight.transform.position.y, -30);
 			playerLight.color = new Color (1f, 1f, 1f);
 			playerGlowLight.intensity = 6;
+			gm.setOrbCollectedThisLevel(true);
+			gm.incrementNumOrbs();
 		} else if (coll.CompareTag ("Health")) {
 			if (coll.gameObject.GetComponent<HealthController> ().getHasHealth ()) {
 				if (hp < 5) {
@@ -328,6 +330,7 @@ public class PlayerController : MonoBehaviour {
 		} else if (coll.CompareTag ("Exit")) {
 			fadeToBlack = true;
 			gm.resetCheckPoint();
+			gm.setOrbCollectedThisLevel(false);
 			StartCoroutine (ExitCoroutine());
 		} else if (coll.CompareTag ("Sword")) {
 			anim.SetBool ("hasSword", true);
@@ -337,9 +340,13 @@ public class PlayerController : MonoBehaviour {
 
 	IEnumerator ExitCoroutine () {
 		yield return null;
-		audioSource.PlayOneShot (heartBeat);
-		yield return new WaitForSeconds (3f);
-		Application.LoadLevel (Application.loadedLevel + 1);
+		if (Application.loadedLevel == 3)
+			gm.EndGame ();
+		else {
+			audioSource.PlayOneShot (heartBeat);
+			yield return new WaitForSeconds (3f);
+			Application.LoadLevel (Application.loadedLevel + 1);
+		}
 	}
 
 	void OnCollisionEnter2D (Collision2D coll) {
