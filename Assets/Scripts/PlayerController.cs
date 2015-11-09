@@ -343,15 +343,17 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D (Collision2D coll) {
-		if (coll.rigidbody.gameObject.CompareTag ("Enemy"))
-			coll.rigidbody.gameObject.GetComponent<EnemyController> ().DamagePlayer ();
-		if (coll.rigidbody.gameObject.CompareTag ("Boss"))
-			coll.rigidbody.gameObject.GetComponent<BossController> ().DamagePlayer ();
-		if (coll.gameObject.CompareTag ("KillZone")) {
-			KillPlayer();
-		}
-		if (coll.rigidbody.gameObject.CompareTag ("FallingPlatform")) {
-			coll.rigidbody.gameObject.GetComponent<FallingPlatformController>().Fall ();
+		if (coll != null) {
+			if (coll.rigidbody.gameObject.CompareTag ("Enemy"))
+				coll.rigidbody.gameObject.GetComponent<EnemyController> ().DamagePlayer ();
+			if (coll.rigidbody.gameObject.CompareTag ("Boss"))
+				coll.rigidbody.gameObject.GetComponent<BossController> ().DamagePlayer ();
+			if (coll.gameObject.CompareTag ("KillZone")) {
+				KillPlayer ();
+			}
+			if (coll.rigidbody.gameObject.CompareTag ("FallingPlatform")) {
+				coll.rigidbody.gameObject.GetComponent<FallingPlatformController> ().Fall ();
+			}
 		}
 	}
 

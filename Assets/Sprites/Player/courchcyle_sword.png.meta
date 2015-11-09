@@ -1,0 +1,122 @@
+fileFormatVersion: 2
+guid: 6665a2e2db12df541bb30242103aad6c
+timeCreated: 1447080953
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: courchcyle_sword_0
+    21300002: courchcyle_sword_1
+    21300004: courchcyle_sword_2
+    21300006: courchcyle_sword_3
+    21300008: courchcyle_sword_4
+    21300010: courchcyle_sword_5
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 250
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: courchcyle_sword_0
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 2500
+        width: 1536
+        height: 824
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: courchcyle_sword_1
+      rect:
+        serializedVersion: 2
+        x: 1907
+        y: 2439
+        width: 1548
+        height: 829
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: courchcyle_sword_2
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 1316
+        width: 1601
+        height: 818
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: courchcyle_sword_3
+      rect:
+        serializedVersion: 2
+        x: 1866
+        y: 1183
+        width: 1613
+        height: 825
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: courchcyle_sword_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1544
+        height: 828
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: courchcyle_sword_5
+      rect:
+        serializedVersion: 2
+        x: 1886
+        y: 11
+        width: 1483
+        height: 817
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
