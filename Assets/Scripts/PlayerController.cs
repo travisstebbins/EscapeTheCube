@@ -40,7 +40,6 @@ public class PlayerController : MonoBehaviour {
 	private SpriteRenderer rend;
 
 	// helper variables
-	private Vector3 startingPos;
 	private bool facingRight = true;
 	private bool isGrounded = false;
 	private bool doubleJump = false;
@@ -73,7 +72,6 @@ public class PlayerController : MonoBehaviour {
 			Debug.Log ("spawn check poing position x: " + gm.getCheckPointPosition ().position.x + ", spawn check point position y: " + gm.getCheckPointPosition ().position.y);
 		if (gm.getCheckPointPosition() != null)
 			transform.position = gm.getCheckPointPosition ().position;
-		Debug.Log (Application.loadedLevelName);
 		if (Application.loadedLevelName == "TutorialLevel")
 			anim.SetBool ("hasSword", false);
 		else
@@ -315,19 +313,19 @@ public class PlayerController : MonoBehaviour {
 			switch (gravDirection) {
 			case 0:
 				Physics2D.gravity = new Vector2 (0, -gravMagnitude);
-				RotatePlayer (direction1, gravDirection);
+				RotatePlayer (gravDirection);
 				break;
 			case 1:
 				Physics2D.gravity = new Vector2 (-gravMagnitude, 0);
-				RotatePlayer (direction1, gravDirection);
+				RotatePlayer (gravDirection);
 				break;
 			case 2:
 				Physics2D.gravity = new Vector2 (0, gravMagnitude);
-				RotatePlayer (direction1, gravDirection);
+				RotatePlayer (gravDirection);
 				break;
 			case 3:
 				Physics2D.gravity = new Vector2 (gravMagnitude, 0);
-				RotatePlayer (direction1, gravDirection);
+				RotatePlayer (gravDirection);
 				break;
 			}
 		} else if (coll.CompareTag ("MemoryOrb")) {
@@ -388,27 +386,9 @@ public class PlayerController : MonoBehaviour {
 
 	// my functions
 
-	void RotatePlayer (int direction1, int direction2) {
-		int startRotation;
+	void RotatePlayer (int direction) {
 		int endRotation;
-		switch (direction1) {
-		case 0:
-			startRotation = 0;
-			break;
-		case 1:
-			startRotation = 270;
-			break;
-		case 2:
-			startRotation = 180;
-			break;
-		case 3:
-			startRotation = 90;
-			break;
-		default:
-			startRotation = 0;
-			break;
-		}
-		switch (direction2) {
+		switch (direction) {
 		case 0:
 			endRotation = 0;
 			break;
@@ -425,34 +405,6 @@ public class PlayerController : MonoBehaviour {
 			endRotation = 0;
 			break;
 		}
-		/*if (startRotation < endRotation) {
-			//Transform from = transform;
-			//Transform to = from;
-			//to.rotation = Quaternion.Euler (new Vector3(0,0,endRotation));
-			//transform.rotation = Quaternion.Slerp (from.rotation, to.rotation, Time.time * 0.1f);
-			newRotation = Quaternion.Euler (new Vector3 (0, 0, endRotation - startRotation));
-			/*while (transform.rotation.eulerAngles.z < endRotation) {
-				transform.rotation = Quaternion.Euler (0, 0, transform.rotation.eulerAngles.z + rotateSpeed);
-				if (transform.rotation.eulerAngles.z >= endRotation) {
-					transform.rotation = Quaternion.Euler (0, 0, endRotation);
-					break;
-				}
-			}
-		}*/
-		/*
-		else if (startRotation > endRotation) {
-			//Transform from = transform;
-			//Transform to = from;
-			//to.rotation = Quaternion.Euler (new Vector3(0,0,endRotation));
-			newRotation = Quaternion.Euler (new Vector3 (0, 0, startRotation - endRotation));
-			/*while (transform.rotation.eulerAngles.z > endRotation) {
-				transform.rotation = Quaternion.Euler (0, 0, transform.rotation.eulerAngles.z - rotateSpeed);
-				if (transform.rotation.eulerAngles.z <= endRotation) {
-					transform.rotation = Quaternion.Euler (0, 0, endRotation);
-					break;
-				}
-			}
-		}*/
 		newRotation = Quaternion.Euler (new Vector3 (0, 0, endRotation));
 		rotating = true;
 	}
@@ -591,9 +543,5 @@ public class PlayerController : MonoBehaviour {
 		for (int i = 0; i < fallingPlatforms.Length; ++i) {
 			fallingPlatforms[i].GetComponent<FallingPlatformController>().Reset ();
 		}
-	}
-
-	public Vector3 getStartingPos () {
-		return startingPos;
 	}
 }

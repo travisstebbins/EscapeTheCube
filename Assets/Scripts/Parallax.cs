@@ -14,7 +14,7 @@ public class Parallax : MonoBehaviour {
 	void Start () {
 		startingPos = transform.position;
 		player = GameObject.FindGameObjectWithTag ("Player");
-		offset = transform.position - player.GetComponent<PlayerController>().getStartingPos();
+		offset = transform.position - player.transform.position;
 		//offset = transform.position - player.transform.position;
 	}
 
