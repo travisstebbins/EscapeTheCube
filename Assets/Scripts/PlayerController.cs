@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour {
 	// components
 	private Rigidbody2D rb;
 	private Animator anim;
-	private CircleCollider2D cColl;
 	private BoxCollider2D bColl;
 	private GameManager gm;
 	private AudioSource audioSource;
@@ -56,11 +55,11 @@ public class PlayerController : MonoBehaviour {
 	private bool flashBegin;
 	private bool flashComplete;
 	private float flashSpeed = 0.1f;
+	private float gravitySwitchDelay = 0.05f;
 
 	// unity functions	
 	void Start () {
 		rb = GetComponent<Rigidbody2D> ();
-		cColl = GetComponent<CircleCollider2D> ();
 		bColl = GetComponent<BoxCollider2D> ();
 		anim = GetComponent<Animator> ();
 		Physics2D.gravity = new Vector2 (0, -gravMagnitude);
@@ -311,27 +310,14 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D (Collider2D coll) {
-		if (coll.CompareTag ("GravitySwitch")) {			
-			int direction1 = gravDirection;
+		if (coll.CompareTag ("GravitySwitch")) {
+			//int direction1 = gravDirection;
 			gravDirection = coll.gameObject.GetComponent<GravitySwitchController> ().gravDirection;
-			switch (gravDirection) {
-			case 0:
-				Physics2D.gravity = new Vector2 (0, -gravMagnitude);
-				RotatePlayer (gravDirection);
-				break;
-			case 1:
-				Physics2D.gravity = new Vector2 (-gravMagnitude, 0);
-				RotatePlayer (gravDirection);
-				break;
-			case 2:
-				Physics2D.gravity = new Vector2 (0, gravMagnitude);
-				RotatePlayer (gravDirection);
-				break;
-			case 3:
-				Physics2D.gravity = new Vector2 (gravMagnitude, 0);
-				RotatePlayer (gravDirection);
-				break;
-			}
+			/*if (Mathf.Abs (direction1 - gravDirection) == 1 || Mathf.Abs (direction1 - gravDirection) == 3) {
+				Debug.Log ("gravity assist");
+				rb.velocity = new Vector2 (rb.velocity.x + (Physics2D.gravity.x * 1000), rb.velocity.y + (Physics2D.gravity.y * 1000));
+			}*/
+			StartCoroutine (GravitySwitchCoroutine (gravDirection));
 		} else if (coll.CompareTag ("MemoryOrb")) {
 			Destroy (coll.gameObject);
 			hp = 5;
@@ -359,6 +345,29 @@ public class PlayerController : MonoBehaviour {
 		} else if (coll.CompareTag ("Sword")) {
 			anim.SetBool ("hasSword", true);
 			Destroy (coll.gameObject);
+		}
+	}
+
+	IEnumerator GravitySwitchCoroutine (int gravDirection) {
+		yield return null;
+		yield return new WaitForSeconds (gravitySwitchDelay);
+		switch (gravDirection) {
+			case 0:
+				Physics2D.gravity = new Vector2 (0, -gravMagnitude);
+				RotatePlayer (gravDirection);
+				break;
+			case 1:
+				Physics2D.gravity = new Vector2 (-gravMagnitude, 0);
+				RotatePlayer (gravDirection);
+				break;
+			case 2:
+				Physics2D.gravity = new Vector2 (0, gravMagnitude);
+				RotatePlayer (gravDirection);
+				break;
+			case 3:
+				Physics2D.gravity = new Vector2 (gravMagnitude, 0);
+				RotatePlayer (gravDirection);
+				break;
 		}
 	}
 
@@ -535,7 +544,6 @@ public class PlayerController : MonoBehaviour {
 	IEnumerator KillPlayerCoroutine () {
 		yield return null;
 		yield return new WaitForSeconds (0.25f);
-		cColl.enabled = false;
 		bColl.size = new Vector2 (6.19f, 1.9f);
 		bColl.offset = new Vector2 (-0.5f, -0.3f);
 		yield return new WaitForSeconds (1f);
