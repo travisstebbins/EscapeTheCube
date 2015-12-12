@@ -232,10 +232,11 @@ public class PlayerController : MonoBehaviour {
 			if (gravDirection == 0) {
 
 				if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.UpArrow)) {
-					anim.SetTrigger ("jump");
 					anim.SetBool ("isGrounded", false);
-					if (!isGrounded && !doubleJump)
+					if (!isGrounded && !doubleJump) {
 						doubleJump = true;
+						anim.SetTrigger ("jump");
+					}
 					rb.velocity = new Vector2 (rb.velocity.x, Mathf.Sqrt (2f * jumpHeight * -Physics2D.gravity.y));
 				}
 				if (Input.GetKey (KeyCode.DownArrow)) {
@@ -250,10 +251,11 @@ public class PlayerController : MonoBehaviour {
 				}
 			} else if (gravDirection == 1) {
 				if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.RightArrow)) {
-					anim.SetTrigger ("jump");
 					anim.SetBool ("isGrounded", false);
-					if (!isGrounded && !doubleJump)
+					if (!isGrounded && !doubleJump) {
 						doubleJump = true;
+						anim.SetTrigger ("jump");
+					}
 					rb.velocity = new Vector2 (Mathf.Sqrt (2f * jumpHeight * -Physics2D.gravity.x), rb.velocity.y);
 				}
 				if (Input.GetKey (KeyCode.LeftArrow)) {
@@ -268,10 +270,11 @@ public class PlayerController : MonoBehaviour {
 				}
 			} else if (gravDirection == 2) {
 				if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.DownArrow)) {
-					anim.SetTrigger ("jump");
 					anim.SetBool ("isGrounded", false);
-					if (!isGrounded && !doubleJump)
+					if (!isGrounded && !doubleJump) {
 						doubleJump = true;
+						anim.SetTrigger ("jump");
+					}
 					rb.velocity = new Vector2 (rb.velocity.x, -Mathf.Sqrt (2f * jumpHeight * Physics2D.gravity.y));
 				}
 				if (Input.GetKey (KeyCode.UpArrow)) {
@@ -286,10 +289,11 @@ public class PlayerController : MonoBehaviour {
 				}
 			} else if (gravDirection == 3) {
 				if ((isGrounded || !doubleJump) && Input.GetKeyDown (KeyCode.LeftArrow)) {
-					anim.SetTrigger ("jump");
 					anim.SetBool ("isGrounded", false);
-					if (!isGrounded && !doubleJump)
+					if (!isGrounded && !doubleJump) {
 						doubleJump = true;
+						anim.SetTrigger ("jump");
+					}
 					rb.velocity = new Vector2 (-Mathf.Sqrt (2f * jumpHeight * Physics2D.gravity.x), rb.velocity.y);
 				}
 				if (Input.GetKey (KeyCode.RightArrow)) {
