@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour {
 	private GameManager gm;
 	private AudioSource audioSource;
 	private Image black;
+	private SpriteRenderer rend;
 
 	// helper variables
 	private Vector3 startingPos;
@@ -53,6 +54,9 @@ public class PlayerController : MonoBehaviour {
 	private int lightPulseDirection = 1;
 	private bool isDead = false;
 	private bool fadeToBlack = false;
+	private bool flashBegin;
+	private bool flashComplete;
+	private float flashSpeed = 0.1f;
 
 	// unity functions	
 	void Start () {
@@ -77,6 +81,10 @@ public class PlayerController : MonoBehaviour {
 		black = GameObject.FindGameObjectWithTag ("Black").GetComponent<Image> ();
 		audioSource = GetComponent<AudioSource> ();
 		anim.SetBool ("dead", false);
+	}
+
+	void Awake () {
+		rend = GetComponent<SpriteRenderer> ();
 	}
 
 	void FixedUpdate () {
@@ -156,6 +164,20 @@ public class PlayerController : MonoBehaviour {
 				GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>().volume -= 0.5f;
 		}
 		if (!isDead && !fadeToBlack) {
+			if (flashBegin) {
+				rend.color = new Color(rend.color.r, rend.color.g - flashSpeed, rend.color.b - flashSpeed);
+				if (rend.color.g <= 0 || rend.color.b <= 0) {
+					flashBegin = false;
+					flashComplete = true;
+				}
+			}
+			if (flashComplete) {
+				rend.color = new Color(rend.color.r, rend.color.g + flashSpeed, rend.color.b + flashSpeed);
+				if (rend.color.g >= 1 || rend.color.b >= 1) {
+					rend.color = new Color(1,1,1);
+					flashComplete = false;
+				}
+			}
 			if (hp == 1) {
 				playerLight.intensity = Mathf.Lerp (playerLight.intensity, lightPulseDirection == 1 ? 8 : 2, lightPulseSpeed * Time.deltaTime);
 				if (playerLight.intensity >= 7)
@@ -466,7 +488,7 @@ public class PlayerController : MonoBehaviour {
 		playerLight.transform.position = new Vector3 (playerLight.transform.position.x, playerLight.transform.position.y, playerLight.transform.position.z + 5);
 		playerLight.color = new Color (playerLight.color.r, playerLight.color.g - 0.1f, playerLight.color.b - 0.1f);
 		playerGlowLight.intensity -= 1;
-
+		flashBegin = true;
 		isHit = true;
 		kickback = true;
 		Vector2 heading = transform.position - enemy.transform.position;
@@ -483,7 +505,7 @@ public class PlayerController : MonoBehaviour {
 		playerLight.transform.position = new Vector3 (playerLight.transform.position.x, playerLight.transform.position.y, playerLight.transform.position.z + 5);
 		playerLight.color = new Color (playerLight.color.r, playerLight.color.g - 0.1f, playerLight.color.b - 0.1f);
 		playerGlowLight.intensity -= 1;
-		
+		flashBegin = true;
 		isHit = true;
 		kickback = true;
 		Vector2 heading = transform.position - boss.transform.position;
