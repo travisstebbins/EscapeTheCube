@@ -310,6 +310,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D (Collider2D coll) {
+		if (coll.CompareTag ("Sword")) {
+			anim.SetBool ("hasSword", true);
+			Destroy (coll.gameObject);
+		}
 		if (coll.CompareTag ("GravitySwitch")) {
 			//int direction1 = gravDirection;
 			gravDirection = coll.gameObject.GetComponent<GravitySwitchController> ().gravDirection;
@@ -318,7 +322,8 @@ public class PlayerController : MonoBehaviour {
 				rb.velocity = new Vector2 (rb.velocity.x + (Physics2D.gravity.x * 1000), rb.velocity.y + (Physics2D.gravity.y * 1000));
 			}*/
 			StartCoroutine (GravitySwitchCoroutine (gravDirection));
-		} else if (coll.CompareTag ("MemoryOrb")) {
+		}
+		if (coll.CompareTag ("MemoryOrb")) {
 			Destroy (coll.gameObject);
 			hp = 5;
 			playerLight.range = 50;
@@ -327,24 +332,24 @@ public class PlayerController : MonoBehaviour {
 			playerGlowLight.intensity = 6;
 			gm.setOrbCollectedThisLevel(true);
 			gm.incrementNumOrbs();
-		} else if (coll.CompareTag ("Health")) {
+		} 
+		if (coll.CompareTag ("Health")) {
 			if (coll.gameObject.GetComponent<HealthController> ().getHasHealth ()) {
 				if (hp < 5) {
 					AddHealth (coll.gameObject.GetComponent<HealthController> ().healthAmount);
 					coll.gameObject.GetComponent<HealthController> ().setNoHeartSprite ();
 				}
 			}
-		} else if (coll.CompareTag ("CheckPoint")) {
+		}
+		if (coll.CompareTag ("CheckPoint")) {
 			Debug.Log ("check point " + coll.gameObject.GetComponent<CheckPoint> ().checkPoint + "triggered");
 			gm.setCheckPoint (coll.gameObject);
-		} else if (coll.CompareTag ("Exit")) {
+		}
+		if (coll.CompareTag ("Exit")) {
 			fadeToBlack = true;
 			gm.resetCheckPoint();
 			gm.setOrbCollectedThisLevel(false);
 			StartCoroutine (ExitCoroutine());
-		} else if (coll.CompareTag ("Sword")) {
-			anim.SetBool ("hasSword", true);
-			Destroy (coll.gameObject);
 		}
 	}
 

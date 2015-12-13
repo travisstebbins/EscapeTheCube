@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
 	private bool fadeEnding1;
 	private bool fadeEnding2;
 	private bool endGame = false;
+	private OrbGUIController ogc;
 
 	void Awake () {
 		if (instance == null)
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour {
 		sm = GameObject.FindGameObjectWithTag ("SoundManager").GetComponent<SoundManager> ();
 		ending1 = GameObject.FindGameObjectWithTag ("Ending1").GetComponent<Image>();
 		ending2 = GameObject.FindGameObjectWithTag ("Ending2").GetComponent<Image>();
+		ogc = GameObject.FindGameObjectWithTag ("OrbGUI").GetComponent<OrbGUIController> ();
 	}
 
 	void Update () {
@@ -130,6 +132,7 @@ public class GameManager : MonoBehaviour {
 
 	public void incrementNumOrbs () {
 		numOrbs++;
+		ogc.SetGUI (numOrbs);
 		Debug.Log ("numOrbs: " + numOrbs);
 	}
 
