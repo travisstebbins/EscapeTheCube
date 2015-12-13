@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -13,21 +12,13 @@ public class OrbGUIController : MonoBehaviour {
 
 	// components
 	Image img;
-	ParticleSystem darkParticles;
-	ParticleSystem lightParticles;
 
 	// private variables
 	GameManager gm;
-	SerializedObject so1;
-	SerializedObject so2;
 
 	void Start () {
 		gm = GameObject.FindGameObjectWithTag ("GameManager").GetComponent<GameManager>() ;
 		img = GetComponent<Image> ();
-		darkParticles = GameObject.FindGameObjectWithTag ("OrbGUI_DarkParticles").GetComponent<ParticleSystem> ();
-		lightParticles = GameObject.FindGameObjectWithTag ("OrbGUI_LightParticles").GetComponent<ParticleSystem> ();
-		so1 = new UnityEditor.SerializedObject(darkParticles);
-		so2 = new UnityEditor.SerializedObject(lightParticles);
 		SetGUI (gm.getNumOrbs ());
 	}
 	
@@ -35,35 +26,16 @@ public class OrbGUIController : MonoBehaviour {
 		Debug.Log ("SetGUI: " + numOrbs);
 		switch (numOrbs) {
 			case 0:
-				img.sprite = orbGUI0;				
-				so1.FindProperty("ShapeModule.arc").floatValue = 360;
-				so1.ApplyModifiedProperties();				
-				so2.FindProperty("ShapeModule.arc").floatValue = 0;
-				so2.ApplyModifiedProperties();
-				lightParticles.gameObject.SetActive (false);
+				img.sprite = orbGUI0;
 				break;
 			case 1:
 				img.sprite = orbGUI1;
-				so1.FindProperty("ShapeModule.arc").floatValue = 240;
-				so1.ApplyModifiedProperties();
-				lightParticles.gameObject.SetActive (true);
-				so2.FindProperty("ShapeModule.arc").floatValue = 120;
-				so2.ApplyModifiedProperties();
 				break;
 			case 2:
 				img.sprite = orbGUI2;
-				so1.FindProperty("ShapeModule.arc").floatValue = 120;
-				so1.ApplyModifiedProperties();
-				so2.FindProperty("ShapeModule.arc").floatValue = 240;
-				so2.ApplyModifiedProperties();
 				break;
 			case 3:
 				img.sprite = orbGUI3;
-				so1.FindProperty("ShapeModule.arc").floatValue = 0;
-				so1.ApplyModifiedProperties();
-				darkParticles.gameObject.SetActive (false);
-				so2.FindProperty("ShapeModule.arc").floatValue = 360;
-				so2.ApplyModifiedProperties();
 				break;
 			default:
 				img.sprite = orbGUI0;
