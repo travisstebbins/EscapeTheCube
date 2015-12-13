@@ -18,19 +18,21 @@ public class OrbGUIController : MonoBehaviour {
 
 	// private variables
 	GameManager gm;
+	SerializedObject so1;
+	SerializedObject so2;
 
 	void Start () {
 		gm = GameObject.FindGameObjectWithTag ("GameManager").GetComponent<GameManager>() ;
 		img = GetComponent<Image> ();
 		darkParticles = GameObject.FindGameObjectWithTag ("OrbGUI_DarkParticles").GetComponent<ParticleSystem> ();
 		lightParticles = GameObject.FindGameObjectWithTag ("OrbGUI_LightParticles").GetComponent<ParticleSystem> ();
+		so1 = new UnityEditor.SerializedObject(darkParticles);
+		so2 = new UnityEditor.SerializedObject(lightParticles);
 		SetGUI (gm.getNumOrbs ());
 	}
 	
 	public void SetGUI (int numOrbs) {
 		Debug.Log ("SetGUI: " + numOrbs);
-		SerializedObject so1 = new SerializedObject(darkParticles);
-		SerializedObject so2 = new SerializedObject(lightParticles);
 		switch (numOrbs) {
 			case 0:
 				img.sprite = orbGUI0;				
