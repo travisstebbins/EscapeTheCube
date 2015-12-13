@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour {
 		sm = GameObject.FindGameObjectWithTag ("SoundManager").GetComponent<SoundManager> ();
 		ending1 = GameObject.FindGameObjectWithTag ("Ending1").GetComponent<Image>();
 		ending2 = GameObject.FindGameObjectWithTag ("Ending2").GetComponent<Image>();
-		ogc = GameObject.FindGameObjectWithTag ("OrbGUI").GetComponent<OrbGUIController> ();
 	}
 
 	void Update () {
@@ -53,6 +52,9 @@ public class GameManager : MonoBehaviour {
 		sm = GameObject.FindGameObjectWithTag ("SoundManager").GetComponent<SoundManager> ();
 		ending1 = GameObject.FindGameObjectWithTag ("Ending1").GetComponent<Image>();
 		ending2 = GameObject.FindGameObjectWithTag ("Ending2").GetComponent<Image>();
+		ogc = GameObject.FindGameObjectWithTag ("OrbGUI").GetComponent<OrbGUIController> ();
+		if (ogc != null)
+			Debug.Log ("has ogc");
 	}
 
 	public void resetCheckPoint () {
@@ -131,8 +133,13 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void incrementNumOrbs () {
+		ogc = GameObject.FindGameObjectWithTag ("OrbGUI").GetComponent<OrbGUIController> ();
+		Debug.Log ("incrementNumOrbs called");
 		numOrbs++;
-		ogc.SetGUI (numOrbs);
+		if (ogc != null)
+			ogc.SetGUI (numOrbs);
+		else
+			Debug.Log ("doesn't have ogc");
 		Debug.Log ("numOrbs: " + numOrbs);
 	}
 
