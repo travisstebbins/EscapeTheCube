@@ -48,6 +48,9 @@ public class SoundManager : MonoBehaviour {
 			break;
 		case 6 : if (heartbeat != null) source.PlayOneShot(heartbeat);
 			break;
+		case 7:
+			if (introSounds != null) source.PlayOneShot (introSounds);
+			break;
 		}
 	}
 }

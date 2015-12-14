@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour {
 		} else if (endCase == 1) {
 			Debug.Log ("EndGame Case 1");
 			sm.PlaySound (5);
-			yield return new WaitForSeconds (18f);
+			yield return new WaitForSeconds (7f);
 			sm.PlaySound (4);
 			if (ending1 == null)
 				Debug.Log ("ending1 null");
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour {
 		} else if (endCase == 2) {
 			Debug.Log ("EndGame Case 2");
 			sm.PlaySound (6);
-			yield return new WaitForSeconds (20f);
+			yield return new WaitForSeconds (7f);
 			sm.PlaySound (4);
 			if (ending1 == null)
 				Debug.Log ("ending1 null");

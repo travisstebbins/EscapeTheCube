@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class MenuManager : MonoBehaviour {
@@ -6,7 +7,23 @@ public class MenuManager : MonoBehaviour {
 	// public variables
 	public GameObject pauseMenu;
 
+	// private variables
+	bool fadeToBlack;
+	Image black;
+
+	void Start () {
+		if (Application.loadedLevelName == "MainMenu") {
+			black = GameObject.FindGameObjectWithTag ("Black").GetComponent<Image> ();
+			black.gameObject.SetActive (false);
+		}
+	}
+
 	void Update () {
+		if (fadeToBlack && Application.loadedLevelName == "MainMenu") {
+			black.color = new Color (black.color.r, black.color.g, black.color.b, black.color.a + (2f * Time.deltaTime));
+			if(GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>().volume > 0)
+				GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>().volume -= (2f * Time.deltaTime);
+		}
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			if (!pauseMenu.activeInHierarchy && Time.timeScale != 0) {
 				Time.timeScale = 0;
@@ -22,6 +39,19 @@ public class MenuManager : MonoBehaviour {
 	// main menu
 	public void Play () {
 		Time.timeScale = 1;
+		black.gameObject.SetActive (true);
+		fadeToBlack = true;
+		ParticleSystem mainMenuParticles = GameObject.FindGameObjectWithTag ("MainMenuParticles").GetComponent<ParticleSystem> ();
+		mainMenuParticles.gameObject.SetActive (false);
+		StartCoroutine (PlayCoroutine ());
+	}
+
+	IEnumerator PlayCoroutine () {
+		yield return null;
+		SoundManager sm = GameObject.FindGameObjectWithTag ("SoundManager").GetComponent<SoundManager> ();
+		sm.PlaySound (7);
+		yield return new WaitForSeconds (10.5f);
+		fadeToBlack = false;
 		Application.LoadLevel ("TutorialLevel");
 	}
 
