@@ -52,8 +52,10 @@ public class PlayerController : MonoBehaviour {
 	private int lightPulseDirection = 1;
 	private bool isDead = false;
 	private bool fadeToBlack = false;
-	private bool flashBegin;
-	private bool flashComplete;
+	private bool redFlashBegin;
+	private bool redFlashComplete;
+	private bool greenFlashBegin;
+	private bool greenFlashComplete;
 	private float flashSpeed = 0.1f;
 	private float gravitySwitchDelay = 0.05f;
 
@@ -161,18 +163,32 @@ public class PlayerController : MonoBehaviour {
 				GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>().volume -= 0.5f;
 		}
 		if (!isDead && !fadeToBlack) {
-			if (flashBegin) {
+			if (redFlashBegin) {
 				rend.color = new Color(rend.color.r, rend.color.g - flashSpeed, rend.color.b - flashSpeed);
 				if (rend.color.g <= 0 || rend.color.b <= 0) {
-					flashBegin = false;
-					flashComplete = true;
+					redFlashBegin = false;
+					redFlashComplete = true;
 				}
 			}
-			if (flashComplete) {
+			if (redFlashComplete) {
 				rend.color = new Color(rend.color.r, rend.color.g + flashSpeed, rend.color.b + flashSpeed);
 				if (rend.color.g >= 1 || rend.color.b >= 1) {
 					rend.color = new Color(1,1,1);
-					flashComplete = false;
+					redFlashComplete = false;
+				}
+			}
+			if (greenFlashBegin) {
+				rend.color = new Color (rend.color.r - flashSpeed, rend.color.g, rend.color.b - flashSpeed);
+				if (rend.color.r <= 0 || rend.color.b <= 0) {
+					greenFlashBegin = false;
+					greenFlashComplete = true;
+				}
+			}
+			if (greenFlashComplete) {
+				rend.color = new Color (rend.color.r + flashSpeed, rend.color.g, rend.color.b + flashSpeed);
+				if (rend.color.r >= 1 || rend.color.b >= 1) {
+					rend.color = new Color (1, 1, 1);
+					greenFlashComplete = false;
 				}
 			}
 			if (hp == 1) {
@@ -444,6 +460,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void AddHealth (int healthAmount) {
+		greenFlashBegin = true;
 		hp += healthAmount;
 		playerLight.range += 8;
 		playerLight.transform.position = new Vector3 (playerLight.transform.position.x, playerLight.transform.position.y, playerLight.transform.position.z - 5);
@@ -458,7 +475,7 @@ public class PlayerController : MonoBehaviour {
 		playerLight.transform.position = new Vector3 (playerLight.transform.position.x, playerLight.transform.position.y, playerLight.transform.position.z + 5);
 		playerLight.color = new Color (playerLight.color.r, playerLight.color.g - 0.1f, playerLight.color.b - 0.1f);
 		playerGlowLight.intensity -= 1;
-		flashBegin = true;
+		redFlashBegin = true;
 		isHit = true;
 		kickback = true;
 		Vector2 heading = transform.position - enemy.transform.position;
@@ -475,7 +492,7 @@ public class PlayerController : MonoBehaviour {
 		playerLight.transform.position = new Vector3 (playerLight.transform.position.x, playerLight.transform.position.y, playerLight.transform.position.z + 5);
 		playerLight.color = new Color (playerLight.color.r, playerLight.color.g - 0.1f, playerLight.color.b - 0.1f);
 		playerGlowLight.intensity -= 1;
-		flashBegin = true;
+		redFlashBegin = true;
 		isHit = true;
 		kickback = true;
 		Vector2 heading = transform.position - boss.transform.position;

@@ -75,11 +75,11 @@ public class GameManager : MonoBehaviour {
 		if (!endGame) {
 			endGame = true;
 			Debug.Log ("EndGame called");
-			if (numOrbs == 0) {
+			if (numOrbs == 0 || numOrbs == 1) {
 				StartCoroutine (EndGameCoroutine (0));
-			} else if (numOrbs == 1) {
-				StartCoroutine (EndGameCoroutine (1));
 			} else if (numOrbs == 2) {
+				StartCoroutine (EndGameCoroutine (1));
+			} else if (numOrbs == 3) {
 				StartCoroutine (EndGameCoroutine (2));
 			}
 		}

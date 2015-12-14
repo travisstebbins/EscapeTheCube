@@ -34,6 +34,12 @@ public class CameraController : MonoBehaviour {
 				transform.position = new Vector3 (player.transform.position.x - (float)(this.GetComponent<Camera>().orthographicSize * (16.0/9.0) - scrollDistanceX), transform.position.y, transform.position.z);
 			}
 			else if (player.transform.position.x < transform.position.x - (this.GetComponent<Camera>().orthographicSize * (16.0/9.0)) + scrollDistanceX) {
+				if (Application.loadedLevelName == "TutorialLevel") {
+					if ((player.transform.position.x + (float)(this.GetComponent<Camera>().orthographicSize * (16.0/9.0) - scrollDistanceX)) > 0)
+						transform.position = new Vector3 (player.transform.position.x + (float)(this.GetComponent<Camera>().orthographicSize * (16.0/9.0) - scrollDistanceX), transform.position.y, transform.position.z);
+					else
+						transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
+				}
 				if (Application.loadedLevelName == "Level1") {
 					if ((player.transform.position.x + (float)(this.GetComponent<Camera>().orthographicSize * (16.0/9.0) - scrollDistanceX)) > 0)
 						transform.position = new Vector3 (player.transform.position.x + (float)(this.GetComponent<Camera>().orthographicSize * (16.0/9.0) - scrollDistanceX), transform.position.y, transform.position.z);
