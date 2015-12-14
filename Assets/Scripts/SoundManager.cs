@@ -13,6 +13,7 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip orb;
 	public AudioClip flatline;
 	public AudioClip heartbeat;
+	public AudioClip introSounds;
 
 	// components
 	private AudioSource source;
